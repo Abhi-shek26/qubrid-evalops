@@ -1,0 +1,10 @@
+{
+  "name": "@qubrid-evalops/shared",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {"build": "tsc"},
+  "dependencies": {"zod": "^3.25.0"},
+  "devDependencies": {"typescript": "^5.8.3"}
+}

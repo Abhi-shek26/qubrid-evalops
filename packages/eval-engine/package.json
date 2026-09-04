@@ -1,0 +1,13 @@
+{
+  "name": "@qubrid-evalops/eval-engine",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {"build": "tsc"},
+  "dependencies": {
+    "@qubrid-evalops/shared": "1.0.0",
+    "@qubrid-evalops/qubrid-client": "1.0.0"
+  },
+  "devDependencies": {"typescript": "^5.8.3"}
+}

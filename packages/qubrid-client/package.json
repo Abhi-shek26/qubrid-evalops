@@ -1,0 +1,13 @@
+{
+  "name": "@qubrid-evalops/qubrid-client",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {"build": "tsc"},
+  "dependencies": {
+    "@qubrid-evalops/shared": "1.0.0",
+    "openai": "^5.20.0"
+  },
+  "devDependencies": {"typescript": "^5.8.3"}
+}

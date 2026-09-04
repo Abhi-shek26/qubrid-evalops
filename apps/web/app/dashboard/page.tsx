@@ -1,0 +1,3 @@
+"use client";
+import { useEffect,useState } from "react"; import Link from "next/link"; import {API_URL,authHeaders} from "../../lib-api";
+export default function Dashboard(){const[p,setP]=useState<any[]>([]);useEffect(()=>{fetch(`${API_URL}/api/v1/projects`,{headers:authHeaders()}).then(r=>r.json()).then(d=>setP(d.data??[]));},[]);return <main><div className="card"><h1>Dashboard</h1><p>Projects and evaluation suites.</p><Link href="/projects/new"><button>New Project</button></Link></div>{p.map(x=><Link key={x.id} href={`/projects/${x.id}`}><div className="card"><h2>{x.name}</h2><small>{x.model}</small><p>{x.description}</p></div></Link>)}</main>}

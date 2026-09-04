@@ -1,0 +1,26 @@
+{
+  "name": "qubrid-evalops",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "workers/*",
+    "github-action"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w @qubrid-evalops/api\" \"npm run dev -w @qubrid-evalops/web\" \"npm run dev -w @qubrid-evalops/worker\"",
+    "build": "npm run build -w @qubrid-evalops/shared && npm run build -w @qubrid-evalops/llm-cache && npm run build -w @qubrid-evalops/qubrid-client && npm run build -w @qubrid-evalops/eval-engine && npm run build -w @qubrid-evalops/api && npm run build -w @qubrid-evalops/worker && npm run build -w @qubrid-evalops/github-action && npm run build -w @qubrid-evalops/web",
+    "prisma:generate": "npm run prisma:generate -w @qubrid-evalops/api",
+    "prisma:migrate": "npm run prisma:migrate -w @qubrid-evalops/api",
+    "prisma:studio": "npm run prisma:studio -w @qubrid-evalops/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "allowScripts": {
+    "@prisma/client@6.19.3": true,
+    "@prisma/client@6.12.0": true,
+    "prisma@6.12.0": true,
+    "@prisma/engines@6.12.0": true
+  }
+}

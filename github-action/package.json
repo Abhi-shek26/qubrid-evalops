@@ -1,0 +1,1 @@
+{"name":"@qubrid-evalops/github-action","version":"1.0.0","private":true,"main":"dist/index.js","dependencies":{"@actions/core":"^1.11.1","@actions/github":"^6.0.0","axios":"^1.8.4"},"devDependencies":{"@types/node":"^22.15.0","@vercel/ncc":"^0.38.3","typescript":"^5.8.3"},"scripts":{"build":"tsc && ncc build src/index.ts -o dist"}}

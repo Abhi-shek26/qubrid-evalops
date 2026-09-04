@@ -1,0 +1,16 @@
+{
+  "name": "@qubrid-evalops/db",
+  "version": "1.0.0",
+  "private": true,
+  "main": "generated/index.js",
+  "types": "generated/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./generated/index.d.ts",
+      "default": "./generated/index.js"
+    }
+  },
+  "dependencies": {
+    "@prisma/client": "6.12.0"
+  }
+}
