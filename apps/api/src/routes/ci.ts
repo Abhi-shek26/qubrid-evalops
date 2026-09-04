@@ -2,7 +2,7 @@ import { Router } from "express";
 import { prisma } from "../lib/prisma";
 import { Queue } from "bullmq";
 import { redis } from "../lib/redis";
-import { auth, AuthRequest } from "../middleware/auth";
+import { ciAuth, CiAuthRequest } from "../middleware/ciAuth";
 
 const router = Router();
 
@@ -12,17 +12,19 @@ const evaluationQueue = new Queue("evaluation", {
 
 router.post(
   "/evaluate",
-  auth,
-  async (req: AuthRequest, res) => {
+  ciAuth,
+  async (req: CiAuthRequest, res) => {
     try {
       const {
         projectId,
         commitSha,
         pullRequestNumber,
+        useCache = false,
       } = req.body as {
         projectId?: string;
         commitSha?: string;
         pullRequestNumber?: number;
+        useCache?: boolean;
       };
 
       if (!projectId) {
@@ -33,12 +35,31 @@ router.post(
       }
 
       /*
-       * Make sure the authenticated user owns this project.
+       * useCache must be a boolean if provided.
        */
-      const project = await prisma.project.findFirst({
+      if (typeof useCache !== "boolean") {
+        return res.status(400).json({
+          success: false,
+          message: "useCache must be a boolean",
+        });
+      }
+
+      /*
+       * Make sure the CI token belongs to this project.
+       */
+      if (req.ciProjectId !== projectId) {
+        return res.status(403).json({
+          success: false,
+          message: "CI token does not belong to this project",
+        });
+      }
+
+      /*
+       * Get the project.
+       */
+      const project = await prisma.project.findUnique({
         where: {
           id: projectId,
-          userId: req.userId!,
         },
       });
 
@@ -78,30 +99,28 @@ router.post(
         : "CI Evaluation";
 
       /*
-       * IMPORTANT:
+       * Create the evaluation experiment.
        *
-       * CI evaluations intentionally disable EvalOps response cache.
-       * A regression test must evaluate a fresh model response.
+       * CI regression checks always fail on regression.
        */
-      const experiment =
-        await prisma.experiment.create({
-          data: {
-            projectId: project.id,
-            datasetId: dataset.id,
-            name: runName,
-            model: project.model,
+      const experiment = await prisma.experiment.create({
+        data: {
+          projectId: project.id,
+          datasetId: dataset.id,
+          name: runName,
+          model: project.model,
 
-            useCache: false,
+          useCache,
 
-            failOnRegression: true,
+          failOnRegression: true,
 
-            allowedQualityDrop:
-              project.allowedQualityDrop,
-          },
-        });
+          allowedQualityDrop:
+            project.allowedQualityDrop,
+        },
+      });
 
       console.log(
-        `[CI] Created experiment ${experiment.id}`
+        `[CI] Created experiment ${experiment.id} | cache=${useCache}`
       );
 
       /*
@@ -133,11 +152,17 @@ router.post(
           projectId: project.id,
           datasetId: dataset.id,
           status: experiment.status,
-          useCache: false,
+
+          // Return the actual cache mode used.
+          useCache,
+
           failOnRegression: true,
+
           allowedQualityDrop:
             project.allowedQualityDrop,
+
           commitSha: commitSha ?? null,
+
           pullRequestNumber:
             pullRequestNumber ?? null,
         },

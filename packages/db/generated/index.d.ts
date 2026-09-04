@@ -58,6 +58,11 @@ export type GithubIntegration = $Result.DefaultSelection<Prisma.$GithubIntegrati
  * 
  */
 export type Baseline = $Result.DefaultSelection<Prisma.$BaselinePayload>
+/**
+ * Model ProjectCiToken
+ * 
+ */
+export type ProjectCiToken = $Result.DefaultSelection<Prisma.$ProjectCiTokenPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -273,6 +278,16 @@ export class PrismaClient<
     * ```
     */
   get baseline(): Prisma.BaselineDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.projectCiToken`: Exposes CRUD operations for the **ProjectCiToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProjectCiTokens
+    * const projectCiTokens = await prisma.projectCiToken.findMany()
+    * ```
+    */
+  get projectCiToken(): Prisma.ProjectCiTokenDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -721,7 +736,8 @@ export namespace Prisma {
     Experiment: 'Experiment',
     EvaluationResult: 'EvaluationResult',
     GithubIntegration: 'GithubIntegration',
-    Baseline: 'Baseline'
+    Baseline: 'Baseline',
+    ProjectCiToken: 'ProjectCiToken'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -740,7 +756,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "project" | "dataset" | "testCase" | "evaluator" | "experiment" | "evaluationResult" | "githubIntegration" | "baseline"
+      modelProps: "user" | "project" | "dataset" | "testCase" | "evaluator" | "experiment" | "evaluationResult" | "githubIntegration" | "baseline" | "projectCiToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1338,6 +1354,72 @@ export namespace Prisma {
           }
         }
       }
+      ProjectCiToken: {
+        payload: Prisma.$ProjectCiTokenPayload<ExtArgs>
+        fields: Prisma.ProjectCiTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProjectCiTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectCiTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProjectCiTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectCiTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.ProjectCiTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectCiTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProjectCiTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectCiTokenPayload>
+          }
+          findMany: {
+            args: Prisma.ProjectCiTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectCiTokenPayload>[]
+          }
+          create: {
+            args: Prisma.ProjectCiTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectCiTokenPayload>
+          }
+          createMany: {
+            args: Prisma.ProjectCiTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.ProjectCiTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectCiTokenPayload>
+          }
+          update: {
+            args: Prisma.ProjectCiTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectCiTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProjectCiTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProjectCiTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ProjectCiTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProjectCiTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.ProjectCiTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProjectCiToken>
+          }
+          groupBy: {
+            args: Prisma.ProjectCiTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProjectCiTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProjectCiTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<ProjectCiTokenCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1431,6 +1513,7 @@ export namespace Prisma {
     evaluationResult?: EvaluationResultOmit
     githubIntegration?: GithubIntegrationOmit
     baseline?: BaselineOmit
+    projectCiToken?: ProjectCiTokenOmit
   }
 
   /* Types for Logging */
@@ -3008,6 +3091,7 @@ export namespace Prisma {
     experiments?: boolean | Project$experimentsArgs<ExtArgs>
     githubIntegrations?: boolean | Project$githubIntegrationsArgs<ExtArgs>
     baseline?: boolean | Project$baselineArgs<ExtArgs>
+    ciToken?: boolean | Project$ciTokenArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -3041,6 +3125,7 @@ export namespace Prisma {
     experiments?: boolean | Project$experimentsArgs<ExtArgs>
     githubIntegrations?: boolean | Project$githubIntegrationsArgs<ExtArgs>
     baseline?: boolean | Project$baselineArgs<ExtArgs>
+    ciToken?: boolean | Project$ciTokenArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3053,6 +3138,7 @@ export namespace Prisma {
       experiments: Prisma.$ExperimentPayload<ExtArgs>[]
       githubIntegrations: Prisma.$GithubIntegrationPayload<ExtArgs>[]
       baseline: Prisma.$BaselinePayload<ExtArgs> | null
+      ciToken: Prisma.$ProjectCiTokenPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3418,6 +3504,7 @@ export namespace Prisma {
     experiments<T extends Project$experimentsArgs<ExtArgs> = {}>(args?: Subset<T, Project$experimentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExperimentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     githubIntegrations<T extends Project$githubIntegrationsArgs<ExtArgs> = {}>(args?: Subset<T, Project$githubIntegrationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GithubIntegrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     baseline<T extends Project$baselineArgs<ExtArgs> = {}>(args?: Subset<T, Project$baselineArgs<ExtArgs>>): Prisma__BaselineClient<$Result.GetResult<Prisma.$BaselinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    ciToken<T extends Project$ciTokenArgs<ExtArgs> = {}>(args?: Subset<T, Project$ciTokenArgs<ExtArgs>>): Prisma__ProjectCiTokenClient<$Result.GetResult<Prisma.$ProjectCiTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3918,6 +4005,25 @@ export namespace Prisma {
      */
     include?: BaselineInclude<ExtArgs> | null
     where?: BaselineWhereInput
+  }
+
+  /**
+   * Project.ciToken
+   */
+  export type Project$ciTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCiToken
+     */
+    select?: ProjectCiTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectCiToken
+     */
+    omit?: ProjectCiTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectCiTokenInclude<ExtArgs> | null
+    where?: ProjectCiTokenWhereInput
   }
 
   /**
@@ -11169,6 +11275,945 @@ export namespace Prisma {
 
 
   /**
+   * Model ProjectCiToken
+   */
+
+  export type AggregateProjectCiToken = {
+    _count: ProjectCiTokenCountAggregateOutputType | null
+    _min: ProjectCiTokenMinAggregateOutputType | null
+    _max: ProjectCiTokenMaxAggregateOutputType | null
+  }
+
+  export type ProjectCiTokenMinAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    tokenHash: string | null
+    tokenPrefix: string | null
+    createdAt: Date | null
+    revokedAt: Date | null
+  }
+
+  export type ProjectCiTokenMaxAggregateOutputType = {
+    id: string | null
+    projectId: string | null
+    tokenHash: string | null
+    tokenPrefix: string | null
+    createdAt: Date | null
+    revokedAt: Date | null
+  }
+
+  export type ProjectCiTokenCountAggregateOutputType = {
+    id: number
+    projectId: number
+    tokenHash: number
+    tokenPrefix: number
+    createdAt: number
+    revokedAt: number
+    _all: number
+  }
+
+
+  export type ProjectCiTokenMinAggregateInputType = {
+    id?: true
+    projectId?: true
+    tokenHash?: true
+    tokenPrefix?: true
+    createdAt?: true
+    revokedAt?: true
+  }
+
+  export type ProjectCiTokenMaxAggregateInputType = {
+    id?: true
+    projectId?: true
+    tokenHash?: true
+    tokenPrefix?: true
+    createdAt?: true
+    revokedAt?: true
+  }
+
+  export type ProjectCiTokenCountAggregateInputType = {
+    id?: true
+    projectId?: true
+    tokenHash?: true
+    tokenPrefix?: true
+    createdAt?: true
+    revokedAt?: true
+    _all?: true
+  }
+
+  export type ProjectCiTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectCiToken to aggregate.
+     */
+    where?: ProjectCiTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectCiTokens to fetch.
+     */
+    orderBy?: ProjectCiTokenOrderByWithRelationInput | ProjectCiTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProjectCiTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectCiTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectCiTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProjectCiTokens
+    **/
+    _count?: true | ProjectCiTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProjectCiTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProjectCiTokenMaxAggregateInputType
+  }
+
+  export type GetProjectCiTokenAggregateType<T extends ProjectCiTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregateProjectCiToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProjectCiToken[P]>
+      : GetScalarType<T[P], AggregateProjectCiToken[P]>
+  }
+
+
+
+
+  export type ProjectCiTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectCiTokenWhereInput
+    orderBy?: ProjectCiTokenOrderByWithAggregationInput | ProjectCiTokenOrderByWithAggregationInput[]
+    by: ProjectCiTokenScalarFieldEnum[] | ProjectCiTokenScalarFieldEnum
+    having?: ProjectCiTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProjectCiTokenCountAggregateInputType | true
+    _min?: ProjectCiTokenMinAggregateInputType
+    _max?: ProjectCiTokenMaxAggregateInputType
+  }
+
+  export type ProjectCiTokenGroupByOutputType = {
+    id: string
+    projectId: string
+    tokenHash: string
+    tokenPrefix: string
+    createdAt: Date
+    revokedAt: Date | null
+    _count: ProjectCiTokenCountAggregateOutputType | null
+    _min: ProjectCiTokenMinAggregateOutputType | null
+    _max: ProjectCiTokenMaxAggregateOutputType | null
+  }
+
+  type GetProjectCiTokenGroupByPayload<T extends ProjectCiTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProjectCiTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProjectCiTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProjectCiTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], ProjectCiTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProjectCiTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    projectId?: boolean
+    tokenHash?: boolean
+    tokenPrefix?: boolean
+    createdAt?: boolean
+    revokedAt?: boolean
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["projectCiToken"]>
+
+
+
+  export type ProjectCiTokenSelectScalar = {
+    id?: boolean
+    projectId?: boolean
+    tokenHash?: boolean
+    tokenPrefix?: boolean
+    createdAt?: boolean
+    revokedAt?: boolean
+  }
+
+  export type ProjectCiTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "tokenHash" | "tokenPrefix" | "createdAt" | "revokedAt", ExtArgs["result"]["projectCiToken"]>
+  export type ProjectCiTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
+  }
+
+  export type $ProjectCiTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProjectCiToken"
+    objects: {
+      project: Prisma.$ProjectPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      projectId: string
+      tokenHash: string
+      tokenPrefix: string
+      createdAt: Date
+      revokedAt: Date | null
+    }, ExtArgs["result"]["projectCiToken"]>
+    composites: {}
+  }
+
+  type ProjectCiTokenGetPayload<S extends boolean | null | undefined | ProjectCiTokenDefaultArgs> = $Result.GetResult<Prisma.$ProjectCiTokenPayload, S>
+
+  type ProjectCiTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProjectCiTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProjectCiTokenCountAggregateInputType | true
+    }
+
+  export interface ProjectCiTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProjectCiToken'], meta: { name: 'ProjectCiToken' } }
+    /**
+     * Find zero or one ProjectCiToken that matches the filter.
+     * @param {ProjectCiTokenFindUniqueArgs} args - Arguments to find a ProjectCiToken
+     * @example
+     * // Get one ProjectCiToken
+     * const projectCiToken = await prisma.projectCiToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProjectCiTokenFindUniqueArgs>(args: SelectSubset<T, ProjectCiTokenFindUniqueArgs<ExtArgs>>): Prisma__ProjectCiTokenClient<$Result.GetResult<Prisma.$ProjectCiTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProjectCiToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProjectCiTokenFindUniqueOrThrowArgs} args - Arguments to find a ProjectCiToken
+     * @example
+     * // Get one ProjectCiToken
+     * const projectCiToken = await prisma.projectCiToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProjectCiTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, ProjectCiTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProjectCiTokenClient<$Result.GetResult<Prisma.$ProjectCiTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProjectCiToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectCiTokenFindFirstArgs} args - Arguments to find a ProjectCiToken
+     * @example
+     * // Get one ProjectCiToken
+     * const projectCiToken = await prisma.projectCiToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProjectCiTokenFindFirstArgs>(args?: SelectSubset<T, ProjectCiTokenFindFirstArgs<ExtArgs>>): Prisma__ProjectCiTokenClient<$Result.GetResult<Prisma.$ProjectCiTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProjectCiToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectCiTokenFindFirstOrThrowArgs} args - Arguments to find a ProjectCiToken
+     * @example
+     * // Get one ProjectCiToken
+     * const projectCiToken = await prisma.projectCiToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProjectCiTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, ProjectCiTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProjectCiTokenClient<$Result.GetResult<Prisma.$ProjectCiTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProjectCiTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectCiTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProjectCiTokens
+     * const projectCiTokens = await prisma.projectCiToken.findMany()
+     * 
+     * // Get first 10 ProjectCiTokens
+     * const projectCiTokens = await prisma.projectCiToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const projectCiTokenWithIdOnly = await prisma.projectCiToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProjectCiTokenFindManyArgs>(args?: SelectSubset<T, ProjectCiTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectCiTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProjectCiToken.
+     * @param {ProjectCiTokenCreateArgs} args - Arguments to create a ProjectCiToken.
+     * @example
+     * // Create one ProjectCiToken
+     * const ProjectCiToken = await prisma.projectCiToken.create({
+     *   data: {
+     *     // ... data to create a ProjectCiToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProjectCiTokenCreateArgs>(args: SelectSubset<T, ProjectCiTokenCreateArgs<ExtArgs>>): Prisma__ProjectCiTokenClient<$Result.GetResult<Prisma.$ProjectCiTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProjectCiTokens.
+     * @param {ProjectCiTokenCreateManyArgs} args - Arguments to create many ProjectCiTokens.
+     * @example
+     * // Create many ProjectCiTokens
+     * const projectCiToken = await prisma.projectCiToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProjectCiTokenCreateManyArgs>(args?: SelectSubset<T, ProjectCiTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ProjectCiToken.
+     * @param {ProjectCiTokenDeleteArgs} args - Arguments to delete one ProjectCiToken.
+     * @example
+     * // Delete one ProjectCiToken
+     * const ProjectCiToken = await prisma.projectCiToken.delete({
+     *   where: {
+     *     // ... filter to delete one ProjectCiToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProjectCiTokenDeleteArgs>(args: SelectSubset<T, ProjectCiTokenDeleteArgs<ExtArgs>>): Prisma__ProjectCiTokenClient<$Result.GetResult<Prisma.$ProjectCiTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProjectCiToken.
+     * @param {ProjectCiTokenUpdateArgs} args - Arguments to update one ProjectCiToken.
+     * @example
+     * // Update one ProjectCiToken
+     * const projectCiToken = await prisma.projectCiToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProjectCiTokenUpdateArgs>(args: SelectSubset<T, ProjectCiTokenUpdateArgs<ExtArgs>>): Prisma__ProjectCiTokenClient<$Result.GetResult<Prisma.$ProjectCiTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProjectCiTokens.
+     * @param {ProjectCiTokenDeleteManyArgs} args - Arguments to filter ProjectCiTokens to delete.
+     * @example
+     * // Delete a few ProjectCiTokens
+     * const { count } = await prisma.projectCiToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProjectCiTokenDeleteManyArgs>(args?: SelectSubset<T, ProjectCiTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProjectCiTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectCiTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProjectCiTokens
+     * const projectCiToken = await prisma.projectCiToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProjectCiTokenUpdateManyArgs>(args: SelectSubset<T, ProjectCiTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ProjectCiToken.
+     * @param {ProjectCiTokenUpsertArgs} args - Arguments to update or create a ProjectCiToken.
+     * @example
+     * // Update or create a ProjectCiToken
+     * const projectCiToken = await prisma.projectCiToken.upsert({
+     *   create: {
+     *     // ... data to create a ProjectCiToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProjectCiToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProjectCiTokenUpsertArgs>(args: SelectSubset<T, ProjectCiTokenUpsertArgs<ExtArgs>>): Prisma__ProjectCiTokenClient<$Result.GetResult<Prisma.$ProjectCiTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProjectCiTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectCiTokenCountArgs} args - Arguments to filter ProjectCiTokens to count.
+     * @example
+     * // Count the number of ProjectCiTokens
+     * const count = await prisma.projectCiToken.count({
+     *   where: {
+     *     // ... the filter for the ProjectCiTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProjectCiTokenCountArgs>(
+      args?: Subset<T, ProjectCiTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProjectCiTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProjectCiToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectCiTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProjectCiTokenAggregateArgs>(args: Subset<T, ProjectCiTokenAggregateArgs>): Prisma.PrismaPromise<GetProjectCiTokenAggregateType<T>>
+
+    /**
+     * Group by ProjectCiToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProjectCiTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProjectCiTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProjectCiTokenGroupByArgs['orderBy'] }
+        : { orderBy?: ProjectCiTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProjectCiTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProjectCiTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProjectCiToken model
+   */
+  readonly fields: ProjectCiTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProjectCiToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProjectCiTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProjectCiToken model
+   */
+  interface ProjectCiTokenFieldRefs {
+    readonly id: FieldRef<"ProjectCiToken", 'String'>
+    readonly projectId: FieldRef<"ProjectCiToken", 'String'>
+    readonly tokenHash: FieldRef<"ProjectCiToken", 'String'>
+    readonly tokenPrefix: FieldRef<"ProjectCiToken", 'String'>
+    readonly createdAt: FieldRef<"ProjectCiToken", 'DateTime'>
+    readonly revokedAt: FieldRef<"ProjectCiToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProjectCiToken findUnique
+   */
+  export type ProjectCiTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCiToken
+     */
+    select?: ProjectCiTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectCiToken
+     */
+    omit?: ProjectCiTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectCiTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectCiToken to fetch.
+     */
+    where: ProjectCiTokenWhereUniqueInput
+  }
+
+  /**
+   * ProjectCiToken findUniqueOrThrow
+   */
+  export type ProjectCiTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCiToken
+     */
+    select?: ProjectCiTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectCiToken
+     */
+    omit?: ProjectCiTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectCiTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectCiToken to fetch.
+     */
+    where: ProjectCiTokenWhereUniqueInput
+  }
+
+  /**
+   * ProjectCiToken findFirst
+   */
+  export type ProjectCiTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCiToken
+     */
+    select?: ProjectCiTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectCiToken
+     */
+    omit?: ProjectCiTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectCiTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectCiToken to fetch.
+     */
+    where?: ProjectCiTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectCiTokens to fetch.
+     */
+    orderBy?: ProjectCiTokenOrderByWithRelationInput | ProjectCiTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectCiTokens.
+     */
+    cursor?: ProjectCiTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectCiTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectCiTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectCiTokens.
+     */
+    distinct?: ProjectCiTokenScalarFieldEnum | ProjectCiTokenScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectCiToken findFirstOrThrow
+   */
+  export type ProjectCiTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCiToken
+     */
+    select?: ProjectCiTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectCiToken
+     */
+    omit?: ProjectCiTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectCiTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectCiToken to fetch.
+     */
+    where?: ProjectCiTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectCiTokens to fetch.
+     */
+    orderBy?: ProjectCiTokenOrderByWithRelationInput | ProjectCiTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProjectCiTokens.
+     */
+    cursor?: ProjectCiTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectCiTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectCiTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProjectCiTokens.
+     */
+    distinct?: ProjectCiTokenScalarFieldEnum | ProjectCiTokenScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectCiToken findMany
+   */
+  export type ProjectCiTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCiToken
+     */
+    select?: ProjectCiTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectCiToken
+     */
+    omit?: ProjectCiTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectCiTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which ProjectCiTokens to fetch.
+     */
+    where?: ProjectCiTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProjectCiTokens to fetch.
+     */
+    orderBy?: ProjectCiTokenOrderByWithRelationInput | ProjectCiTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProjectCiTokens.
+     */
+    cursor?: ProjectCiTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProjectCiTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProjectCiTokens.
+     */
+    skip?: number
+    distinct?: ProjectCiTokenScalarFieldEnum | ProjectCiTokenScalarFieldEnum[]
+  }
+
+  /**
+   * ProjectCiToken create
+   */
+  export type ProjectCiTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCiToken
+     */
+    select?: ProjectCiTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectCiToken
+     */
+    omit?: ProjectCiTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectCiTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProjectCiToken.
+     */
+    data: XOR<ProjectCiTokenCreateInput, ProjectCiTokenUncheckedCreateInput>
+  }
+
+  /**
+   * ProjectCiToken createMany
+   */
+  export type ProjectCiTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProjectCiTokens.
+     */
+    data: ProjectCiTokenCreateManyInput | ProjectCiTokenCreateManyInput[]
+  }
+
+  /**
+   * ProjectCiToken update
+   */
+  export type ProjectCiTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCiToken
+     */
+    select?: ProjectCiTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectCiToken
+     */
+    omit?: ProjectCiTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectCiTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProjectCiToken.
+     */
+    data: XOR<ProjectCiTokenUpdateInput, ProjectCiTokenUncheckedUpdateInput>
+    /**
+     * Choose, which ProjectCiToken to update.
+     */
+    where: ProjectCiTokenWhereUniqueInput
+  }
+
+  /**
+   * ProjectCiToken updateMany
+   */
+  export type ProjectCiTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProjectCiTokens.
+     */
+    data: XOR<ProjectCiTokenUpdateManyMutationInput, ProjectCiTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which ProjectCiTokens to update
+     */
+    where?: ProjectCiTokenWhereInput
+    /**
+     * Limit how many ProjectCiTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProjectCiToken upsert
+   */
+  export type ProjectCiTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCiToken
+     */
+    select?: ProjectCiTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectCiToken
+     */
+    omit?: ProjectCiTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectCiTokenInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProjectCiToken to update in case it exists.
+     */
+    where: ProjectCiTokenWhereUniqueInput
+    /**
+     * In case the ProjectCiToken found by the `where` argument doesn't exist, create a new ProjectCiToken with this data.
+     */
+    create: XOR<ProjectCiTokenCreateInput, ProjectCiTokenUncheckedCreateInput>
+    /**
+     * In case the ProjectCiToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProjectCiTokenUpdateInput, ProjectCiTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * ProjectCiToken delete
+   */
+  export type ProjectCiTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCiToken
+     */
+    select?: ProjectCiTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectCiToken
+     */
+    omit?: ProjectCiTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectCiTokenInclude<ExtArgs> | null
+    /**
+     * Filter which ProjectCiToken to delete.
+     */
+    where: ProjectCiTokenWhereUniqueInput
+  }
+
+  /**
+   * ProjectCiToken deleteMany
+   */
+  export type ProjectCiTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProjectCiTokens to delete
+     */
+    where?: ProjectCiTokenWhereInput
+    /**
+     * Limit how many ProjectCiTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProjectCiToken without action
+   */
+  export type ProjectCiTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProjectCiToken
+     */
+    select?: ProjectCiTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProjectCiToken
+     */
+    omit?: ProjectCiTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectCiTokenInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -11334,6 +12379,18 @@ export namespace Prisma {
   export type BaselineScalarFieldEnum = (typeof BaselineScalarFieldEnum)[keyof typeof BaselineScalarFieldEnum]
 
 
+  export const ProjectCiTokenScalarFieldEnum: {
+    id: 'id',
+    projectId: 'projectId',
+    tokenHash: 'tokenHash',
+    tokenPrefix: 'tokenPrefix',
+    createdAt: 'createdAt',
+    revokedAt: 'revokedAt'
+  };
+
+  export type ProjectCiTokenScalarFieldEnum = (typeof ProjectCiTokenScalarFieldEnum)[keyof typeof ProjectCiTokenScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -11480,6 +12537,7 @@ export namespace Prisma {
     experiments?: ExperimentListRelationFilter
     githubIntegrations?: GithubIntegrationListRelationFilter
     baseline?: XOR<BaselineNullableScalarRelationFilter, BaselineWhereInput> | null
+    ciToken?: XOR<ProjectCiTokenNullableScalarRelationFilter, ProjectCiTokenWhereInput> | null
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -11506,6 +12564,7 @@ export namespace Prisma {
     experiments?: ExperimentOrderByRelationAggregateInput
     githubIntegrations?: GithubIntegrationOrderByRelationAggregateInput
     baseline?: BaselineOrderByWithRelationInput
+    ciToken?: ProjectCiTokenOrderByWithRelationInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -11535,6 +12594,7 @@ export namespace Prisma {
     experiments?: ExperimentListRelationFilter
     githubIntegrations?: GithubIntegrationListRelationFilter
     baseline?: XOR<BaselineNullableScalarRelationFilter, BaselineWhereInput> | null
+    ciToken?: XOR<ProjectCiTokenNullableScalarRelationFilter, ProjectCiTokenWhereInput> | null
   }, "id">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -12189,6 +13249,66 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Baseline"> | Date | string
   }
 
+  export type ProjectCiTokenWhereInput = {
+    AND?: ProjectCiTokenWhereInput | ProjectCiTokenWhereInput[]
+    OR?: ProjectCiTokenWhereInput[]
+    NOT?: ProjectCiTokenWhereInput | ProjectCiTokenWhereInput[]
+    id?: StringFilter<"ProjectCiToken"> | string
+    projectId?: StringFilter<"ProjectCiToken"> | string
+    tokenHash?: StringFilter<"ProjectCiToken"> | string
+    tokenPrefix?: StringFilter<"ProjectCiToken"> | string
+    createdAt?: DateTimeFilter<"ProjectCiToken"> | Date | string
+    revokedAt?: DateTimeNullableFilter<"ProjectCiToken"> | Date | string | null
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }
+
+  export type ProjectCiTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    tokenHash?: SortOrder
+    tokenPrefix?: SortOrder
+    createdAt?: SortOrder
+    revokedAt?: SortOrderInput | SortOrder
+    project?: ProjectOrderByWithRelationInput
+  }
+
+  export type ProjectCiTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    projectId?: string
+    tokenHash?: string
+    AND?: ProjectCiTokenWhereInput | ProjectCiTokenWhereInput[]
+    OR?: ProjectCiTokenWhereInput[]
+    NOT?: ProjectCiTokenWhereInput | ProjectCiTokenWhereInput[]
+    tokenPrefix?: StringFilter<"ProjectCiToken"> | string
+    createdAt?: DateTimeFilter<"ProjectCiToken"> | Date | string
+    revokedAt?: DateTimeNullableFilter<"ProjectCiToken"> | Date | string | null
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
+  }, "id" | "projectId" | "tokenHash">
+
+  export type ProjectCiTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    tokenHash?: SortOrder
+    tokenPrefix?: SortOrder
+    createdAt?: SortOrder
+    revokedAt?: SortOrderInput | SortOrder
+    _count?: ProjectCiTokenCountOrderByAggregateInput
+    _max?: ProjectCiTokenMaxOrderByAggregateInput
+    _min?: ProjectCiTokenMinOrderByAggregateInput
+  }
+
+  export type ProjectCiTokenScalarWhereWithAggregatesInput = {
+    AND?: ProjectCiTokenScalarWhereWithAggregatesInput | ProjectCiTokenScalarWhereWithAggregatesInput[]
+    OR?: ProjectCiTokenScalarWhereWithAggregatesInput[]
+    NOT?: ProjectCiTokenScalarWhereWithAggregatesInput | ProjectCiTokenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProjectCiToken"> | string
+    projectId?: StringWithAggregatesFilter<"ProjectCiToken"> | string
+    tokenHash?: StringWithAggregatesFilter<"ProjectCiToken"> | string
+    tokenPrefix?: StringWithAggregatesFilter<"ProjectCiToken"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ProjectCiToken"> | Date | string
+    revokedAt?: DateTimeNullableWithAggregatesFilter<"ProjectCiToken"> | Date | string | null
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -12279,6 +13399,7 @@ export namespace Prisma {
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
     baseline?: BaselineCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -12304,6 +13425,7 @@ export namespace Prisma {
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
     baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -12329,6 +13451,7 @@ export namespace Prisma {
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -12354,6 +13477,7 @@ export namespace Prisma {
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -13087,6 +14211,68 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ProjectCiTokenCreateInput = {
+    id?: string
+    tokenHash: string
+    tokenPrefix: string
+    createdAt?: Date | string
+    revokedAt?: Date | string | null
+    project: ProjectCreateNestedOneWithoutCiTokenInput
+  }
+
+  export type ProjectCiTokenUncheckedCreateInput = {
+    id?: string
+    projectId: string
+    tokenHash: string
+    tokenPrefix: string
+    createdAt?: Date | string
+    revokedAt?: Date | string | null
+  }
+
+  export type ProjectCiTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    tokenPrefix?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    project?: ProjectUpdateOneRequiredWithoutCiTokenNestedInput
+  }
+
+  export type ProjectCiTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    tokenPrefix?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ProjectCiTokenCreateManyInput = {
+    id?: string
+    projectId: string
+    tokenHash: string
+    tokenPrefix: string
+    createdAt?: Date | string
+    revokedAt?: Date | string | null
+  }
+
+  export type ProjectCiTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    tokenPrefix?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ProjectCiTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    tokenPrefix?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -13275,6 +14461,11 @@ export namespace Prisma {
   export type BaselineNullableScalarRelationFilter = {
     is?: BaselineWhereInput | null
     isNot?: BaselineWhereInput | null
+  }
+
+  export type ProjectCiTokenNullableScalarRelationFilter = {
+    is?: ProjectCiTokenWhereInput | null
+    isNot?: ProjectCiTokenWhereInput | null
   }
 
   export type SortOrderInput = {
@@ -13856,6 +15047,58 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type ProjectCiTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    tokenHash?: SortOrder
+    tokenPrefix?: SortOrder
+    createdAt?: SortOrder
+    revokedAt?: SortOrder
+  }
+
+  export type ProjectCiTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    tokenHash?: SortOrder
+    tokenPrefix?: SortOrder
+    createdAt?: SortOrder
+    revokedAt?: SortOrder
+  }
+
+  export type ProjectCiTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+    tokenHash?: SortOrder
+    tokenPrefix?: SortOrder
+    createdAt?: SortOrder
+    revokedAt?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type ProjectCreateNestedManyWithoutUserInput = {
     create?: XOR<ProjectCreateWithoutUserInput, ProjectUncheckedCreateWithoutUserInput> | ProjectCreateWithoutUserInput[] | ProjectUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutUserInput | ProjectCreateOrConnectWithoutUserInput[]
@@ -13946,6 +15189,12 @@ export namespace Prisma {
     connect?: BaselineWhereUniqueInput
   }
 
+  export type ProjectCiTokenCreateNestedOneWithoutProjectInput = {
+    create?: XOR<ProjectCiTokenCreateWithoutProjectInput, ProjectCiTokenUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: ProjectCiTokenCreateOrConnectWithoutProjectInput
+    connect?: ProjectCiTokenWhereUniqueInput
+  }
+
   export type DatasetUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<DatasetCreateWithoutProjectInput, DatasetUncheckedCreateWithoutProjectInput> | DatasetCreateWithoutProjectInput[] | DatasetUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: DatasetCreateOrConnectWithoutProjectInput | DatasetCreateOrConnectWithoutProjectInput[]
@@ -13978,6 +15227,12 @@ export namespace Prisma {
     create?: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
     connectOrCreate?: BaselineCreateOrConnectWithoutProjectInput
     connect?: BaselineWhereUniqueInput
+  }
+
+  export type ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput = {
+    create?: XOR<ProjectCiTokenCreateWithoutProjectInput, ProjectCiTokenUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: ProjectCiTokenCreateOrConnectWithoutProjectInput
+    connect?: ProjectCiTokenWhereUniqueInput
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -14094,6 +15349,16 @@ export namespace Prisma {
     update?: XOR<XOR<BaselineUpdateToOneWithWhereWithoutProjectInput, BaselineUpdateWithoutProjectInput>, BaselineUncheckedUpdateWithoutProjectInput>
   }
 
+  export type ProjectCiTokenUpdateOneWithoutProjectNestedInput = {
+    create?: XOR<ProjectCiTokenCreateWithoutProjectInput, ProjectCiTokenUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: ProjectCiTokenCreateOrConnectWithoutProjectInput
+    upsert?: ProjectCiTokenUpsertWithoutProjectInput
+    disconnect?: ProjectCiTokenWhereInput | boolean
+    delete?: ProjectCiTokenWhereInput | boolean
+    connect?: ProjectCiTokenWhereUniqueInput
+    update?: XOR<XOR<ProjectCiTokenUpdateToOneWithWhereWithoutProjectInput, ProjectCiTokenUpdateWithoutProjectInput>, ProjectCiTokenUncheckedUpdateWithoutProjectInput>
+  }
+
   export type DatasetUncheckedUpdateManyWithoutProjectNestedInput = {
     create?: XOR<DatasetCreateWithoutProjectInput, DatasetUncheckedCreateWithoutProjectInput> | DatasetCreateWithoutProjectInput[] | DatasetUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: DatasetCreateOrConnectWithoutProjectInput | DatasetCreateOrConnectWithoutProjectInput[]
@@ -14158,6 +15423,16 @@ export namespace Prisma {
     delete?: BaselineWhereInput | boolean
     connect?: BaselineWhereUniqueInput
     update?: XOR<XOR<BaselineUpdateToOneWithWhereWithoutProjectInput, BaselineUpdateWithoutProjectInput>, BaselineUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput = {
+    create?: XOR<ProjectCiTokenCreateWithoutProjectInput, ProjectCiTokenUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: ProjectCiTokenCreateOrConnectWithoutProjectInput
+    upsert?: ProjectCiTokenUpsertWithoutProjectInput
+    disconnect?: ProjectCiTokenWhereInput | boolean
+    delete?: ProjectCiTokenWhereInput | boolean
+    connect?: ProjectCiTokenWhereUniqueInput
+    update?: XOR<XOR<ProjectCiTokenUpdateToOneWithWhereWithoutProjectInput, ProjectCiTokenUpdateWithoutProjectInput>, ProjectCiTokenUncheckedUpdateWithoutProjectInput>
   }
 
   export type ProjectCreateNestedOneWithoutDatasetsInput = {
@@ -14454,6 +15729,24 @@ export namespace Prisma {
     update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutBaselineInput, ProjectUpdateWithoutBaselineInput>, ProjectUncheckedUpdateWithoutBaselineInput>
   }
 
+  export type ProjectCreateNestedOneWithoutCiTokenInput = {
+    create?: XOR<ProjectCreateWithoutCiTokenInput, ProjectUncheckedCreateWithoutCiTokenInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutCiTokenInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type ProjectUpdateOneRequiredWithoutCiTokenNestedInput = {
+    create?: XOR<ProjectCreateWithoutCiTokenInput, ProjectUncheckedCreateWithoutCiTokenInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutCiTokenInput
+    upsert?: ProjectUpsertWithoutCiTokenInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutCiTokenInput, ProjectUpdateWithoutCiTokenInput>, ProjectUncheckedUpdateWithoutCiTokenInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -14662,6 +15955,31 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type ProjectCreateWithoutUserInput = {
     id?: string
     name: string
@@ -14684,6 +16002,7 @@ export namespace Prisma {
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
     baseline?: BaselineCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutUserInput = {
@@ -14708,6 +16027,7 @@ export namespace Prisma {
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
     baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutUserInput = {
@@ -14948,6 +16268,27 @@ export namespace Prisma {
     create: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
   }
 
+  export type ProjectCiTokenCreateWithoutProjectInput = {
+    id?: string
+    tokenHash: string
+    tokenPrefix: string
+    createdAt?: Date | string
+    revokedAt?: Date | string | null
+  }
+
+  export type ProjectCiTokenUncheckedCreateWithoutProjectInput = {
+    id?: string
+    tokenHash: string
+    tokenPrefix: string
+    createdAt?: Date | string
+    revokedAt?: Date | string | null
+  }
+
+  export type ProjectCiTokenCreateOrConnectWithoutProjectInput = {
+    where: ProjectCiTokenWhereUniqueInput
+    create: XOR<ProjectCiTokenCreateWithoutProjectInput, ProjectCiTokenUncheckedCreateWithoutProjectInput>
+  }
+
   export type UserUpsertWithoutProjectsInput = {
     update: XOR<UserUpdateWithoutProjectsInput, UserUncheckedUpdateWithoutProjectsInput>
     create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
@@ -15135,6 +16476,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ProjectCiTokenUpsertWithoutProjectInput = {
+    update: XOR<ProjectCiTokenUpdateWithoutProjectInput, ProjectCiTokenUncheckedUpdateWithoutProjectInput>
+    create: XOR<ProjectCiTokenCreateWithoutProjectInput, ProjectCiTokenUncheckedCreateWithoutProjectInput>
+    where?: ProjectCiTokenWhereInput
+  }
+
+  export type ProjectCiTokenUpdateToOneWithWhereWithoutProjectInput = {
+    where?: ProjectCiTokenWhereInput
+    data: XOR<ProjectCiTokenUpdateWithoutProjectInput, ProjectCiTokenUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type ProjectCiTokenUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    tokenPrefix?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ProjectCiTokenUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tokenHash?: StringFieldUpdateOperationsInput | string
+    tokenPrefix?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type ProjectCreateWithoutDatasetsInput = {
     id?: string
     name: string
@@ -15157,6 +16525,7 @@ export namespace Prisma {
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
     baseline?: BaselineCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutDatasetsInput = {
@@ -15181,6 +16550,7 @@ export namespace Prisma {
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
     baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutDatasetsInput = {
@@ -15313,6 +16683,7 @@ export namespace Prisma {
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutDatasetsInput = {
@@ -15337,6 +16708,7 @@ export namespace Prisma {
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type TestCaseUpsertWithWhereUniqueWithoutDatasetInput = {
@@ -15552,6 +16924,7 @@ export namespace Prisma {
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
     baseline?: BaselineCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutEvaluatorsInput = {
@@ -15576,6 +16949,7 @@ export namespace Prisma {
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
     baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutEvaluatorsInput = {
@@ -15616,6 +16990,7 @@ export namespace Prisma {
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutEvaluatorsInput = {
@@ -15640,6 +17015,7 @@ export namespace Prisma {
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectCreateWithoutExperimentsInput = {
@@ -15664,6 +17040,7 @@ export namespace Prisma {
     evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
     baseline?: BaselineCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutExperimentsInput = {
@@ -15688,6 +17065,7 @@ export namespace Prisma {
     evaluators?: EvaluatorUncheckedCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
     baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutExperimentsInput = {
@@ -15802,6 +17180,7 @@ export namespace Prisma {
     evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutExperimentsInput = {
@@ -15826,6 +17205,7 @@ export namespace Prisma {
     evaluators?: EvaluatorUncheckedUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type DatasetUpsertWithoutExperimentsInput = {
@@ -16079,6 +17459,7 @@ export namespace Prisma {
     evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     baseline?: BaselineCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutGithubIntegrationsInput = {
@@ -16103,6 +17484,7 @@ export namespace Prisma {
     evaluators?: EvaluatorUncheckedCreateNestedManyWithoutProjectInput
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
     baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
+    ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutGithubIntegrationsInput = {
@@ -16143,6 +17525,7 @@ export namespace Prisma {
     evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutGithubIntegrationsInput = {
@@ -16167,6 +17550,7 @@ export namespace Prisma {
     evaluators?: EvaluatorUncheckedUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectCreateWithoutBaselineInput = {
@@ -16191,6 +17575,7 @@ export namespace Prisma {
     evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
+    ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutBaselineInput = {
@@ -16215,6 +17600,7 @@ export namespace Prisma {
     evaluators?: EvaluatorUncheckedCreateNestedManyWithoutProjectInput
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
+    ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutBaselineInput = {
@@ -16255,6 +17641,7 @@ export namespace Prisma {
     evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutBaselineInput = {
@@ -16279,6 +17666,123 @@ export namespace Prisma {
     evaluators?: EvaluatorUncheckedUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
+  }
+
+  export type ProjectCreateWithoutCiTokenInput = {
+    id?: string
+    name: string
+    description?: string | null
+    model: string
+    systemPrompt?: string | null
+    temperature?: number | null
+    topP?: number | null
+    maxTokens?: number | null
+    inputCostPerMillion?: number
+    cachedInputCostPerMillion?: number
+    outputCostPerMillion?: number
+    allowedQualityDrop?: number
+    cacheEnabled?: boolean
+    cacheTtlSeconds?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutProjectsInput
+    datasets?: DatasetCreateNestedManyWithoutProjectInput
+    evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
+    experiments?: ExperimentCreateNestedManyWithoutProjectInput
+    githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
+    baseline?: BaselineCreateNestedOneWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutCiTokenInput = {
+    id?: string
+    userId: string
+    name: string
+    description?: string | null
+    model: string
+    systemPrompt?: string | null
+    temperature?: number | null
+    topP?: number | null
+    maxTokens?: number | null
+    inputCostPerMillion?: number
+    cachedInputCostPerMillion?: number
+    outputCostPerMillion?: number
+    allowedQualityDrop?: number
+    cacheEnabled?: boolean
+    cacheTtlSeconds?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    datasets?: DatasetUncheckedCreateNestedManyWithoutProjectInput
+    evaluators?: EvaluatorUncheckedCreateNestedManyWithoutProjectInput
+    experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
+    githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
+    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutCiTokenInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutCiTokenInput, ProjectUncheckedCreateWithoutCiTokenInput>
+  }
+
+  export type ProjectUpsertWithoutCiTokenInput = {
+    update: XOR<ProjectUpdateWithoutCiTokenInput, ProjectUncheckedUpdateWithoutCiTokenInput>
+    create: XOR<ProjectCreateWithoutCiTokenInput, ProjectUncheckedCreateWithoutCiTokenInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutCiTokenInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutCiTokenInput, ProjectUncheckedUpdateWithoutCiTokenInput>
+  }
+
+  export type ProjectUpdateWithoutCiTokenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: StringFieldUpdateOperationsInput | string
+    systemPrompt?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    topP?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    inputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    cachedInputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    outputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    cacheEnabled?: BoolFieldUpdateOperationsInput | boolean
+    cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    datasets?: DatasetUpdateManyWithoutProjectNestedInput
+    evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
+    experiments?: ExperimentUpdateManyWithoutProjectNestedInput
+    githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
+    baseline?: BaselineUpdateOneWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutCiTokenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: StringFieldUpdateOperationsInput | string
+    systemPrompt?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    topP?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    inputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    cachedInputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    outputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    cacheEnabled?: BoolFieldUpdateOperationsInput | boolean
+    cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    datasets?: DatasetUncheckedUpdateManyWithoutProjectNestedInput
+    evaluators?: EvaluatorUncheckedUpdateManyWithoutProjectNestedInput
+    experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
+    githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
+    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyUserInput = {
@@ -16322,6 +17826,7 @@ export namespace Prisma {
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutUserInput = {
@@ -16346,6 +17851,7 @@ export namespace Prisma {
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
     baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutUserInput = {

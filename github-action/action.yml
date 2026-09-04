@@ -1,33 +1,18 @@
 name: EvalOps Regression Test
-
-description: Run a Qubrid EvalOps evaluation and fail the workflow when AI quality regresses.
+description: Run a Qubrid EvalOps evaluation and fail the workflow on regression.
 
 inputs:
   api-url:
-    description: Base URL of the EvalOps API
+    description: EvalOps API URL
     required: true
 
   project-id:
     description: EvalOps project ID
     required: true
 
-  token:
-    description: EvalOps authentication token
+  ci-token:
+    description: Project CI token
     required: true
-
-  timeout-seconds:
-    description: Maximum time to wait for evaluation
-    required: false
-    default: "180"
-
-  poll-interval-seconds:
-    description: Seconds between evaluation status checks
-    required: false
-    default: "2"
-
-outputs:
-  experiment-id:
-    description: EvalOps experiment ID created for this CI run
 
 runs:
   using: node20

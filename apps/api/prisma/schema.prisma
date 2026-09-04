@@ -36,12 +36,13 @@ model Project {
   cacheTtlSeconds           Int                 @default(3600)
   createdAt                 DateTime            @default(now())
   updatedAt                 DateTime            @updatedAt
-  user                      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  baseline                  Baseline?
   datasets                  Dataset[]
   evaluators                Evaluator[]
   experiments               Experiment[]
   githubIntegrations        GithubIntegration[]
-  baseline                  Baseline?
+  user                      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ciToken                   ProjectCiToken?
 }
 
 model Dataset {
@@ -53,8 +54,8 @@ model Dataset {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  testCases   TestCase[]
   experiments Experiment[]
+  testCases   TestCase[]
 }
 
 model TestCase {
@@ -65,8 +66,8 @@ model TestCase {
   metadata       String?
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
-  dataset        Dataset            @relation(fields: [datasetId], references: [id], onDelete: Cascade)
   results        EvaluationResult[]
+  dataset        Dataset            @relation(fields: [datasetId], references: [id], onDelete: Cascade)
 }
 
 model Evaluator {
@@ -81,38 +82,37 @@ model Evaluator {
 }
 
 model Experiment {
-  id                    String   @id @default(cuid())
+  id                    String             @id @default(cuid())
   projectId             String
   datasetId             String
   name                  String
   model                 String
-  status                String   @default("QUEUED")
-  useCache              Boolean  @default(true)
-  failOnRegression      Boolean  @default(true)
-  allowedQualityDrop    Float    @default(2)
+  status                String             @default("QUEUED")
   qualityScore          Float?
   passRate              Float?
   avgLatencyMs          Float?
-  totalTokens           Int      @default(0)
-  totalCostUsd          Float    @default(0)
-  cacheHitRate          Float    @default(0)
-  cacheMissRate         Float    @default(0)
-  llmCallsAvoided       Int      @default(0)
-  cachedInputTokens     Int      @default(0)
-  estimatedCostSavedUsd Float    @default(0)
-  regressionDelta       Float?
-  regressionPassed      Boolean  @default(true)
+  totalTokens           Int                @default(0)
+  totalCostUsd          Float              @default(0)
+  cacheHitRate          Float              @default(0)
+  cacheMissRate         Float              @default(0)
+  llmCallsAvoided       Int                @default(0)
+  cachedInputTokens     Int                @default(0)
+  estimatedCostSavedUsd Float              @default(0)
+  createdAt             DateTime           @default(now())
+  updatedAt             DateTime           @updatedAt
+  allowedQualityDrop    Float              @default(2)
   errorMessage          String?
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-
-  project Project            @relation(fields: [projectId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  dataset Dataset            @relation(fields: [datasetId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  results EvaluationResult[]
+  failOnRegression      Boolean            @default(true)
+  regressionDelta       Float?
+  regressionPassed      Boolean            @default(true)
+  useCache              Boolean            @default(true)
+  results               EvaluationResult[]
+  dataset               Dataset            @relation(fields: [datasetId], references: [id], onUpdate: NoAction)
+  project               Project            @relation(fields: [projectId], references: [id], onUpdate: NoAction)
 }
 
 model EvaluationResult {
-  id                       String   @id @default(cuid())
+  id                       String     @id @default(cuid())
   experimentId             String
   testCaseId               String
   actualOutput             String
@@ -122,16 +122,15 @@ model EvaluationResult {
   ttftMs                   Int?
   inputTokens              Int?
   outputTokens             Int?
-  totalTokens              Int?
-  estimatedCostUsd         Float?
-  uncachedEstimatedCostUsd Float?
-  cacheHit                 Boolean  @default(false)
-  cachedInputTokens        Int      @default(0)
+  cacheHit                 Boolean    @default(false)
   reason                   String?
-  createdAt                DateTime @default(now())
-
-  experiment Experiment @relation(fields: [experimentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  testCase   TestCase   @relation(fields: [testCaseId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt                DateTime   @default(now())
+  cachedInputTokens        Int        @default(0)
+  estimatedCostUsd         Float?
+  totalTokens              Int?
+  uncachedEstimatedCostUsd Float?
+  experiment               Experiment @relation(fields: [experimentId], references: [id], onUpdate: NoAction)
+  testCase                 TestCase   @relation(fields: [testCaseId], references: [id], onUpdate: NoAction)
 }
 
 model GithubIntegration {
@@ -152,4 +151,14 @@ model Baseline {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model ProjectCiToken {
+  id          String    @id @default(cuid())
+  projectId   String    @unique
+  tokenHash   String    @unique
+  tokenPrefix String
+  createdAt   DateTime  @default(now())
+  revokedAt   DateTime?
+  project     Project   @relation(fields: [projectId], references: [id], onUpdate: NoAction)
 }

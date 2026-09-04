@@ -245,6 +245,15 @@ exports.Prisma.BaselineScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ProjectCiTokenScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  tokenHash: 'tokenHash',
+  tokenPrefix: 'tokenPrefix',
+  createdAt: 'createdAt',
+  revokedAt: 'revokedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -265,7 +274,8 @@ exports.Prisma.ModelName = {
   Experiment: 'Experiment',
   EvaluationResult: 'EvaluationResult',
   GithubIntegration: 'GithubIntegration',
-  Baseline: 'Baseline'
+  Baseline: 'Baseline',
+  ProjectCiToken: 'ProjectCiToken'
 };
 
 /**
