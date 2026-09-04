@@ -19,4 +19,10 @@ app.use((err: unknown, _req: express.Request, res: express.Response, _next: expr
   res.status(500).json({ success: false, message: "Internal server error" });
 });
 
-app.listen(config.port, () => console.log(`EvalOps API running on http://localhost:${config.port}`));
+const port = process.env.PORT
+  ? Number(process.env.PORT)
+  : config.port;
+
+app.listen(port, "0.0.0.0", () =>
+  console.log(`EvalOps API running on port ${port}`)
+);
