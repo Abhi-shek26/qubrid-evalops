@@ -43,12 +43,16 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 async function main() {
     const apiUrl = core.getInput("api-url").replace(/\/$/, "");
     const projectId = core.getInput("project-id");
+    const datasetId = core.getInput("dataset-id");
     const token = core.getInput("ci-token");
     if (!apiUrl) {
         throw new Error("api-url is required");
     }
     if (!projectId) {
         throw new Error("project-id is required");
+    }
+    if (!datasetId) {
+        throw new Error("dataset-id is required");
     }
     if (!token) {
         throw new Error("ci-token is required");
@@ -60,6 +64,7 @@ async function main() {
     core.info("Starting EvalOps CI evaluation...");
     const queued = await axios_1.default.post(`${apiUrl}/api/v1/ci/evaluate`, {
         projectId,
+        datasetId,
         commitSha: github.context.sha,
         pullRequestNumber: github.context.payload.pull_request?.number,
         useCache: false,

@@ -17,11 +17,13 @@ router.post(
     try {
       const {
         projectId,
+        datasetId,
         commitSha,
         pullRequestNumber,
         useCache = false,
       } = req.body as {
         projectId?: string;
+        datasetId?: string;
         commitSha?: string;
         pullRequestNumber?: number;
         useCache?: boolean;
@@ -31,6 +33,13 @@ router.post(
         return res.status(400).json({
           success: false,
           message: "projectId is required",
+        });
+      }
+
+      if (!datasetId) {
+        return res.status(400).json({
+          success: false,
+          message: "datasetId is required",
         });
       }
 
@@ -71,24 +80,21 @@ router.post(
       }
 
       /*
-       * CI uses the oldest dataset by default.
+       * Get the explicitly requested dataset.
        *
-       * Later we can make dataset selection configurable
-       * from the GitHub Action.
+       * Also make sure the dataset belongs to this project.
        */
       const dataset = await prisma.dataset.findFirst({
         where: {
+          id: datasetId,
           projectId: project.id,
-        },
-        orderBy: {
-          createdAt: "asc",
         },
       });
 
       if (!dataset) {
-        return res.status(400).json({
+        return res.status(404).json({
           success: false,
-          message: "Project has no dataset",
+          message: "Dataset not found for this project",
         });
       }
 
@@ -120,7 +126,7 @@ router.post(
       });
 
       console.log(
-        `[CI] Created experiment ${experiment.id} | cache=${useCache}`
+        `[CI] Created experiment ${experiment.id} | dataset=${dataset.id} | cache=${useCache}`
       );
 
       /*
