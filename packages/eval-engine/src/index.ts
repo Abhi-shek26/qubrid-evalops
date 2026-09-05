@@ -449,7 +449,7 @@ Evaluate the actual model output against the user input and expected output.
           },
         ],
         temperature: 0,
-        maxTokens: 300,
+        maxTokens: 1000,
       });
 
     const parsed =
