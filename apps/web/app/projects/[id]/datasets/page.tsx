@@ -238,6 +238,10 @@ export default function Datasets() {
   const [importing, setImporting] =
     useState(false);
 
+  // Dataset versioning
+  const [creatingVersionFor, setCreatingVersionFor] =
+    useState<string | null>(null);
+
   async function loadDatasets() {
     try {
       setError("");
@@ -679,6 +683,46 @@ export default function Datasets() {
     }
   }
 
+  async function createVersion(datasetId: string) {
+    try {
+      setError("");
+      setCreatingVersionFor(datasetId);
+
+      const response = await fetch(
+        `${API_URL}/api/v1/projects/${id}/datasets/${datasetId}/version`,
+        {
+          method: "POST",
+          headers: {
+            ...authHeaders(),
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data?.message ||
+            "Failed to create dataset version"
+        );
+      }
+
+      await loadDatasets();
+
+      setExpandedDatasetId(
+        data.data?.id ?? null
+      );
+    } catch (err: any) {
+      setError(
+        err.message ||
+          "Failed to create dataset version"
+      );
+    } finally {
+      setCreatingVersionFor(null);
+    }
+  }
+
   function toggleDataset(
     datasetId: string
   ) {
@@ -935,6 +979,26 @@ export default function Datasets() {
           }}
         >
           {datasets.map((dataset) => {
+            const versions = datasets
+              .filter(
+                (item) => item.name === dataset.name
+              )
+              .sort(
+                (a, b) => b.version - a.version
+              );
+
+            const latestVersion =
+              versions[0]?.version ?? dataset.version;
+
+            /*
+             * Render one card per logical dataset.
+             * Older versions are shown in Version History
+             * instead of being rendered as duplicate cards.
+             */
+            if (dataset.version !== latestVersion) {
+              return null;
+            }
+
             const expanded =
               expandedDatasetId ===
               dataset.id;
@@ -1015,18 +1079,178 @@ export default function Datasets() {
                     </div>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() =>
-                      toggleDataset(
-                        dataset.id
-                      )
-                    }
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "8px",
+                      flexWrap: "wrap",
+                    }}
                   >
-                    {expanded
-                      ? "Hide Test Cases"
-                      : "View Test Cases"}
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        createVersion(
+                          dataset.id
+                        )
+                      }
+                      disabled={
+                        creatingVersionFor !== null
+                      }
+                    >
+                      {creatingVersionFor === dataset.id
+                        ? "Creating Version..."
+                        : `+ Create v${dataset.version + 1}`}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        toggleDataset(
+                          dataset.id
+                        )
+                      }
+                    >
+                      {expanded
+                        ? "Hide Test Cases"
+                        : "View Test Cases"}
+                    </button>
+                  </div>
+                </div>
+
+                {/* VERSION HISTORY */}
+
+                <div
+                  style={{
+                    marginTop: "18px",
+                    padding: "16px",
+                    borderRadius: "10px",
+                    border:
+                      "1px solid #29334d",
+                    background:
+                      "rgba(255,255,255,0.015)",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      gap: "10px",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <h3>Version History</h3>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        opacity: 0.6,
+                      }}
+                    >
+                      {versions.length}{" "}
+                      {versions.length === 1
+                        ? "version"
+                        : "versions"}
+                    </span>
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "8px",
+                      marginTop: "12px",
+                    }}
+                  >
+                    {versions.map(
+                      (version) => (
+                        <div
+                          key={version.id}
+                          style={{
+                            display: "flex",
+                            justifyContent:
+                              "space-between",
+                            alignItems: "center",
+                            gap: "12px",
+                            flexWrap: "wrap",
+                            padding: "10px 12px",
+                            borderRadius: "8px",
+                            border:
+                              "1px solid rgba(255,255,255,0.06)",
+                          }}
+                        >
+                          <div>
+                            <strong>
+                              v{version.version}
+                            </strong>
+
+                            {version.id ===
+                              dataset.id && (
+                              <span
+                                style={{
+                                  marginLeft: "8px",
+                                  fontSize: "10px",
+                                  padding: "3px 6px",
+                                  borderRadius:
+                                    "999px",
+                                  background:
+                                    "rgba(74,222,128,0.12)",
+                                  color:
+                                    "#86efac",
+                                }}
+                              >
+                                LATEST
+                              </span>
+                            )}
+
+                            <div
+                              style={{
+                                marginTop: "4px",
+                                fontSize: "12px",
+                                opacity: 0.6,
+                              }}
+                            >
+                              {version.testCases.length}{" "}
+                              {version.testCases.length ===
+                              1
+                                ? "test case"
+                                : "test cases"}{" "}
+                              ·{" "}
+                              {new Date(
+                                version.createdAt
+                              ).toLocaleString()}
+                            </div>
+                          </div>
+
+                          {version.id ===
+                            dataset.id && (
+                            <span
+                              style={{
+                                fontSize: "11px",
+                                opacity: 0.55,
+                              }}
+                            >
+                              Editable
+                            </span>
+                          )}
+                        </div>
+                      )
+                    )}
+                  </div>
+
+                  {versions.length > 1 && (
+                    <p
+                      style={{
+                        marginTop: "12px",
+                        fontSize: "12px",
+                        opacity: 0.5,
+                      }}
+                    >
+                      Older versions remain available as
+                      immutable snapshots. Create a new
+                      version before making changes you want
+                      to preserve separately.
+                    </p>
+                  )}
                 </div>
 
                 {/* EXPANDED DATASET */}

@@ -460,40 +460,79 @@ async function run(job: Job) {
         reason: string;
       }> = [];
 
+      const evaluatorUsage = {
+        inputTokens: 0,
+        outputTokens: 0,
+        totalTokens: 0,
+        latencyMs: 0,
+        estimatedCostUsd: 0,
+        uncachedEstimatedCostUsd: 0,
+        cachedInputTokens: 0
+      };
+
       if (evaluatorDefs.length) {
-for (const def of evaluatorDefs) {
-  const evaluator = buildEvaluator(
-    def.type,
-    def.config,
-    {
-      qubridClient: q
-    }
-  );
+        for (const def of evaluatorDefs) {
+          const evaluator = buildEvaluator(
+            def.type,
+            def.config,
+            {
+              qubridClient: q,
+              inputCostPerMillion:
+                experiment.project.inputCostPerMillion,
+              cachedInputCostPerMillion:
+                experiment.project.cachedInputCostPerMillion,
+              outputCostPerMillion:
+                experiment.project.outputCostPerMillion
+            }
+          );
 
-  const result =
-    await evaluator.evaluate({
-      input: testCase.input,
+          const result =
+            await evaluator.evaluate({
+              input: testCase.input,
 
-      expectedOutput:
-        testCase.expectedOutput ??
-        undefined,
+              expectedOutput:
+                testCase.expectedOutput ??
+                undefined,
 
-      actualOutput:
-        response.text,
+              actualOutput:
+                response.text,
 
-      metadata:
-        parseJson(
-          testCase.metadata
-        )
-    });
+              metadata:
+                parseJson(
+                  testCase.metadata
+                )
+            });
 
-  checks.push({
-    type: def.type,
-    score: result.score,
-    passed: result.passed,
-    reason: result.reason
-  });
-}
+          if (result.usage) {
+            evaluatorUsage.inputTokens +=
+              result.usage.inputTokens;
+
+            evaluatorUsage.outputTokens +=
+              result.usage.outputTokens;
+
+            evaluatorUsage.totalTokens +=
+              result.usage.totalTokens;
+
+            evaluatorUsage.latencyMs +=
+              result.usage.latencyMs;
+
+            evaluatorUsage.estimatedCostUsd +=
+              result.usage.estimatedCostUsd;
+
+            evaluatorUsage.uncachedEstimatedCostUsd +=
+              result.usage.uncachedEstimatedCostUsd;
+
+            evaluatorUsage.cachedInputTokens +=
+              result.usage.cachedInputTokens;
+          }
+
+          checks.push({
+            type: def.type,
+            score: result.score,
+            passed: result.passed,
+            reason: result.reason
+          });
+        }
 
         /*
          * Multiple evaluators:
@@ -532,46 +571,44 @@ for (const def of evaluatorDefs) {
        */
 
       const row = {
-  testCaseId: testCase.id,
+        testCaseId: testCase.id,
 
-  actualOutput:
-    response.text,
+        actualOutput: response.text,
 
-  score,
+        score,
 
-  passed,
+        passed,
 
-  reason,
+        reason,
 
-  evaluatorResults:
-    JSON.stringify(checks),
+        evaluatorResults:
+          JSON.stringify(checks),
 
-  latencyMs:
-    response.latencyMs,
+        latencyMs: response.latencyMs,
 
-  inputTokens:
-    response.promptTokens,
+        inputTokens: response.promptTokens,
 
-  outputTokens:
-    response.completionTokens,
+        outputTokens: response.completionTokens,
 
-  totalTokens:
-    response.totalTokens,
+        totalTokens: response.totalTokens,
 
-  estimatedCostUsd:
-    response.costUsd,
+        estimatedCostUsd: response.costUsd,
 
-  uncachedEstimatedCostUsd:
-    response.uncachedCostUsd,
+        uncachedEstimatedCostUsd:
+          response.uncachedCostUsd,
 
-  cacheHit:
-    response.cacheHit,
+        cacheHit: response.cacheHit,
 
-  cachedInputTokens:
-    response.cachedInputTokens
-};
+        cachedInputTokens:
+          response.cachedInputTokens
+      };
 
-      results.push(row);
+      const aggregateRow = {
+        ...row,
+        evaluatorUsage
+      };
+
+      results.push(aggregateRow);
 
       await prisma.evaluationResult.create(
         {

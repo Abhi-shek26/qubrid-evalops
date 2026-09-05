@@ -44,6 +44,7 @@ type Experiment = {
   id: string;
   name: string;
   model: string;
+  datasetId?: string;
   status: string;
 
   qualityScore?: number | null;
@@ -91,6 +92,13 @@ export default function ExperimentDetail() {
   const [error, setError] =
     useState("");
 
+  const [datasetInfo, setDatasetInfo] = useState<{
+    id: string;
+    name: string;
+    version: number;
+    testCaseCount: number;
+  } | null>(null);
+
   const [expandedResult, setExpandedResult] =
     useState<string | null>(null);
 
@@ -127,6 +135,44 @@ export default function ExperimentDetail() {
       );
 
       setExperiment(data.data);
+
+      /*
+       * Load the exact dataset snapshot used by this
+       * experiment so the detail page clearly identifies
+       * the immutable version being evaluated.
+       */
+      if (data.data?.datasetId) {
+        try {
+          const datasetResponse = await fetch(
+            `${API_URL}/api/v1/projects/${projectId}/datasets/${data.data.datasetId}`,
+            {
+              headers: authHeaders(),
+              cache: "no-store",
+            }
+          );
+
+          const datasetData =
+            await datasetResponse.json();
+
+          if (datasetResponse.ok && datasetData.data) {
+            setDatasetInfo({
+              id: datasetData.data.id,
+              name: datasetData.data.name,
+              version: data.data?.datasetId
+                ? datasetData.data.version ?? 1
+                : 1,
+              testCaseCount:
+                datasetData.data?.testCases?.length ?? 0,
+            });
+          } else {
+            setDatasetInfo(null);
+          }
+        } catch {
+          setDatasetInfo(null);
+        }
+      } else {
+        setDatasetInfo(null);
+      }
     } catch (err: any) {
       console.error(
         "[EXPERIMENT DETAIL] Error:",
@@ -346,6 +392,18 @@ export default function ExperimentDetail() {
       case "SEMANTIC":
         return "Semantic";
 
+      case "RAG_CORRECTNESS":
+        return "RAG Correctness";
+
+      case "RAG_GROUNDEDNESS":
+        return "RAG Groundedness";
+
+      case "RAG_CITATION":
+        return "RAG Citation";
+
+      case "RAG_HALLUCINATION":
+        return "RAG Hallucination";
+
       default:
         return type;
     }
@@ -496,6 +554,21 @@ export default function ExperimentDetail() {
                 {experiment.model}
               </strong>
             </p>
+
+            {datasetInfo && (
+              <p
+                style={{
+                  marginTop: "8px",
+                  fontSize: "13px",
+                  opacity: 0.7,
+                }}
+              >
+                Dataset:{" "}
+                <strong>
+                  {datasetInfo.name} · v{datasetInfo.version}
+                </strong>
+              </p>
+            )}
 
             <p
               style={{

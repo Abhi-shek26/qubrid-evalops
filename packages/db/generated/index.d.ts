@@ -8315,12 +8315,12 @@ export namespace Prisma {
     outputTokens: number | null
     cacheHit: boolean | null
     reason: string | null
-    evaluatorResults: string | null
     createdAt: Date | null
     cachedInputTokens: number | null
     estimatedCostUsd: number | null
     totalTokens: number | null
     uncachedEstimatedCostUsd: number | null
+    evaluatorResults: string | null
   }
 
   export type EvaluationResultMaxAggregateOutputType = {
@@ -8336,12 +8336,12 @@ export namespace Prisma {
     outputTokens: number | null
     cacheHit: boolean | null
     reason: string | null
-    evaluatorResults: string | null
     createdAt: Date | null
     cachedInputTokens: number | null
     estimatedCostUsd: number | null
     totalTokens: number | null
     uncachedEstimatedCostUsd: number | null
+    evaluatorResults: string | null
   }
 
   export type EvaluationResultCountAggregateOutputType = {
@@ -8357,12 +8357,12 @@ export namespace Prisma {
     outputTokens: number
     cacheHit: number
     reason: number
-    evaluatorResults: number
     createdAt: number
     cachedInputTokens: number
     estimatedCostUsd: number
     totalTokens: number
     uncachedEstimatedCostUsd: number
+    evaluatorResults: number
     _all: number
   }
 
@@ -8404,12 +8404,12 @@ export namespace Prisma {
     outputTokens?: true
     cacheHit?: true
     reason?: true
-    evaluatorResults?: true
     createdAt?: true
     cachedInputTokens?: true
     estimatedCostUsd?: true
     totalTokens?: true
     uncachedEstimatedCostUsd?: true
+    evaluatorResults?: true
   }
 
   export type EvaluationResultMaxAggregateInputType = {
@@ -8425,12 +8425,12 @@ export namespace Prisma {
     outputTokens?: true
     cacheHit?: true
     reason?: true
-    evaluatorResults?: true
     createdAt?: true
     cachedInputTokens?: true
     estimatedCostUsd?: true
     totalTokens?: true
     uncachedEstimatedCostUsd?: true
+    evaluatorResults?: true
   }
 
   export type EvaluationResultCountAggregateInputType = {
@@ -8446,12 +8446,12 @@ export namespace Prisma {
     outputTokens?: true
     cacheHit?: true
     reason?: true
-    evaluatorResults?: true
     createdAt?: true
     cachedInputTokens?: true
     estimatedCostUsd?: true
     totalTokens?: true
     uncachedEstimatedCostUsd?: true
+    evaluatorResults?: true
     _all?: true
   }
 
@@ -8554,12 +8554,12 @@ export namespace Prisma {
     outputTokens: number | null
     cacheHit: boolean
     reason: string | null
-    evaluatorResults: string | null
     createdAt: Date
     cachedInputTokens: number
     estimatedCostUsd: number | null
     totalTokens: number | null
     uncachedEstimatedCostUsd: number | null
+    evaluatorResults: string | null
     _count: EvaluationResultCountAggregateOutputType | null
     _avg: EvaluationResultAvgAggregateOutputType | null
     _sum: EvaluationResultSumAggregateOutputType | null
@@ -8594,12 +8594,12 @@ export namespace Prisma {
     outputTokens?: boolean
     cacheHit?: boolean
     reason?: boolean
-    evaluatorResults?: boolean
     createdAt?: boolean
     cachedInputTokens?: boolean
     estimatedCostUsd?: boolean
     totalTokens?: boolean
     uncachedEstimatedCostUsd?: boolean
+    evaluatorResults?: boolean
     experiment?: boolean | ExperimentDefaultArgs<ExtArgs>
     testCase?: boolean | TestCaseDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["evaluationResult"]>
@@ -8619,15 +8619,15 @@ export namespace Prisma {
     outputTokens?: boolean
     cacheHit?: boolean
     reason?: boolean
-    evaluatorResults?: boolean
     createdAt?: boolean
     cachedInputTokens?: boolean
     estimatedCostUsd?: boolean
     totalTokens?: boolean
     uncachedEstimatedCostUsd?: boolean
+    evaluatorResults?: boolean
   }
 
-  export type EvaluationResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "experimentId" | "testCaseId" | "actualOutput" | "score" | "passed" | "latencyMs" | "ttftMs" | "inputTokens" | "outputTokens" | "cacheHit" | "reason" | "evaluatorResults" | "createdAt" | "cachedInputTokens" | "estimatedCostUsd" | "totalTokens" | "uncachedEstimatedCostUsd", ExtArgs["result"]["evaluationResult"]>
+  export type EvaluationResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "experimentId" | "testCaseId" | "actualOutput" | "score" | "passed" | "latencyMs" | "ttftMs" | "inputTokens" | "outputTokens" | "cacheHit" | "reason" | "createdAt" | "cachedInputTokens" | "estimatedCostUsd" | "totalTokens" | "uncachedEstimatedCostUsd" | "evaluatorResults", ExtArgs["result"]["evaluationResult"]>
   export type EvaluationResultInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     experiment?: boolean | ExperimentDefaultArgs<ExtArgs>
     testCase?: boolean | TestCaseDefaultArgs<ExtArgs>
@@ -8652,12 +8652,12 @@ export namespace Prisma {
       outputTokens: number | null
       cacheHit: boolean
       reason: string | null
-      evaluatorResults: string | null
       createdAt: Date
       cachedInputTokens: number
       estimatedCostUsd: number | null
       totalTokens: number | null
       uncachedEstimatedCostUsd: number | null
+      evaluatorResults: string | null
     }, ExtArgs["result"]["evaluationResult"]>
     composites: {}
   }
@@ -9041,12 +9041,12 @@ export namespace Prisma {
     readonly outputTokens: FieldRef<"EvaluationResult", 'Int'>
     readonly cacheHit: FieldRef<"EvaluationResult", 'Boolean'>
     readonly reason: FieldRef<"EvaluationResult", 'String'>
-    readonly evaluatorResults: FieldRef<"EvaluationResult", 'String'>
     readonly createdAt: FieldRef<"EvaluationResult", 'DateTime'>
     readonly cachedInputTokens: FieldRef<"EvaluationResult", 'Int'>
     readonly estimatedCostUsd: FieldRef<"EvaluationResult", 'Float'>
     readonly totalTokens: FieldRef<"EvaluationResult", 'Int'>
     readonly uncachedEstimatedCostUsd: FieldRef<"EvaluationResult", 'Float'>
+    readonly evaluatorResults: FieldRef<"EvaluationResult", 'String'>
   }
     
 
@@ -12356,12 +12356,12 @@ export namespace Prisma {
     outputTokens: 'outputTokens',
     cacheHit: 'cacheHit',
     reason: 'reason',
-    evaluatorResults: 'evaluatorResults',
     createdAt: 'createdAt',
     cachedInputTokens: 'cachedInputTokens',
     estimatedCostUsd: 'estimatedCostUsd',
     totalTokens: 'totalTokens',
-    uncachedEstimatedCostUsd: 'uncachedEstimatedCostUsd'
+    uncachedEstimatedCostUsd: 'uncachedEstimatedCostUsd',
+    evaluatorResults: 'evaluatorResults'
   };
 
   export type EvaluationResultScalarFieldEnum = (typeof EvaluationResultScalarFieldEnum)[keyof typeof EvaluationResultScalarFieldEnum]
@@ -13037,12 +13037,12 @@ export namespace Prisma {
     outputTokens?: IntNullableFilter<"EvaluationResult"> | number | null
     cacheHit?: BoolFilter<"EvaluationResult"> | boolean
     reason?: StringNullableFilter<"EvaluationResult"> | string | null
-    evaluatorResults?: StringNullableFilter<"EvaluationResult"> | string | null
     createdAt?: DateTimeFilter<"EvaluationResult"> | Date | string
     cachedInputTokens?: IntFilter<"EvaluationResult"> | number
     estimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
     totalTokens?: IntNullableFilter<"EvaluationResult"> | number | null
     uncachedEstimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
+    evaluatorResults?: StringNullableFilter<"EvaluationResult"> | string | null
     experiment?: XOR<ExperimentScalarRelationFilter, ExperimentWhereInput>
     testCase?: XOR<TestCaseScalarRelationFilter, TestCaseWhereInput>
   }
@@ -13060,12 +13060,12 @@ export namespace Prisma {
     outputTokens?: SortOrderInput | SortOrder
     cacheHit?: SortOrder
     reason?: SortOrderInput | SortOrder
-    evaluatorResults?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostUsd?: SortOrderInput | SortOrder
     totalTokens?: SortOrderInput | SortOrder
     uncachedEstimatedCostUsd?: SortOrderInput | SortOrder
+    evaluatorResults?: SortOrderInput | SortOrder
     experiment?: ExperimentOrderByWithRelationInput
     testCase?: TestCaseOrderByWithRelationInput
   }
@@ -13086,12 +13086,12 @@ export namespace Prisma {
     outputTokens?: IntNullableFilter<"EvaluationResult"> | number | null
     cacheHit?: BoolFilter<"EvaluationResult"> | boolean
     reason?: StringNullableFilter<"EvaluationResult"> | string | null
-    evaluatorResults?: StringNullableFilter<"EvaluationResult"> | string | null
     createdAt?: DateTimeFilter<"EvaluationResult"> | Date | string
     cachedInputTokens?: IntFilter<"EvaluationResult"> | number
     estimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
     totalTokens?: IntNullableFilter<"EvaluationResult"> | number | null
     uncachedEstimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
+    evaluatorResults?: StringNullableFilter<"EvaluationResult"> | string | null
     experiment?: XOR<ExperimentScalarRelationFilter, ExperimentWhereInput>
     testCase?: XOR<TestCaseScalarRelationFilter, TestCaseWhereInput>
   }, "id">
@@ -13109,12 +13109,12 @@ export namespace Prisma {
     outputTokens?: SortOrderInput | SortOrder
     cacheHit?: SortOrder
     reason?: SortOrderInput | SortOrder
-    evaluatorResults?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostUsd?: SortOrderInput | SortOrder
     totalTokens?: SortOrderInput | SortOrder
     uncachedEstimatedCostUsd?: SortOrderInput | SortOrder
+    evaluatorResults?: SortOrderInput | SortOrder
     _count?: EvaluationResultCountOrderByAggregateInput
     _avg?: EvaluationResultAvgOrderByAggregateInput
     _max?: EvaluationResultMaxOrderByAggregateInput
@@ -13138,12 +13138,12 @@ export namespace Prisma {
     outputTokens?: IntNullableWithAggregatesFilter<"EvaluationResult"> | number | null
     cacheHit?: BoolWithAggregatesFilter<"EvaluationResult"> | boolean
     reason?: StringNullableWithAggregatesFilter<"EvaluationResult"> | string | null
-    evaluatorResults?: StringNullableWithAggregatesFilter<"EvaluationResult"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"EvaluationResult"> | Date | string
     cachedInputTokens?: IntWithAggregatesFilter<"EvaluationResult"> | number
     estimatedCostUsd?: FloatNullableWithAggregatesFilter<"EvaluationResult"> | number | null
     totalTokens?: IntNullableWithAggregatesFilter<"EvaluationResult"> | number | null
     uncachedEstimatedCostUsd?: FloatNullableWithAggregatesFilter<"EvaluationResult"> | number | null
+    evaluatorResults?: StringNullableWithAggregatesFilter<"EvaluationResult"> | string | null
   }
 
   export type GithubIntegrationWhereInput = {
@@ -13977,12 +13977,12 @@ export namespace Prisma {
     outputTokens?: number | null
     cacheHit?: boolean
     reason?: string | null
-    evaluatorResults?: string | null
     createdAt?: Date | string
     cachedInputTokens?: number
     estimatedCostUsd?: number | null
     totalTokens?: number | null
     uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
     experiment: ExperimentCreateNestedOneWithoutResultsInput
     testCase: TestCaseCreateNestedOneWithoutResultsInput
   }
@@ -14000,12 +14000,12 @@ export namespace Prisma {
     outputTokens?: number | null
     cacheHit?: boolean
     reason?: string | null
-    evaluatorResults?: string | null
     createdAt?: Date | string
     cachedInputTokens?: number
     estimatedCostUsd?: number | null
     totalTokens?: number | null
     uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
   export type EvaluationResultUpdateInput = {
@@ -14019,12 +14019,12 @@ export namespace Prisma {
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
     uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     experiment?: ExperimentUpdateOneRequiredWithoutResultsNestedInput
     testCase?: TestCaseUpdateOneRequiredWithoutResultsNestedInput
   }
@@ -14042,12 +14042,12 @@ export namespace Prisma {
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
     uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EvaluationResultCreateManyInput = {
@@ -14063,12 +14063,12 @@ export namespace Prisma {
     outputTokens?: number | null
     cacheHit?: boolean
     reason?: string | null
-    evaluatorResults?: string | null
     createdAt?: Date | string
     cachedInputTokens?: number
     estimatedCostUsd?: number | null
     totalTokens?: number | null
     uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
   export type EvaluationResultUpdateManyMutationInput = {
@@ -14082,12 +14082,12 @@ export namespace Prisma {
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
     uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EvaluationResultUncheckedUpdateManyInput = {
@@ -14103,12 +14103,12 @@ export namespace Prisma {
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
     uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type GithubIntegrationCreateInput = {
@@ -14946,12 +14946,12 @@ export namespace Prisma {
     outputTokens?: SortOrder
     cacheHit?: SortOrder
     reason?: SortOrder
-    evaluatorResults?: SortOrder
     createdAt?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostUsd?: SortOrder
     totalTokens?: SortOrder
     uncachedEstimatedCostUsd?: SortOrder
+    evaluatorResults?: SortOrder
   }
 
   export type EvaluationResultAvgOrderByAggregateInput = {
@@ -14979,12 +14979,12 @@ export namespace Prisma {
     outputTokens?: SortOrder
     cacheHit?: SortOrder
     reason?: SortOrder
-    evaluatorResults?: SortOrder
     createdAt?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostUsd?: SortOrder
     totalTokens?: SortOrder
     uncachedEstimatedCostUsd?: SortOrder
+    evaluatorResults?: SortOrder
   }
 
   export type EvaluationResultMinOrderByAggregateInput = {
@@ -15000,12 +15000,12 @@ export namespace Prisma {
     outputTokens?: SortOrder
     cacheHit?: SortOrder
     reason?: SortOrder
-    evaluatorResults?: SortOrder
     createdAt?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostUsd?: SortOrder
     totalTokens?: SortOrder
     uncachedEstimatedCostUsd?: SortOrder
+    evaluatorResults?: SortOrder
   }
 
   export type EvaluationResultSumOrderByAggregateInput = {
@@ -16794,12 +16794,12 @@ export namespace Prisma {
     outputTokens?: number | null
     cacheHit?: boolean
     reason?: string | null
-    evaluatorResults?: string | null
     createdAt?: Date | string
     cachedInputTokens?: number
     estimatedCostUsd?: number | null
     totalTokens?: number | null
     uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
     experiment: ExperimentCreateNestedOneWithoutResultsInput
   }
 
@@ -16815,12 +16815,12 @@ export namespace Prisma {
     outputTokens?: number | null
     cacheHit?: boolean
     reason?: string | null
-    evaluatorResults?: string | null
     createdAt?: Date | string
     cachedInputTokens?: number
     estimatedCostUsd?: number | null
     totalTokens?: number | null
     uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
   export type EvaluationResultCreateOrConnectWithoutTestCaseInput = {
@@ -16891,12 +16891,12 @@ export namespace Prisma {
     outputTokens?: IntNullableFilter<"EvaluationResult"> | number | null
     cacheHit?: BoolFilter<"EvaluationResult"> | boolean
     reason?: StringNullableFilter<"EvaluationResult"> | string | null
-    evaluatorResults?: StringNullableFilter<"EvaluationResult"> | string | null
     createdAt?: DateTimeFilter<"EvaluationResult"> | Date | string
     cachedInputTokens?: IntFilter<"EvaluationResult"> | number
     estimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
     totalTokens?: IntNullableFilter<"EvaluationResult"> | number | null
     uncachedEstimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
+    evaluatorResults?: StringNullableFilter<"EvaluationResult"> | string | null
   }
 
   export type DatasetUpsertWithoutTestCasesInput = {
@@ -17059,12 +17059,12 @@ export namespace Prisma {
     outputTokens?: number | null
     cacheHit?: boolean
     reason?: string | null
-    evaluatorResults?: string | null
     createdAt?: Date | string
     cachedInputTokens?: number
     estimatedCostUsd?: number | null
     totalTokens?: number | null
     uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
     testCase: TestCaseCreateNestedOneWithoutResultsInput
   }
 
@@ -17080,12 +17080,12 @@ export namespace Prisma {
     outputTokens?: number | null
     cacheHit?: boolean
     reason?: string | null
-    evaluatorResults?: string | null
     createdAt?: Date | string
     cachedInputTokens?: number
     estimatedCostUsd?: number | null
     totalTokens?: number | null
     uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
   export type EvaluationResultCreateOrConnectWithoutExperimentInput = {
@@ -18279,12 +18279,12 @@ export namespace Prisma {
     outputTokens?: number | null
     cacheHit?: boolean
     reason?: string | null
-    evaluatorResults?: string | null
     createdAt?: Date | string
     cachedInputTokens?: number
     estimatedCostUsd?: number | null
     totalTokens?: number | null
     uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
   export type EvaluationResultUpdateWithoutTestCaseInput = {
@@ -18298,12 +18298,12 @@ export namespace Prisma {
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
     uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     experiment?: ExperimentUpdateOneRequiredWithoutResultsNestedInput
   }
 
@@ -18319,12 +18319,12 @@ export namespace Prisma {
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
     uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EvaluationResultUncheckedUpdateManyWithoutTestCaseInput = {
@@ -18339,12 +18339,12 @@ export namespace Prisma {
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
     uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EvaluationResultCreateManyExperimentInput = {
@@ -18359,12 +18359,12 @@ export namespace Prisma {
     outputTokens?: number | null
     cacheHit?: boolean
     reason?: string | null
-    evaluatorResults?: string | null
     createdAt?: Date | string
     cachedInputTokens?: number
     estimatedCostUsd?: number | null
     totalTokens?: number | null
     uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
   export type EvaluationResultUpdateWithoutExperimentInput = {
@@ -18378,12 +18378,12 @@ export namespace Prisma {
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
     uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     testCase?: TestCaseUpdateOneRequiredWithoutResultsNestedInput
   }
 
@@ -18399,12 +18399,12 @@ export namespace Prisma {
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
     uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EvaluationResultUncheckedUpdateManyWithoutExperimentInput = {
@@ -18419,12 +18419,12 @@ export namespace Prisma {
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
     reason?: NullableStringFieldUpdateOperationsInput | string | null
-    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
     uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

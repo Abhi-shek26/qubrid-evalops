@@ -192,7 +192,14 @@ export default function EvaluatorsPage() {
     useState("");
 
   const [type, setType] =
-    useState<"RULE" | "LLM_JUDGE">(
+    useState<
+      | "RULE"
+      | "LLM_JUDGE"
+      | "RAG_CORRECTNESS"
+      | "RAG_GROUNDEDNESS"
+      | "RAG_CITATION"
+      | "RAG_HALLUCINATION"
+    >(
       "RULE"
     );
 
@@ -478,7 +485,7 @@ export default function EvaluatorsPage() {
         }
       }
 
-      if (type === "LLM_JUDGE") {
+      if (type !== "RULE") {
         const threshold =
           Number(
             judgeThreshold
@@ -530,7 +537,7 @@ export default function EvaluatorsPage() {
               },
               body: JSON.stringify({
                 name: name.trim(),
-                type: "LLM_JUDGE",
+                type,
                 config,
               }),
             }
@@ -826,6 +833,10 @@ export default function EvaluatorsPage() {
                     .value as
                     | "RULE"
                     | "LLM_JUDGE"
+                    | "RAG_CORRECTNESS"
+                    | "RAG_GROUNDEDNESS"
+                    | "RAG_CITATION"
+                    | "RAG_HALLUCINATION"
                 );
 
                 setError("");
@@ -841,6 +852,18 @@ export default function EvaluatorsPage() {
 
               <option value="LLM_JUDGE">
                 LLM JUDGE
+              </option>
+              <option value="RAG_CORRECTNESS">
+                RAG CORRECTNESS
+              </option>
+              <option value="RAG_GROUNDEDNESS">
+                RAG GROUNDEDNESS
+              </option>
+              <option value="RAG_CITATION">
+                RAG CITATION
+              </option>
+              <option value="RAG_HALLUCINATION">
+                RAG HALLUCINATION
               </option>
             </select>
           </div>
@@ -1222,8 +1245,7 @@ export default function EvaluatorsPage() {
 
           {/* LLM JUDGE CONFIGURATION */}
 
-          {type ===
-            "LLM_JUDGE" && (
+          {type !== "RULE" && (
             <div
               style={{
                 marginTop: "28px",
@@ -1349,6 +1371,8 @@ export default function EvaluatorsPage() {
               </div>
 
               {/* CRITERIA */}
+
+              {type === "LLM_JUDGE" && (
 
               <div
                 style={{
@@ -1560,6 +1584,9 @@ export default function EvaluatorsPage() {
                   )}
                 </div>
               </div>
+
+              )}
+
             </div>
           )}
 

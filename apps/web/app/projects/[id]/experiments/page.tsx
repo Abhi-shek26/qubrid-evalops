@@ -7,6 +7,7 @@ import { API_URL, authHeaders } from "../../../../lib-api";
 type Dataset = {
   id: string;
   name: string;
+  version: number;
   testCaseCount: number;
 };
 
@@ -14,6 +15,7 @@ type Experiment = {
   id: string;
   name: string;
   model: string;
+  datasetId?: string;
   status: string;
   useCache: boolean;
 
@@ -121,6 +123,7 @@ export default function Experiments() {
             async (dataset: {
               id: string;
               name: string;
+              version: number;
             }) => {
               try {
                 const response = await fetch(
@@ -134,6 +137,7 @@ export default function Experiments() {
                   return {
                     id: dataset.id,
                     name: dataset.name,
+                    version: dataset.version ?? 1,
                     testCaseCount: 0,
                   };
                 }
@@ -144,6 +148,7 @@ export default function Experiments() {
                 return {
                   id: dataset.id,
                   name: dataset.name,
+                  version: dataset.version ?? 1,
                   testCaseCount:
                     datasetData.data?.testCases
                       ?.length ?? 0,
@@ -162,22 +167,22 @@ export default function Experiments() {
       setDatasets(datasetsWithCounts);
 
       /*
-       * Automatically select the dataset
-       * containing the most test cases.
+       * Automatically select the newest dataset version.
        *
-       * This makes the intended 4-case dataset
-       * the default in your current database.
+       * Dataset versions are immutable snapshots, so new
+       * evaluations default to the latest snapshot while
+       * still allowing older versions to be selected.
        */
       if (datasetsWithCounts.length > 0) {
-        const bestDataset =
+        const latestDataset =
           [...datasetsWithCounts].sort(
             (a, b) =>
-              b.testCaseCount -
-              a.testCaseCount
+              b.version - a.version ||
+              a.name.localeCompare(b.name)
           )[0];
 
         setSelectedDatasetId(
-          bestDataset.id
+          latestDataset.id
         );
       }
     } catch (err: any) {
@@ -560,7 +565,7 @@ export default function Experiments() {
                         color: "#111827",
                       }}
                     >
-                      {dataset.name} —{" "}
+                      {dataset.name} · v{dataset.version} —{" "}
                       {dataset.testCaseCount}{" "}
                       {dataset.testCaseCount === 1
                         ? "test case"
@@ -591,7 +596,9 @@ export default function Experiments() {
 
                       return (
                         <>
-                          {selectedDataset.testCaseCount}{" "}
+                          {selectedDataset.name} · v{
+                            selectedDataset.version
+                          } · {selectedDataset.testCaseCount}{" "}
                           {selectedDataset.testCaseCount ===
                           1
                             ? "test case"
@@ -813,6 +820,29 @@ export default function Experiments() {
                     >
                       {experiment.model}
                     </div>
+
+                    {experiment.datasetId && (
+                      <div
+                        style={{
+                          marginTop: "5px",
+                          fontSize: "12px",
+                          opacity: 0.55,
+                        }}
+                      >
+                        {(() => {
+                          const dataset =
+                            datasets.find(
+                              (item) =>
+                                item.id ===
+                                experiment.datasetId
+                            );
+
+                          return dataset
+                            ? `Dataset: ${dataset.name} · v${dataset.version}`
+                            : "Dataset snapshot unavailable";
+                        })()}
+                      </div>
+                    )}
                   </div>
 
                   <div

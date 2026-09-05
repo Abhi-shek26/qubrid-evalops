@@ -8,10 +8,21 @@ export type EvaluationInput = {
   metadata?: Record<string, unknown>;
 };
 
+export type EvaluationUsage = {
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  latencyMs: number;
+  estimatedCostUsd: number;
+  uncachedEstimatedCostUsd: number;
+  cachedInputTokens: number;
+};
+
 export type EvaluationResult = {
   score: number;
   passed: boolean;
   reason: string;
+  usage?: EvaluationUsage;
 };
 
 export interface Evaluator {
@@ -19,6 +30,69 @@ export interface Evaluator {
     input: EvaluationInput
   ): Promise<EvaluationResult>;
 }
+
+/*
+ * =========================================================
+ * HELPERS
+ * =========================================================
+ */
+
+function normalizeText(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[‐-‒–—―]/g, "-")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getStringArray(
+  value: unknown
+): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter(
+    (item): item is string =>
+      typeof item === "string" &&
+      item.trim().length > 0
+  );
+}
+
+function getRagContext(
+  metadata?: Record<string, unknown>
+): string[] {
+  if (!metadata) {
+    return [];
+  }
+
+  return getStringArray(
+    metadata.context ??
+      metadata.contexts ??
+      metadata.retrievedContext ??
+      metadata.retrievedContexts
+  );
+}
+
+function getRagCitations(
+  metadata?: Record<string, unknown>
+): string[] {
+  if (!metadata) {
+    return [];
+  }
+
+  return getStringArray(
+    metadata.citations ??
+      metadata.sources ??
+      metadata.expectedCitations
+  );
+}
+
+type EvaluatorPricing = {
+  inputCostPerMillion?: number;
+  cachedInputCostPerMillion?: number;
+  outputCostPerMillion?: number;
+};
 
 /*
  * =========================================================
@@ -53,9 +127,6 @@ class RuleEvaluator implements Evaluator {
     const actual =
       input.actualOutput ?? "";
 
-    /*
-     * CASE-SPECIFIC RULES
-     */
     if (this.config.cases?.length) {
       const matchedCase =
         this.config.cases.find(
@@ -94,9 +165,6 @@ class RuleEvaluator implements Evaluator {
       );
     }
 
-    /*
-     * DEFAULT RULES
-     */
     return this.evaluateRules(
       actual,
       input.expectedOutput,
@@ -114,31 +182,9 @@ class RuleEvaluator implements Evaluator {
     const checks: boolean[] = [];
     const reasons: string[] = [];
 
-    /*
-     * Normalize text
-     */
-    const normalizeText = (
-      text: string
-    ) => {
-      return text
-        .toLowerCase()
-        .replace(
-          /[‐-‒–—―]/g,
-          "-"
-        )
-        .replace(
-          /\s+/g,
-          " "
-        )
-        .trim();
-    };
-
     const normalizedActual =
       normalizeText(actual);
 
-    /*
-     * MUST CONTAIN
-     */
     if (rules.mustContain?.length) {
       for (const phrase of rules.mustContain) {
         const normalizedPhrase =
@@ -159,9 +205,6 @@ class RuleEvaluator implements Evaluator {
       }
     }
 
-    /*
-     * MUST NOT CONTAIN
-     */
     if (
       rules.mustNotContain?.length
     ) {
@@ -184,9 +227,6 @@ class RuleEvaluator implements Evaluator {
       }
     }
 
-    /*
-     * EXACT MATCH
-     */
     if (rules.exactMatch) {
       const expected =
         expectedOutput ?? "";
@@ -204,9 +244,6 @@ class RuleEvaluator implements Evaluator {
       );
     }
 
-    /*
-     * REGEX
-     */
     if (rules.regex?.length) {
       for (const pattern of rules.regex) {
         try {
@@ -243,9 +280,6 @@ class RuleEvaluator implements Evaluator {
       }
     }
 
-    /*
-     * No rules
-     */
     if (!checks.length) {
       return {
         score: 1,
@@ -277,7 +311,7 @@ class RuleEvaluator implements Evaluator {
 
 /*
  * =========================================================
- * LLM JUDGE
+ * GENERIC LLM JUDGE
  * =========================================================
  */
 
@@ -317,7 +351,8 @@ class LLMJudgeEvaluator
 {
   constructor(
     private config: LLMJudgeConfig = {},
-    private qubridClient?: QubridClient
+    private qubridClient?: QubridClient,
+    private pricing: EvaluatorPricing = {}
   ) {}
 
   async evaluate(
@@ -400,21 +435,19 @@ ${input.actualOutput}
 Evaluate the actual model output against the user input and expected output.
     `.trim();
 
-    const messages: ChatMessage[] = [
-      {
-        role: "system",
-        content: systemPrompt,
-      },
-      {
-        role: "user",
-        content: userPrompt,
-      },
-    ];
-
     const response =
       await this.qubridClient.chat({
         model: judgeModel,
-        messages,
+        messages: [
+          {
+            role: "system",
+            content: systemPrompt,
+          },
+          {
+            role: "user",
+            content: userPrompt,
+          },
+        ],
         temperature: 0,
         maxTokens: 300,
       });
@@ -442,6 +475,71 @@ Evaluate the actual model output against the user input and expected output.
       reason:
         parsed.reason ||
         "LLM Judge completed.",
+      usage:
+        this.calculateUsage(
+          response
+        ),
+    };
+  }
+
+  private calculateUsage(
+    response: Awaited<
+      ReturnType<QubridClient["chat"]>
+    >
+  ): EvaluationUsage {
+    const inputTokens =
+      response.usage?.promptTokens ?? 0;
+
+    const outputTokens =
+      response.usage?.completionTokens ?? 0;
+
+    const totalTokens =
+      response.usage?.totalTokens ?? 0;
+
+    const cachedInputTokens =
+      response.usage?.cachedInputTokens ?? 0;
+
+    const latencyMs =
+      response.latencyMs ?? 0;
+
+    const inputRate =
+      this.pricing.inputCostPerMillion ?? 0;
+
+    const cachedInputRate =
+      this.pricing.cachedInputCostPerMillion ?? 0;
+
+    const outputRate =
+      this.pricing.outputCostPerMillion ?? 0;
+
+    const uncachedInputTokens =
+      Math.max(
+        0,
+        inputTokens -
+          cachedInputTokens
+      );
+
+    const estimatedCostUsd =
+      (uncachedInputTokens / 1_000_000) *
+        inputRate +
+      (cachedInputTokens / 1_000_000) *
+        cachedInputRate +
+      (outputTokens / 1_000_000) *
+        outputRate;
+
+    const uncachedEstimatedCostUsd =
+      (inputTokens / 1_000_000) *
+        inputRate +
+      (outputTokens / 1_000_000) *
+        outputRate;
+
+    return {
+      inputTokens,
+      outputTokens,
+      totalTokens,
+      latencyMs,
+      estimatedCostUsd,
+      uncachedEstimatedCostUsd,
+      cachedInputTokens,
     };
   }
 
@@ -455,9 +553,6 @@ Evaluate the actual model output against the user input and expected output.
     let cleaned =
       text.trim();
 
-    /*
-     * Remove markdown code fences
-     */
     if (
       cleaned.startsWith("```")
     ) {
@@ -474,10 +569,6 @@ Evaluate the actual model output against the user input and expected output.
           .trim();
     }
 
-    /*
-     * Find the first JSON object if
-     * the model added extra text.
-     */
     const start =
       cleaned.indexOf("{");
 
@@ -532,12 +623,411 @@ Evaluate the actual model output against the user input and expected output.
 
 /*
  * =========================================================
+ * RAG EVALUATORS
+ * =========================================================
+ */
+
+type RAGEvaluatorType =
+  | "RAG_CORRECTNESS"
+  | "RAG_GROUNDEDNESS"
+  | "RAG_CITATION"
+  | "RAG_HALLUCINATION";
+
+type RAGConfig = {
+  judgeModel?: string;
+  threshold?: number;
+  systemPrompt?: string;
+};
+
+class RAGEvaluator
+  implements Evaluator
+{
+  constructor(
+    private type: RAGEvaluatorType,
+    private config: RAGConfig = {},
+    private qubridClient?: QubridClient,
+    private pricing: EvaluatorPricing = {}
+  ) {}
+
+  async evaluate(
+    input: EvaluationInput
+  ): Promise<EvaluationResult> {
+    if (!this.qubridClient) {
+      throw new Error(
+        `${this.type} requires a Qubrid client.`
+      );
+    }
+
+    const context =
+      getRagContext(input.metadata);
+
+    const citations =
+      getRagCitations(input.metadata);
+
+    if (!context.length) {
+      return {
+        score: 0,
+        passed: false,
+        reason:
+          "No retrieved RAG context was provided in test case metadata.",
+      };
+    }
+
+    const judgeModel =
+      this.config.judgeModel;
+
+    if (!judgeModel) {
+      throw new Error(
+        `${this.type} requires judgeModel.`
+      );
+    }
+
+    const threshold =
+      typeof this.config.threshold ===
+      "number"
+        ? this.config.threshold
+        : 0.7;
+
+    const evaluationInstructions =
+      this.buildInstructions(
+        context,
+        citations
+      );
+
+    const systemPrompt =
+      this.config.systemPrompt ??
+      `
+You are a strict RAG evaluation judge.
+
+Evaluate the AI assistant response using ONLY the supplied retrieved context.
+
+Return ONLY valid JSON:
+
+{
+  "score": number,
+  "passed": boolean,
+  "reason": string
+}
+
+Rules:
+- score must be between 0 and 1.
+- passed must be true when score >= ${threshold}.
+- passed must be false when score < ${threshold}.
+- reason must briefly explain the score.
+- Do not include markdown.
+- Do not invent facts.
+      `.trim();
+
+    const userPrompt = `
+USER QUESTION:
+${input.input}
+
+EXPECTED OUTPUT:
+${input.expectedOutput ?? "Not provided"}
+
+RETRIEVED CONTEXT:
+${context
+  .map(
+    (item, index) =>
+      `[Context ${index + 1}] ${item}`
+  )
+  .join("\n")}
+
+AVAILABLE CITATIONS:
+${
+  citations.length
+    ? citations.join("\n")
+    : "None provided"
+}
+
+ACTUAL MODEL OUTPUT:
+${input.actualOutput}
+
+${evaluationInstructions}
+    `.trim();
+
+    const response =
+      await this.qubridClient.chat({
+        model: judgeModel,
+        messages: [
+          {
+            role: "system",
+            content: systemPrompt,
+          },
+          {
+            role: "user",
+            content: userPrompt,
+          },
+        ],
+        temperature: 0,
+        maxTokens: 300,
+      });
+
+    const parsed =
+      this.parseJudgeResponse(
+        response.text
+      );
+
+    const score =
+      Math.max(
+        0,
+        Math.min(
+          1,
+          Number(parsed.score)
+        )
+      );
+
+    return {
+      score,
+      passed:
+        score >= threshold,
+      reason:
+        parsed.reason ||
+        `${this.type} completed.`,
+      usage:
+        this.calculateUsage(
+          response
+        ),
+    };
+  }
+
+  private buildInstructions(
+    context: string[],
+    citations: string[]
+  ): string {
+    switch (this.type) {
+      case "RAG_CORRECTNESS":
+        return `
+Evaluate RAG correctness.
+
+Check whether:
+1. The answer directly answers the user's question.
+2. The answer agrees with the expected output when one is provided.
+3. Important claims are consistent with the retrieved context.
+4. The answer does not introduce contradictory information.
+
+Give a high score only when the answer is substantively correct.
+        `.trim();
+
+      case "RAG_GROUNDEDNESS":
+        return `
+Evaluate groundedness.
+
+Check whether the factual claims in the actual answer are supported by
+the retrieved context.
+
+A response is highly grounded when its important claims can be traced
+back to the supplied context.
+
+Lower the score when the answer contains unsupported factual claims.
+        `.trim();
+
+      case "RAG_CITATION":
+        return `
+Evaluate citation correctness.
+
+Check whether:
+1. The answer uses the available citations appropriately.
+2. Citations support the claims they are attached to.
+3. The response does not cite unrelated or unsupported sources.
+4. Important sourced claims have appropriate citation support.
+
+If no citations were supplied, explain that limitation in the reason.
+        `.trim();
+
+      case "RAG_HALLUCINATION":
+        return `
+Evaluate hallucination.
+
+Look for factual statements in the actual answer that are not supported
+by the retrieved context.
+
+Score 1.0 when there are no meaningful unsupported factual claims.
+
+Reduce the score proportionally as unsupported or fabricated claims
+increase.
+
+Focus specifically on hallucinated facts, policies, numbers, names,
+dates, or other information not supported by the context.
+        `.trim();
+    }
+  }
+
+  private calculateUsage(
+    response: Awaited<
+      ReturnType<QubridClient["chat"]>
+    >
+  ): EvaluationUsage {
+    const inputTokens =
+      response.usage?.promptTokens ?? 0;
+
+    const outputTokens =
+      response.usage?.completionTokens ?? 0;
+
+    const totalTokens =
+      response.usage?.totalTokens ?? 0;
+
+    const cachedInputTokens =
+      response.usage?.cachedInputTokens ?? 0;
+
+    const latencyMs =
+      response.latencyMs ?? 0;
+
+    const inputRate =
+      this.pricing.inputCostPerMillion ?? 0;
+
+    const cachedInputRate =
+      this.pricing.cachedInputCostPerMillion ?? 0;
+
+    const outputRate =
+      this.pricing.outputCostPerMillion ?? 0;
+
+    const uncachedInputTokens =
+      Math.max(
+        0,
+        inputTokens -
+          cachedInputTokens
+      );
+
+    const estimatedCostUsd =
+      (uncachedInputTokens / 1_000_000) *
+        inputRate +
+      (cachedInputTokens / 1_000_000) *
+        cachedInputRate +
+      (outputTokens / 1_000_000) *
+        outputRate;
+
+    const uncachedEstimatedCostUsd =
+      (inputTokens / 1_000_000) *
+        inputRate +
+      (outputTokens / 1_000_000) *
+        outputRate;
+
+    return {
+      inputTokens,
+      outputTokens,
+      totalTokens,
+      latencyMs,
+      estimatedCostUsd,
+      uncachedEstimatedCostUsd,
+      cachedInputTokens,
+    };
+  }
+
+  private parseJudgeResponse(
+    text: string
+  ): {
+    score: number;
+    passed?: boolean;
+    reason: string;
+  } {
+    let cleaned = text.trim();
+
+    // Remove markdown code fences if the judge returns them.
+    cleaned = cleaned
+      .replace(/^```(?:json)?/i, "")
+      .replace(/```$/i, "")
+      .trim();
+
+    // Keep only the JSON-like portion when extra text is present.
+    const start = cleaned.indexOf("{");
+
+    if (start !== -1) {
+      cleaned = cleaned.slice(start).trim();
+    }
+
+    // First try to parse a complete JSON response.
+    try {
+      const parsed = JSON.parse(cleaned);
+
+      if (
+        !parsed ||
+        typeof parsed.score !== "number"
+      ) {
+        throw new Error(
+          "RAG judge score must be a number."
+        );
+      }
+
+      return {
+        score: parsed.score,
+        passed:
+          typeof parsed.passed === "boolean"
+            ? parsed.passed
+            : undefined,
+        reason:
+          typeof parsed.reason === "string"
+            ? parsed.reason
+            : "No reason provided.",
+      };
+    } catch {
+      // The model can sometimes stop before completing the JSON.
+      // Recover the score/passed/reason from a partial response.
+    }
+
+    // Example of a truncated response:
+    // {
+    //   "score": 0.95
+    const scoreMatch = cleaned.match(
+      /"score"\s*:\s*([0-9]*\.?[0-9]+)/i
+    );
+
+    if (!scoreMatch) {
+      throw new Error(
+        `${this.type} returned invalid JSON: ${text}`
+      );
+    }
+
+    const score = Number(scoreMatch[1]);
+
+    if (!Number.isFinite(score)) {
+      throw new Error(
+        `${this.type} returned an invalid score: ${text}`
+      );
+    }
+
+    const passedMatch = cleaned.match(
+      /"passed"\s*:\s*(true|false)/i
+    );
+
+    const passed = passedMatch
+      ? passedMatch[1].toLowerCase() === "true"
+      : undefined;
+
+    const reasonMatch = cleaned.match(
+      /"reason"\s*:\s*"((?:\\.|[^"\\])*)/i
+    );
+
+    let reason = "No reason provided.";
+
+    if (reasonMatch) {
+      reason = reasonMatch[1]
+        .replace(/\"/g, '"')
+        .replace(/\\/g, "\\");
+    } else if (cleaned.length > 0) {
+      reason =
+        "RAG judge returned a truncated response; score was recovered successfully.";
+    }
+
+    return {
+      score,
+      passed,
+      reason,
+    };
+  }
+}
+
+/*
+ * =========================================================
  * FACTORY
  * =========================================================
  */
 
 export type EvaluatorContext = {
   qubridClient?: QubridClient;
+  inputCostPerMillion?: number;
+  cachedInputCostPerMillion?: number;
+  outputCostPerMillion?: number;
 };
 
 export function buildEvaluator(
@@ -554,7 +1044,33 @@ export function buildEvaluator(
     case "LLM_JUDGE":
       return new LLMJudgeEvaluator(
         config as LLMJudgeConfig,
-        context.qubridClient
+        context.qubridClient,
+        {
+          inputCostPerMillion:
+            context.inputCostPerMillion,
+          cachedInputCostPerMillion:
+            context.cachedInputCostPerMillion,
+          outputCostPerMillion:
+            context.outputCostPerMillion,
+        }
+      );
+
+    case "RAG_CORRECTNESS":
+    case "RAG_GROUNDEDNESS":
+    case "RAG_CITATION":
+    case "RAG_HALLUCINATION":
+      return new RAGEvaluator(
+        type as RAGEvaluatorType,
+        config as RAGConfig,
+        context.qubridClient,
+        {
+          inputCostPerMillion:
+            context.inputCostPerMillion,
+          cachedInputCostPerMillion:
+            context.cachedInputCostPerMillion,
+          outputCostPerMillion:
+            context.outputCostPerMillion,
+        }
       );
 
     default:
@@ -580,6 +1096,7 @@ export function aggregate(
     cacheHit?: boolean;
     cachedInputTokens?: number | null;
     uncachedEstimatedCostUsd?: number | null;
+    evaluatorUsage?: EvaluationUsage | null;
   }>
 ) {
   if (!results.length) {
@@ -615,17 +1132,11 @@ export function aggregate(
     100;
 
   const latencyValues =
-    results
-      .map(
-        (result) =>
-          result.latencyMs
-      )
-      .filter(
-        (
-          value
-        ): value is number =>
-          value != null
-      );
+    results.map(
+      (result) =>
+        (result.latencyMs ?? 0) +
+        (result.evaluatorUsage?.latencyMs ?? 0)
+    );
 
   const avgLatencyMs =
     latencyValues.length > 0
@@ -642,6 +1153,8 @@ export function aggregate(
       (sum, result) =>
         sum +
         (result.totalTokens ??
+          0) +
+        (result.evaluatorUsage?.totalTokens ??
           0),
       0
     );
@@ -651,6 +1164,8 @@ export function aggregate(
       (sum, result) =>
         sum +
         (result.estimatedCostUsd ??
+          0) +
+        (result.evaluatorUsage?.estimatedCostUsd ??
           0),
       0
     );
