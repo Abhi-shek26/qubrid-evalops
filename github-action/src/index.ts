@@ -8,6 +8,7 @@ const sleep = (ms: number) =>
 async function main() {
   const apiUrl = core.getInput("api-url").replace(/\/$/, "");
   const projectId = core.getInput("project-id");
+  const datasetId = core.getInput("dataset-id");
   const token = core.getInput("ci-token");
 
   if (!apiUrl) {
@@ -16,6 +17,10 @@ async function main() {
 
   if (!projectId) {
     throw new Error("project-id is required");
+  }
+
+  if (!datasetId) {
+    throw new Error("dataset-id is required");
   }
 
   if (!token) {
@@ -33,6 +38,7 @@ async function main() {
     `${apiUrl}/api/v1/ci/evaluate`,
     {
       projectId,
+      datasetId,
       commitSha: github.context.sha,
       pullRequestNumber:
         github.context.payload.pull_request?.number,

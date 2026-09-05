@@ -11,3 +11,7 @@ coverage/
 # Prisma
 apps/api/prisma/*.db
 apps/api/prisma/*.db-journal
+packages/db/generated/
+
+!github-action/dist/
+!github-action/dist/**

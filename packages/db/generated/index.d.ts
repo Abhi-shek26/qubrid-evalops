@@ -1697,13 +1697,13 @@ export namespace Prisma {
    */
 
   export type DatasetCountOutputType = {
-    testCases: number
     experiments: number
+    testCases: number
   }
 
   export type DatasetCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    testCases?: boolean | DatasetCountOutputTypeCountTestCasesArgs
     experiments?: boolean | DatasetCountOutputTypeCountExperimentsArgs
+    testCases?: boolean | DatasetCountOutputTypeCountTestCasesArgs
   }
 
   // Custom InputTypes
@@ -1720,15 +1720,15 @@ export namespace Prisma {
   /**
    * DatasetCountOutputType without action
    */
-  export type DatasetCountOutputTypeCountTestCasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TestCaseWhereInput
+  export type DatasetCountOutputTypeCountExperimentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExperimentWhereInput
   }
 
   /**
    * DatasetCountOutputType without action
    */
-  export type DatasetCountOutputTypeCountExperimentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ExperimentWhereInput
+  export type DatasetCountOutputTypeCountTestCasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestCaseWhereInput
   }
 
 
@@ -3085,12 +3085,12 @@ export namespace Prisma {
     cacheTtlSeconds?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    baseline?: boolean | Project$baselineArgs<ExtArgs>
     datasets?: boolean | Project$datasetsArgs<ExtArgs>
     evaluators?: boolean | Project$evaluatorsArgs<ExtArgs>
     experiments?: boolean | Project$experimentsArgs<ExtArgs>
     githubIntegrations?: boolean | Project$githubIntegrationsArgs<ExtArgs>
-    baseline?: boolean | Project$baselineArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
     ciToken?: boolean | Project$ciTokenArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
@@ -3119,12 +3119,12 @@ export namespace Prisma {
 
   export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "name" | "description" | "model" | "systemPrompt" | "temperature" | "topP" | "maxTokens" | "inputCostPerMillion" | "cachedInputCostPerMillion" | "outputCostPerMillion" | "allowedQualityDrop" | "cacheEnabled" | "cacheTtlSeconds" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    baseline?: boolean | Project$baselineArgs<ExtArgs>
     datasets?: boolean | Project$datasetsArgs<ExtArgs>
     evaluators?: boolean | Project$evaluatorsArgs<ExtArgs>
     experiments?: boolean | Project$experimentsArgs<ExtArgs>
     githubIntegrations?: boolean | Project$githubIntegrationsArgs<ExtArgs>
-    baseline?: boolean | Project$baselineArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
     ciToken?: boolean | Project$ciTokenArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -3132,12 +3132,12 @@ export namespace Prisma {
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Project"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
+      baseline: Prisma.$BaselinePayload<ExtArgs> | null
       datasets: Prisma.$DatasetPayload<ExtArgs>[]
       evaluators: Prisma.$EvaluatorPayload<ExtArgs>[]
       experiments: Prisma.$ExperimentPayload<ExtArgs>[]
       githubIntegrations: Prisma.$GithubIntegrationPayload<ExtArgs>[]
-      baseline: Prisma.$BaselinePayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs>
       ciToken: Prisma.$ProjectCiTokenPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -3498,12 +3498,12 @@ export namespace Prisma {
    */
   export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    baseline<T extends Project$baselineArgs<ExtArgs> = {}>(args?: Subset<T, Project$baselineArgs<ExtArgs>>): Prisma__BaselineClient<$Result.GetResult<Prisma.$BaselinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     datasets<T extends Project$datasetsArgs<ExtArgs> = {}>(args?: Subset<T, Project$datasetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DatasetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     evaluators<T extends Project$evaluatorsArgs<ExtArgs> = {}>(args?: Subset<T, Project$evaluatorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EvaluatorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     experiments<T extends Project$experimentsArgs<ExtArgs> = {}>(args?: Subset<T, Project$experimentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExperimentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     githubIntegrations<T extends Project$githubIntegrationsArgs<ExtArgs> = {}>(args?: Subset<T, Project$githubIntegrationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GithubIntegrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    baseline<T extends Project$baselineArgs<ExtArgs> = {}>(args?: Subset<T, Project$baselineArgs<ExtArgs>>): Prisma__BaselineClient<$Result.GetResult<Prisma.$BaselinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     ciToken<T extends Project$ciTokenArgs<ExtArgs> = {}>(args?: Subset<T, Project$ciTokenArgs<ExtArgs>>): Prisma__ProjectCiTokenClient<$Result.GetResult<Prisma.$ProjectCiTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3893,6 +3893,25 @@ export namespace Prisma {
   }
 
   /**
+   * Project.baseline
+   */
+  export type Project$baselineArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Baseline
+     */
+    select?: BaselineSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Baseline
+     */
+    omit?: BaselineOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BaselineInclude<ExtArgs> | null
+    where?: BaselineWhereInput
+  }
+
+  /**
    * Project.datasets
    */
   export type Project$datasetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3986,25 +4005,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: GithubIntegrationScalarFieldEnum | GithubIntegrationScalarFieldEnum[]
-  }
-
-  /**
-   * Project.baseline
-   */
-  export type Project$baselineArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Baseline
-     */
-    select?: BaselineSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Baseline
-     */
-    omit?: BaselineOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: BaselineInclude<ExtArgs> | null
-    where?: BaselineWhereInput
   }
 
   /**
@@ -4260,8 +4260,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     project?: boolean | ProjectDefaultArgs<ExtArgs>
-    testCases?: boolean | Dataset$testCasesArgs<ExtArgs>
     experiments?: boolean | Dataset$experimentsArgs<ExtArgs>
+    testCases?: boolean | Dataset$testCasesArgs<ExtArgs>
     _count?: boolean | DatasetCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["dataset"]>
 
@@ -4280,8 +4280,8 @@ export namespace Prisma {
   export type DatasetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "name" | "description" | "version" | "createdAt" | "updatedAt", ExtArgs["result"]["dataset"]>
   export type DatasetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
-    testCases?: boolean | Dataset$testCasesArgs<ExtArgs>
     experiments?: boolean | Dataset$experimentsArgs<ExtArgs>
+    testCases?: boolean | Dataset$testCasesArgs<ExtArgs>
     _count?: boolean | DatasetCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4289,8 +4289,8 @@ export namespace Prisma {
     name: "Dataset"
     objects: {
       project: Prisma.$ProjectPayload<ExtArgs>
-      testCases: Prisma.$TestCasePayload<ExtArgs>[]
       experiments: Prisma.$ExperimentPayload<ExtArgs>[]
+      testCases: Prisma.$TestCasePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4641,8 +4641,8 @@ export namespace Prisma {
   export interface Prisma__DatasetClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    testCases<T extends Dataset$testCasesArgs<ExtArgs> = {}>(args?: Subset<T, Dataset$testCasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     experiments<T extends Dataset$experimentsArgs<ExtArgs> = {}>(args?: Subset<T, Dataset$experimentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExperimentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    testCases<T extends Dataset$testCasesArgs<ExtArgs> = {}>(args?: Subset<T, Dataset$testCasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5021,30 +5021,6 @@ export namespace Prisma {
   }
 
   /**
-   * Dataset.testCases
-   */
-  export type Dataset$testCasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the TestCase
-     */
-    select?: TestCaseSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the TestCase
-     */
-    omit?: TestCaseOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TestCaseInclude<ExtArgs> | null
-    where?: TestCaseWhereInput
-    orderBy?: TestCaseOrderByWithRelationInput | TestCaseOrderByWithRelationInput[]
-    cursor?: TestCaseWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TestCaseScalarFieldEnum | TestCaseScalarFieldEnum[]
-  }
-
-  /**
    * Dataset.experiments
    */
   export type Dataset$experimentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5066,6 +5042,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ExperimentScalarFieldEnum | ExperimentScalarFieldEnum[]
+  }
+
+  /**
+   * Dataset.testCases
+   */
+  export type Dataset$testCasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+    where?: TestCaseWhereInput
+    orderBy?: TestCaseOrderByWithRelationInput | TestCaseOrderByWithRelationInput[]
+    cursor?: TestCaseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestCaseScalarFieldEnum | TestCaseScalarFieldEnum[]
   }
 
   /**
@@ -5267,8 +5267,8 @@ export namespace Prisma {
     metadata?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    dataset?: boolean | DatasetDefaultArgs<ExtArgs>
     results?: boolean | TestCase$resultsArgs<ExtArgs>
+    dataset?: boolean | DatasetDefaultArgs<ExtArgs>
     _count?: boolean | TestCaseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["testCase"]>
 
@@ -5286,16 +5286,16 @@ export namespace Prisma {
 
   export type TestCaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "datasetId" | "input" | "expectedOutput" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["testCase"]>
   export type TestCaseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    dataset?: boolean | DatasetDefaultArgs<ExtArgs>
     results?: boolean | TestCase$resultsArgs<ExtArgs>
+    dataset?: boolean | DatasetDefaultArgs<ExtArgs>
     _count?: boolean | TestCaseCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $TestCasePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TestCase"
     objects: {
-      dataset: Prisma.$DatasetPayload<ExtArgs>
       results: Prisma.$EvaluationResultPayload<ExtArgs>[]
+      dataset: Prisma.$DatasetPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5645,8 +5645,8 @@ export namespace Prisma {
    */
   export interface Prisma__TestCaseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    dataset<T extends DatasetDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DatasetDefaultArgs<ExtArgs>>): Prisma__DatasetClient<$Result.GetResult<Prisma.$DatasetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     results<T extends TestCase$resultsArgs<ExtArgs> = {}>(args?: Subset<T, TestCase$resultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EvaluationResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dataset<T extends DatasetDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DatasetDefaultArgs<ExtArgs>>): Prisma__DatasetClient<$Result.GetResult<Prisma.$DatasetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7030,7 +7030,6 @@ export namespace Prisma {
   }
 
   export type ExperimentAvgAggregateOutputType = {
-    allowedQualityDrop: number | null
     qualityScore: number | null
     passRate: number | null
     avgLatencyMs: number | null
@@ -7041,11 +7040,11 @@ export namespace Prisma {
     llmCallsAvoided: number | null
     cachedInputTokens: number | null
     estimatedCostSavedUsd: number | null
+    allowedQualityDrop: number | null
     regressionDelta: number | null
   }
 
   export type ExperimentSumAggregateOutputType = {
-    allowedQualityDrop: number | null
     qualityScore: number | null
     passRate: number | null
     avgLatencyMs: number | null
@@ -7056,6 +7055,7 @@ export namespace Prisma {
     llmCallsAvoided: number | null
     cachedInputTokens: number | null
     estimatedCostSavedUsd: number | null
+    allowedQualityDrop: number | null
     regressionDelta: number | null
   }
 
@@ -7066,9 +7066,6 @@ export namespace Prisma {
     name: string | null
     model: string | null
     status: string | null
-    useCache: boolean | null
-    failOnRegression: boolean | null
-    allowedQualityDrop: number | null
     qualityScore: number | null
     passRate: number | null
     avgLatencyMs: number | null
@@ -7079,11 +7076,14 @@ export namespace Prisma {
     llmCallsAvoided: number | null
     cachedInputTokens: number | null
     estimatedCostSavedUsd: number | null
-    regressionDelta: number | null
-    regressionPassed: boolean | null
-    errorMessage: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    allowedQualityDrop: number | null
+    errorMessage: string | null
+    failOnRegression: boolean | null
+    regressionDelta: number | null
+    regressionPassed: boolean | null
+    useCache: boolean | null
   }
 
   export type ExperimentMaxAggregateOutputType = {
@@ -7093,9 +7093,6 @@ export namespace Prisma {
     name: string | null
     model: string | null
     status: string | null
-    useCache: boolean | null
-    failOnRegression: boolean | null
-    allowedQualityDrop: number | null
     qualityScore: number | null
     passRate: number | null
     avgLatencyMs: number | null
@@ -7106,11 +7103,14 @@ export namespace Prisma {
     llmCallsAvoided: number | null
     cachedInputTokens: number | null
     estimatedCostSavedUsd: number | null
-    regressionDelta: number | null
-    regressionPassed: boolean | null
-    errorMessage: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    allowedQualityDrop: number | null
+    errorMessage: string | null
+    failOnRegression: boolean | null
+    regressionDelta: number | null
+    regressionPassed: boolean | null
+    useCache: boolean | null
   }
 
   export type ExperimentCountAggregateOutputType = {
@@ -7120,9 +7120,6 @@ export namespace Prisma {
     name: number
     model: number
     status: number
-    useCache: number
-    failOnRegression: number
-    allowedQualityDrop: number
     qualityScore: number
     passRate: number
     avgLatencyMs: number
@@ -7133,17 +7130,19 @@ export namespace Prisma {
     llmCallsAvoided: number
     cachedInputTokens: number
     estimatedCostSavedUsd: number
-    regressionDelta: number
-    regressionPassed: number
-    errorMessage: number
     createdAt: number
     updatedAt: number
+    allowedQualityDrop: number
+    errorMessage: number
+    failOnRegression: number
+    regressionDelta: number
+    regressionPassed: number
+    useCache: number
     _all: number
   }
 
 
   export type ExperimentAvgAggregateInputType = {
-    allowedQualityDrop?: true
     qualityScore?: true
     passRate?: true
     avgLatencyMs?: true
@@ -7154,11 +7153,11 @@ export namespace Prisma {
     llmCallsAvoided?: true
     cachedInputTokens?: true
     estimatedCostSavedUsd?: true
+    allowedQualityDrop?: true
     regressionDelta?: true
   }
 
   export type ExperimentSumAggregateInputType = {
-    allowedQualityDrop?: true
     qualityScore?: true
     passRate?: true
     avgLatencyMs?: true
@@ -7169,6 +7168,7 @@ export namespace Prisma {
     llmCallsAvoided?: true
     cachedInputTokens?: true
     estimatedCostSavedUsd?: true
+    allowedQualityDrop?: true
     regressionDelta?: true
   }
 
@@ -7179,9 +7179,6 @@ export namespace Prisma {
     name?: true
     model?: true
     status?: true
-    useCache?: true
-    failOnRegression?: true
-    allowedQualityDrop?: true
     qualityScore?: true
     passRate?: true
     avgLatencyMs?: true
@@ -7192,11 +7189,14 @@ export namespace Prisma {
     llmCallsAvoided?: true
     cachedInputTokens?: true
     estimatedCostSavedUsd?: true
-    regressionDelta?: true
-    regressionPassed?: true
-    errorMessage?: true
     createdAt?: true
     updatedAt?: true
+    allowedQualityDrop?: true
+    errorMessage?: true
+    failOnRegression?: true
+    regressionDelta?: true
+    regressionPassed?: true
+    useCache?: true
   }
 
   export type ExperimentMaxAggregateInputType = {
@@ -7206,9 +7206,6 @@ export namespace Prisma {
     name?: true
     model?: true
     status?: true
-    useCache?: true
-    failOnRegression?: true
-    allowedQualityDrop?: true
     qualityScore?: true
     passRate?: true
     avgLatencyMs?: true
@@ -7219,11 +7216,14 @@ export namespace Prisma {
     llmCallsAvoided?: true
     cachedInputTokens?: true
     estimatedCostSavedUsd?: true
-    regressionDelta?: true
-    regressionPassed?: true
-    errorMessage?: true
     createdAt?: true
     updatedAt?: true
+    allowedQualityDrop?: true
+    errorMessage?: true
+    failOnRegression?: true
+    regressionDelta?: true
+    regressionPassed?: true
+    useCache?: true
   }
 
   export type ExperimentCountAggregateInputType = {
@@ -7233,9 +7233,6 @@ export namespace Prisma {
     name?: true
     model?: true
     status?: true
-    useCache?: true
-    failOnRegression?: true
-    allowedQualityDrop?: true
     qualityScore?: true
     passRate?: true
     avgLatencyMs?: true
@@ -7246,11 +7243,14 @@ export namespace Prisma {
     llmCallsAvoided?: true
     cachedInputTokens?: true
     estimatedCostSavedUsd?: true
-    regressionDelta?: true
-    regressionPassed?: true
-    errorMessage?: true
     createdAt?: true
     updatedAt?: true
+    allowedQualityDrop?: true
+    errorMessage?: true
+    failOnRegression?: true
+    regressionDelta?: true
+    regressionPassed?: true
+    useCache?: true
     _all?: true
   }
 
@@ -7347,9 +7347,6 @@ export namespace Prisma {
     name: string
     model: string
     status: string
-    useCache: boolean
-    failOnRegression: boolean
-    allowedQualityDrop: number
     qualityScore: number | null
     passRate: number | null
     avgLatencyMs: number | null
@@ -7360,11 +7357,14 @@ export namespace Prisma {
     llmCallsAvoided: number
     cachedInputTokens: number
     estimatedCostSavedUsd: number
-    regressionDelta: number | null
-    regressionPassed: boolean
-    errorMessage: string | null
     createdAt: Date
     updatedAt: Date
+    allowedQualityDrop: number
+    errorMessage: string | null
+    failOnRegression: boolean
+    regressionDelta: number | null
+    regressionPassed: boolean
+    useCache: boolean
     _count: ExperimentCountAggregateOutputType | null
     _avg: ExperimentAvgAggregateOutputType | null
     _sum: ExperimentSumAggregateOutputType | null
@@ -7393,9 +7393,6 @@ export namespace Prisma {
     name?: boolean
     model?: boolean
     status?: boolean
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: boolean
     qualityScore?: boolean
     passRate?: boolean
     avgLatencyMs?: boolean
@@ -7406,14 +7403,17 @@ export namespace Prisma {
     llmCallsAvoided?: boolean
     cachedInputTokens?: boolean
     estimatedCostSavedUsd?: boolean
-    regressionDelta?: boolean
-    regressionPassed?: boolean
-    errorMessage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
-    dataset?: boolean | DatasetDefaultArgs<ExtArgs>
+    allowedQualityDrop?: boolean
+    errorMessage?: boolean
+    failOnRegression?: boolean
+    regressionDelta?: boolean
+    regressionPassed?: boolean
+    useCache?: boolean
     results?: boolean | Experiment$resultsArgs<ExtArgs>
+    dataset?: boolean | DatasetDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
     _count?: boolean | ExperimentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["experiment"]>
 
@@ -7426,9 +7426,6 @@ export namespace Prisma {
     name?: boolean
     model?: boolean
     status?: boolean
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: boolean
     qualityScore?: boolean
     passRate?: boolean
     avgLatencyMs?: boolean
@@ -7439,27 +7436,30 @@ export namespace Prisma {
     llmCallsAvoided?: boolean
     cachedInputTokens?: boolean
     estimatedCostSavedUsd?: boolean
-    regressionDelta?: boolean
-    regressionPassed?: boolean
-    errorMessage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    allowedQualityDrop?: boolean
+    errorMessage?: boolean
+    failOnRegression?: boolean
+    regressionDelta?: boolean
+    regressionPassed?: boolean
+    useCache?: boolean
   }
 
-  export type ExperimentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "datasetId" | "name" | "model" | "status" | "useCache" | "failOnRegression" | "allowedQualityDrop" | "qualityScore" | "passRate" | "avgLatencyMs" | "totalTokens" | "totalCostUsd" | "cacheHitRate" | "cacheMissRate" | "llmCallsAvoided" | "cachedInputTokens" | "estimatedCostSavedUsd" | "regressionDelta" | "regressionPassed" | "errorMessage" | "createdAt" | "updatedAt", ExtArgs["result"]["experiment"]>
+  export type ExperimentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "datasetId" | "name" | "model" | "status" | "qualityScore" | "passRate" | "avgLatencyMs" | "totalTokens" | "totalCostUsd" | "cacheHitRate" | "cacheMissRate" | "llmCallsAvoided" | "cachedInputTokens" | "estimatedCostSavedUsd" | "createdAt" | "updatedAt" | "allowedQualityDrop" | "errorMessage" | "failOnRegression" | "regressionDelta" | "regressionPassed" | "useCache", ExtArgs["result"]["experiment"]>
   export type ExperimentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    project?: boolean | ProjectDefaultArgs<ExtArgs>
-    dataset?: boolean | DatasetDefaultArgs<ExtArgs>
     results?: boolean | Experiment$resultsArgs<ExtArgs>
+    dataset?: boolean | DatasetDefaultArgs<ExtArgs>
+    project?: boolean | ProjectDefaultArgs<ExtArgs>
     _count?: boolean | ExperimentCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $ExperimentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Experiment"
     objects: {
-      project: Prisma.$ProjectPayload<ExtArgs>
-      dataset: Prisma.$DatasetPayload<ExtArgs>
       results: Prisma.$EvaluationResultPayload<ExtArgs>[]
+      dataset: Prisma.$DatasetPayload<ExtArgs>
+      project: Prisma.$ProjectPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7468,9 +7468,6 @@ export namespace Prisma {
       name: string
       model: string
       status: string
-      useCache: boolean
-      failOnRegression: boolean
-      allowedQualityDrop: number
       qualityScore: number | null
       passRate: number | null
       avgLatencyMs: number | null
@@ -7481,11 +7478,14 @@ export namespace Prisma {
       llmCallsAvoided: number
       cachedInputTokens: number
       estimatedCostSavedUsd: number
-      regressionDelta: number | null
-      regressionPassed: boolean
-      errorMessage: string | null
       createdAt: Date
       updatedAt: Date
+      allowedQualityDrop: number
+      errorMessage: string | null
+      failOnRegression: boolean
+      regressionDelta: number | null
+      regressionPassed: boolean
+      useCache: boolean
     }, ExtArgs["result"]["experiment"]>
     composites: {}
   }
@@ -7826,9 +7826,9 @@ export namespace Prisma {
    */
   export interface Prisma__ExperimentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    dataset<T extends DatasetDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DatasetDefaultArgs<ExtArgs>>): Prisma__DatasetClient<$Result.GetResult<Prisma.$DatasetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     results<T extends Experiment$resultsArgs<ExtArgs> = {}>(args?: Subset<T, Experiment$resultsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EvaluationResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    dataset<T extends DatasetDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DatasetDefaultArgs<ExtArgs>>): Prisma__DatasetClient<$Result.GetResult<Prisma.$DatasetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    project<T extends ProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProjectDefaultArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7864,9 +7864,6 @@ export namespace Prisma {
     readonly name: FieldRef<"Experiment", 'String'>
     readonly model: FieldRef<"Experiment", 'String'>
     readonly status: FieldRef<"Experiment", 'String'>
-    readonly useCache: FieldRef<"Experiment", 'Boolean'>
-    readonly failOnRegression: FieldRef<"Experiment", 'Boolean'>
-    readonly allowedQualityDrop: FieldRef<"Experiment", 'Float'>
     readonly qualityScore: FieldRef<"Experiment", 'Float'>
     readonly passRate: FieldRef<"Experiment", 'Float'>
     readonly avgLatencyMs: FieldRef<"Experiment", 'Float'>
@@ -7877,11 +7874,14 @@ export namespace Prisma {
     readonly llmCallsAvoided: FieldRef<"Experiment", 'Int'>
     readonly cachedInputTokens: FieldRef<"Experiment", 'Int'>
     readonly estimatedCostSavedUsd: FieldRef<"Experiment", 'Float'>
-    readonly regressionDelta: FieldRef<"Experiment", 'Float'>
-    readonly regressionPassed: FieldRef<"Experiment", 'Boolean'>
-    readonly errorMessage: FieldRef<"Experiment", 'String'>
     readonly createdAt: FieldRef<"Experiment", 'DateTime'>
     readonly updatedAt: FieldRef<"Experiment", 'DateTime'>
+    readonly allowedQualityDrop: FieldRef<"Experiment", 'Float'>
+    readonly errorMessage: FieldRef<"Experiment", 'String'>
+    readonly failOnRegression: FieldRef<"Experiment", 'Boolean'>
+    readonly regressionDelta: FieldRef<"Experiment", 'Float'>
+    readonly regressionPassed: FieldRef<"Experiment", 'Boolean'>
+    readonly useCache: FieldRef<"Experiment", 'Boolean'>
   }
     
 
@@ -8284,10 +8284,10 @@ export namespace Prisma {
     ttftMs: number | null
     inputTokens: number | null
     outputTokens: number | null
-    totalTokens: number | null
-    estimatedCostUsd: number | null
-    uncachedEstimatedCostUsd: number | null
     cachedInputTokens: number | null
+    estimatedCostUsd: number | null
+    totalTokens: number | null
+    uncachedEstimatedCostUsd: number | null
   }
 
   export type EvaluationResultSumAggregateOutputType = {
@@ -8296,10 +8296,10 @@ export namespace Prisma {
     ttftMs: number | null
     inputTokens: number | null
     outputTokens: number | null
-    totalTokens: number | null
-    estimatedCostUsd: number | null
-    uncachedEstimatedCostUsd: number | null
     cachedInputTokens: number | null
+    estimatedCostUsd: number | null
+    totalTokens: number | null
+    uncachedEstimatedCostUsd: number | null
   }
 
   export type EvaluationResultMinAggregateOutputType = {
@@ -8313,13 +8313,14 @@ export namespace Prisma {
     ttftMs: number | null
     inputTokens: number | null
     outputTokens: number | null
-    totalTokens: number | null
-    estimatedCostUsd: number | null
-    uncachedEstimatedCostUsd: number | null
     cacheHit: boolean | null
-    cachedInputTokens: number | null
     reason: string | null
     createdAt: Date | null
+    cachedInputTokens: number | null
+    estimatedCostUsd: number | null
+    totalTokens: number | null
+    uncachedEstimatedCostUsd: number | null
+    evaluatorResults: string | null
   }
 
   export type EvaluationResultMaxAggregateOutputType = {
@@ -8333,13 +8334,14 @@ export namespace Prisma {
     ttftMs: number | null
     inputTokens: number | null
     outputTokens: number | null
-    totalTokens: number | null
-    estimatedCostUsd: number | null
-    uncachedEstimatedCostUsd: number | null
     cacheHit: boolean | null
-    cachedInputTokens: number | null
     reason: string | null
     createdAt: Date | null
+    cachedInputTokens: number | null
+    estimatedCostUsd: number | null
+    totalTokens: number | null
+    uncachedEstimatedCostUsd: number | null
+    evaluatorResults: string | null
   }
 
   export type EvaluationResultCountAggregateOutputType = {
@@ -8353,13 +8355,14 @@ export namespace Prisma {
     ttftMs: number
     inputTokens: number
     outputTokens: number
-    totalTokens: number
-    estimatedCostUsd: number
-    uncachedEstimatedCostUsd: number
     cacheHit: number
-    cachedInputTokens: number
     reason: number
     createdAt: number
+    cachedInputTokens: number
+    estimatedCostUsd: number
+    totalTokens: number
+    uncachedEstimatedCostUsd: number
+    evaluatorResults: number
     _all: number
   }
 
@@ -8370,10 +8373,10 @@ export namespace Prisma {
     ttftMs?: true
     inputTokens?: true
     outputTokens?: true
-    totalTokens?: true
-    estimatedCostUsd?: true
-    uncachedEstimatedCostUsd?: true
     cachedInputTokens?: true
+    estimatedCostUsd?: true
+    totalTokens?: true
+    uncachedEstimatedCostUsd?: true
   }
 
   export type EvaluationResultSumAggregateInputType = {
@@ -8382,10 +8385,10 @@ export namespace Prisma {
     ttftMs?: true
     inputTokens?: true
     outputTokens?: true
-    totalTokens?: true
-    estimatedCostUsd?: true
-    uncachedEstimatedCostUsd?: true
     cachedInputTokens?: true
+    estimatedCostUsd?: true
+    totalTokens?: true
+    uncachedEstimatedCostUsd?: true
   }
 
   export type EvaluationResultMinAggregateInputType = {
@@ -8399,13 +8402,14 @@ export namespace Prisma {
     ttftMs?: true
     inputTokens?: true
     outputTokens?: true
-    totalTokens?: true
-    estimatedCostUsd?: true
-    uncachedEstimatedCostUsd?: true
     cacheHit?: true
-    cachedInputTokens?: true
     reason?: true
     createdAt?: true
+    cachedInputTokens?: true
+    estimatedCostUsd?: true
+    totalTokens?: true
+    uncachedEstimatedCostUsd?: true
+    evaluatorResults?: true
   }
 
   export type EvaluationResultMaxAggregateInputType = {
@@ -8419,13 +8423,14 @@ export namespace Prisma {
     ttftMs?: true
     inputTokens?: true
     outputTokens?: true
-    totalTokens?: true
-    estimatedCostUsd?: true
-    uncachedEstimatedCostUsd?: true
     cacheHit?: true
-    cachedInputTokens?: true
     reason?: true
     createdAt?: true
+    cachedInputTokens?: true
+    estimatedCostUsd?: true
+    totalTokens?: true
+    uncachedEstimatedCostUsd?: true
+    evaluatorResults?: true
   }
 
   export type EvaluationResultCountAggregateInputType = {
@@ -8439,13 +8444,14 @@ export namespace Prisma {
     ttftMs?: true
     inputTokens?: true
     outputTokens?: true
-    totalTokens?: true
-    estimatedCostUsd?: true
-    uncachedEstimatedCostUsd?: true
     cacheHit?: true
-    cachedInputTokens?: true
     reason?: true
     createdAt?: true
+    cachedInputTokens?: true
+    estimatedCostUsd?: true
+    totalTokens?: true
+    uncachedEstimatedCostUsd?: true
+    evaluatorResults?: true
     _all?: true
   }
 
@@ -8546,13 +8552,14 @@ export namespace Prisma {
     ttftMs: number | null
     inputTokens: number | null
     outputTokens: number | null
-    totalTokens: number | null
-    estimatedCostUsd: number | null
-    uncachedEstimatedCostUsd: number | null
     cacheHit: boolean
-    cachedInputTokens: number
     reason: string | null
     createdAt: Date
+    cachedInputTokens: number
+    estimatedCostUsd: number | null
+    totalTokens: number | null
+    uncachedEstimatedCostUsd: number | null
+    evaluatorResults: string | null
     _count: EvaluationResultCountAggregateOutputType | null
     _avg: EvaluationResultAvgAggregateOutputType | null
     _sum: EvaluationResultSumAggregateOutputType | null
@@ -8585,13 +8592,14 @@ export namespace Prisma {
     ttftMs?: boolean
     inputTokens?: boolean
     outputTokens?: boolean
-    totalTokens?: boolean
-    estimatedCostUsd?: boolean
-    uncachedEstimatedCostUsd?: boolean
     cacheHit?: boolean
-    cachedInputTokens?: boolean
     reason?: boolean
     createdAt?: boolean
+    cachedInputTokens?: boolean
+    estimatedCostUsd?: boolean
+    totalTokens?: boolean
+    uncachedEstimatedCostUsd?: boolean
+    evaluatorResults?: boolean
     experiment?: boolean | ExperimentDefaultArgs<ExtArgs>
     testCase?: boolean | TestCaseDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["evaluationResult"]>
@@ -8609,16 +8617,17 @@ export namespace Prisma {
     ttftMs?: boolean
     inputTokens?: boolean
     outputTokens?: boolean
-    totalTokens?: boolean
-    estimatedCostUsd?: boolean
-    uncachedEstimatedCostUsd?: boolean
     cacheHit?: boolean
-    cachedInputTokens?: boolean
     reason?: boolean
     createdAt?: boolean
+    cachedInputTokens?: boolean
+    estimatedCostUsd?: boolean
+    totalTokens?: boolean
+    uncachedEstimatedCostUsd?: boolean
+    evaluatorResults?: boolean
   }
 
-  export type EvaluationResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "experimentId" | "testCaseId" | "actualOutput" | "score" | "passed" | "latencyMs" | "ttftMs" | "inputTokens" | "outputTokens" | "totalTokens" | "estimatedCostUsd" | "uncachedEstimatedCostUsd" | "cacheHit" | "cachedInputTokens" | "reason" | "createdAt", ExtArgs["result"]["evaluationResult"]>
+  export type EvaluationResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "experimentId" | "testCaseId" | "actualOutput" | "score" | "passed" | "latencyMs" | "ttftMs" | "inputTokens" | "outputTokens" | "cacheHit" | "reason" | "createdAt" | "cachedInputTokens" | "estimatedCostUsd" | "totalTokens" | "uncachedEstimatedCostUsd" | "evaluatorResults", ExtArgs["result"]["evaluationResult"]>
   export type EvaluationResultInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     experiment?: boolean | ExperimentDefaultArgs<ExtArgs>
     testCase?: boolean | TestCaseDefaultArgs<ExtArgs>
@@ -8641,13 +8650,14 @@ export namespace Prisma {
       ttftMs: number | null
       inputTokens: number | null
       outputTokens: number | null
-      totalTokens: number | null
-      estimatedCostUsd: number | null
-      uncachedEstimatedCostUsd: number | null
       cacheHit: boolean
-      cachedInputTokens: number
       reason: string | null
       createdAt: Date
+      cachedInputTokens: number
+      estimatedCostUsd: number | null
+      totalTokens: number | null
+      uncachedEstimatedCostUsd: number | null
+      evaluatorResults: string | null
     }, ExtArgs["result"]["evaluationResult"]>
     composites: {}
   }
@@ -9029,13 +9039,14 @@ export namespace Prisma {
     readonly ttftMs: FieldRef<"EvaluationResult", 'Int'>
     readonly inputTokens: FieldRef<"EvaluationResult", 'Int'>
     readonly outputTokens: FieldRef<"EvaluationResult", 'Int'>
-    readonly totalTokens: FieldRef<"EvaluationResult", 'Int'>
-    readonly estimatedCostUsd: FieldRef<"EvaluationResult", 'Float'>
-    readonly uncachedEstimatedCostUsd: FieldRef<"EvaluationResult", 'Float'>
     readonly cacheHit: FieldRef<"EvaluationResult", 'Boolean'>
-    readonly cachedInputTokens: FieldRef<"EvaluationResult", 'Int'>
     readonly reason: FieldRef<"EvaluationResult", 'String'>
     readonly createdAt: FieldRef<"EvaluationResult", 'DateTime'>
+    readonly cachedInputTokens: FieldRef<"EvaluationResult", 'Int'>
+    readonly estimatedCostUsd: FieldRef<"EvaluationResult", 'Float'>
+    readonly totalTokens: FieldRef<"EvaluationResult", 'Int'>
+    readonly uncachedEstimatedCostUsd: FieldRef<"EvaluationResult", 'Float'>
+    readonly evaluatorResults: FieldRef<"EvaluationResult", 'String'>
   }
     
 
@@ -12309,9 +12320,6 @@ export namespace Prisma {
     name: 'name',
     model: 'model',
     status: 'status',
-    useCache: 'useCache',
-    failOnRegression: 'failOnRegression',
-    allowedQualityDrop: 'allowedQualityDrop',
     qualityScore: 'qualityScore',
     passRate: 'passRate',
     avgLatencyMs: 'avgLatencyMs',
@@ -12322,11 +12330,14 @@ export namespace Prisma {
     llmCallsAvoided: 'llmCallsAvoided',
     cachedInputTokens: 'cachedInputTokens',
     estimatedCostSavedUsd: 'estimatedCostSavedUsd',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    allowedQualityDrop: 'allowedQualityDrop',
+    errorMessage: 'errorMessage',
+    failOnRegression: 'failOnRegression',
     regressionDelta: 'regressionDelta',
     regressionPassed: 'regressionPassed',
-    errorMessage: 'errorMessage',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    useCache: 'useCache'
   };
 
   export type ExperimentScalarFieldEnum = (typeof ExperimentScalarFieldEnum)[keyof typeof ExperimentScalarFieldEnum]
@@ -12343,13 +12354,14 @@ export namespace Prisma {
     ttftMs: 'ttftMs',
     inputTokens: 'inputTokens',
     outputTokens: 'outputTokens',
-    totalTokens: 'totalTokens',
-    estimatedCostUsd: 'estimatedCostUsd',
-    uncachedEstimatedCostUsd: 'uncachedEstimatedCostUsd',
     cacheHit: 'cacheHit',
-    cachedInputTokens: 'cachedInputTokens',
     reason: 'reason',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    cachedInputTokens: 'cachedInputTokens',
+    estimatedCostUsd: 'estimatedCostUsd',
+    totalTokens: 'totalTokens',
+    uncachedEstimatedCostUsd: 'uncachedEstimatedCostUsd',
+    evaluatorResults: 'evaluatorResults'
   };
 
   export type EvaluationResultScalarFieldEnum = (typeof EvaluationResultScalarFieldEnum)[keyof typeof EvaluationResultScalarFieldEnum]
@@ -12531,12 +12543,12 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFilter<"Project"> | number
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    baseline?: XOR<BaselineNullableScalarRelationFilter, BaselineWhereInput> | null
     datasets?: DatasetListRelationFilter
     evaluators?: EvaluatorListRelationFilter
     experiments?: ExperimentListRelationFilter
     githubIntegrations?: GithubIntegrationListRelationFilter
-    baseline?: XOR<BaselineNullableScalarRelationFilter, BaselineWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     ciToken?: XOR<ProjectCiTokenNullableScalarRelationFilter, ProjectCiTokenWhereInput> | null
   }
 
@@ -12558,12 +12570,12 @@ export namespace Prisma {
     cacheTtlSeconds?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    user?: UserOrderByWithRelationInput
+    baseline?: BaselineOrderByWithRelationInput
     datasets?: DatasetOrderByRelationAggregateInput
     evaluators?: EvaluatorOrderByRelationAggregateInput
     experiments?: ExperimentOrderByRelationAggregateInput
     githubIntegrations?: GithubIntegrationOrderByRelationAggregateInput
-    baseline?: BaselineOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
     ciToken?: ProjectCiTokenOrderByWithRelationInput
   }
 
@@ -12588,12 +12600,12 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFilter<"Project"> | number
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    baseline?: XOR<BaselineNullableScalarRelationFilter, BaselineWhereInput> | null
     datasets?: DatasetListRelationFilter
     evaluators?: EvaluatorListRelationFilter
     experiments?: ExperimentListRelationFilter
     githubIntegrations?: GithubIntegrationListRelationFilter
-    baseline?: XOR<BaselineNullableScalarRelationFilter, BaselineWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     ciToken?: XOR<ProjectCiTokenNullableScalarRelationFilter, ProjectCiTokenWhereInput> | null
   }, "id">
 
@@ -12657,8 +12669,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Dataset"> | Date | string
     updatedAt?: DateTimeFilter<"Dataset"> | Date | string
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
-    testCases?: TestCaseListRelationFilter
     experiments?: ExperimentListRelationFilter
+    testCases?: TestCaseListRelationFilter
   }
 
   export type DatasetOrderByWithRelationInput = {
@@ -12670,8 +12682,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     project?: ProjectOrderByWithRelationInput
-    testCases?: TestCaseOrderByRelationAggregateInput
     experiments?: ExperimentOrderByRelationAggregateInput
+    testCases?: TestCaseOrderByRelationAggregateInput
   }
 
   export type DatasetWhereUniqueInput = Prisma.AtLeast<{
@@ -12686,8 +12698,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Dataset"> | Date | string
     updatedAt?: DateTimeFilter<"Dataset"> | Date | string
     project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
-    testCases?: TestCaseListRelationFilter
     experiments?: ExperimentListRelationFilter
+    testCases?: TestCaseListRelationFilter
   }, "id">
 
   export type DatasetOrderByWithAggregationInput = {
@@ -12729,8 +12741,8 @@ export namespace Prisma {
     metadata?: StringNullableFilter<"TestCase"> | string | null
     createdAt?: DateTimeFilter<"TestCase"> | Date | string
     updatedAt?: DateTimeFilter<"TestCase"> | Date | string
-    dataset?: XOR<DatasetScalarRelationFilter, DatasetWhereInput>
     results?: EvaluationResultListRelationFilter
+    dataset?: XOR<DatasetScalarRelationFilter, DatasetWhereInput>
   }
 
   export type TestCaseOrderByWithRelationInput = {
@@ -12741,8 +12753,8 @@ export namespace Prisma {
     metadata?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    dataset?: DatasetOrderByWithRelationInput
     results?: EvaluationResultOrderByRelationAggregateInput
+    dataset?: DatasetOrderByWithRelationInput
   }
 
   export type TestCaseWhereUniqueInput = Prisma.AtLeast<{
@@ -12756,8 +12768,8 @@ export namespace Prisma {
     metadata?: StringNullableFilter<"TestCase"> | string | null
     createdAt?: DateTimeFilter<"TestCase"> | Date | string
     updatedAt?: DateTimeFilter<"TestCase"> | Date | string
-    dataset?: XOR<DatasetScalarRelationFilter, DatasetWhereInput>
     results?: EvaluationResultListRelationFilter
+    dataset?: XOR<DatasetScalarRelationFilter, DatasetWhereInput>
   }, "id">
 
   export type TestCaseOrderByWithAggregationInput = {
@@ -12861,9 +12873,6 @@ export namespace Prisma {
     name?: StringFilter<"Experiment"> | string
     model?: StringFilter<"Experiment"> | string
     status?: StringFilter<"Experiment"> | string
-    useCache?: BoolFilter<"Experiment"> | boolean
-    failOnRegression?: BoolFilter<"Experiment"> | boolean
-    allowedQualityDrop?: FloatFilter<"Experiment"> | number
     qualityScore?: FloatNullableFilter<"Experiment"> | number | null
     passRate?: FloatNullableFilter<"Experiment"> | number | null
     avgLatencyMs?: FloatNullableFilter<"Experiment"> | number | null
@@ -12874,14 +12883,17 @@ export namespace Prisma {
     llmCallsAvoided?: IntFilter<"Experiment"> | number
     cachedInputTokens?: IntFilter<"Experiment"> | number
     estimatedCostSavedUsd?: FloatFilter<"Experiment"> | number
-    regressionDelta?: FloatNullableFilter<"Experiment"> | number | null
-    regressionPassed?: BoolFilter<"Experiment"> | boolean
-    errorMessage?: StringNullableFilter<"Experiment"> | string | null
     createdAt?: DateTimeFilter<"Experiment"> | Date | string
     updatedAt?: DateTimeFilter<"Experiment"> | Date | string
-    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
-    dataset?: XOR<DatasetScalarRelationFilter, DatasetWhereInput>
+    allowedQualityDrop?: FloatFilter<"Experiment"> | number
+    errorMessage?: StringNullableFilter<"Experiment"> | string | null
+    failOnRegression?: BoolFilter<"Experiment"> | boolean
+    regressionDelta?: FloatNullableFilter<"Experiment"> | number | null
+    regressionPassed?: BoolFilter<"Experiment"> | boolean
+    useCache?: BoolFilter<"Experiment"> | boolean
     results?: EvaluationResultListRelationFilter
+    dataset?: XOR<DatasetScalarRelationFilter, DatasetWhereInput>
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
   }
 
   export type ExperimentOrderByWithRelationInput = {
@@ -12891,9 +12903,6 @@ export namespace Prisma {
     name?: SortOrder
     model?: SortOrder
     status?: SortOrder
-    useCache?: SortOrder
-    failOnRegression?: SortOrder
-    allowedQualityDrop?: SortOrder
     qualityScore?: SortOrderInput | SortOrder
     passRate?: SortOrderInput | SortOrder
     avgLatencyMs?: SortOrderInput | SortOrder
@@ -12904,14 +12913,17 @@ export namespace Prisma {
     llmCallsAvoided?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostSavedUsd?: SortOrder
-    regressionDelta?: SortOrderInput | SortOrder
-    regressionPassed?: SortOrder
-    errorMessage?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    project?: ProjectOrderByWithRelationInput
-    dataset?: DatasetOrderByWithRelationInput
+    allowedQualityDrop?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    failOnRegression?: SortOrder
+    regressionDelta?: SortOrderInput | SortOrder
+    regressionPassed?: SortOrder
+    useCache?: SortOrder
     results?: EvaluationResultOrderByRelationAggregateInput
+    dataset?: DatasetOrderByWithRelationInput
+    project?: ProjectOrderByWithRelationInput
   }
 
   export type ExperimentWhereUniqueInput = Prisma.AtLeast<{
@@ -12924,9 +12936,6 @@ export namespace Prisma {
     name?: StringFilter<"Experiment"> | string
     model?: StringFilter<"Experiment"> | string
     status?: StringFilter<"Experiment"> | string
-    useCache?: BoolFilter<"Experiment"> | boolean
-    failOnRegression?: BoolFilter<"Experiment"> | boolean
-    allowedQualityDrop?: FloatFilter<"Experiment"> | number
     qualityScore?: FloatNullableFilter<"Experiment"> | number | null
     passRate?: FloatNullableFilter<"Experiment"> | number | null
     avgLatencyMs?: FloatNullableFilter<"Experiment"> | number | null
@@ -12937,14 +12946,17 @@ export namespace Prisma {
     llmCallsAvoided?: IntFilter<"Experiment"> | number
     cachedInputTokens?: IntFilter<"Experiment"> | number
     estimatedCostSavedUsd?: FloatFilter<"Experiment"> | number
-    regressionDelta?: FloatNullableFilter<"Experiment"> | number | null
-    regressionPassed?: BoolFilter<"Experiment"> | boolean
-    errorMessage?: StringNullableFilter<"Experiment"> | string | null
     createdAt?: DateTimeFilter<"Experiment"> | Date | string
     updatedAt?: DateTimeFilter<"Experiment"> | Date | string
-    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
-    dataset?: XOR<DatasetScalarRelationFilter, DatasetWhereInput>
+    allowedQualityDrop?: FloatFilter<"Experiment"> | number
+    errorMessage?: StringNullableFilter<"Experiment"> | string | null
+    failOnRegression?: BoolFilter<"Experiment"> | boolean
+    regressionDelta?: FloatNullableFilter<"Experiment"> | number | null
+    regressionPassed?: BoolFilter<"Experiment"> | boolean
+    useCache?: BoolFilter<"Experiment"> | boolean
     results?: EvaluationResultListRelationFilter
+    dataset?: XOR<DatasetScalarRelationFilter, DatasetWhereInput>
+    project?: XOR<ProjectScalarRelationFilter, ProjectWhereInput>
   }, "id">
 
   export type ExperimentOrderByWithAggregationInput = {
@@ -12954,9 +12966,6 @@ export namespace Prisma {
     name?: SortOrder
     model?: SortOrder
     status?: SortOrder
-    useCache?: SortOrder
-    failOnRegression?: SortOrder
-    allowedQualityDrop?: SortOrder
     qualityScore?: SortOrderInput | SortOrder
     passRate?: SortOrderInput | SortOrder
     avgLatencyMs?: SortOrderInput | SortOrder
@@ -12967,11 +12976,14 @@ export namespace Prisma {
     llmCallsAvoided?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostSavedUsd?: SortOrder
-    regressionDelta?: SortOrderInput | SortOrder
-    regressionPassed?: SortOrder
-    errorMessage?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    allowedQualityDrop?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    failOnRegression?: SortOrder
+    regressionDelta?: SortOrderInput | SortOrder
+    regressionPassed?: SortOrder
+    useCache?: SortOrder
     _count?: ExperimentCountOrderByAggregateInput
     _avg?: ExperimentAvgOrderByAggregateInput
     _max?: ExperimentMaxOrderByAggregateInput
@@ -12989,9 +13001,6 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Experiment"> | string
     model?: StringWithAggregatesFilter<"Experiment"> | string
     status?: StringWithAggregatesFilter<"Experiment"> | string
-    useCache?: BoolWithAggregatesFilter<"Experiment"> | boolean
-    failOnRegression?: BoolWithAggregatesFilter<"Experiment"> | boolean
-    allowedQualityDrop?: FloatWithAggregatesFilter<"Experiment"> | number
     qualityScore?: FloatNullableWithAggregatesFilter<"Experiment"> | number | null
     passRate?: FloatNullableWithAggregatesFilter<"Experiment"> | number | null
     avgLatencyMs?: FloatNullableWithAggregatesFilter<"Experiment"> | number | null
@@ -13002,11 +13011,14 @@ export namespace Prisma {
     llmCallsAvoided?: IntWithAggregatesFilter<"Experiment"> | number
     cachedInputTokens?: IntWithAggregatesFilter<"Experiment"> | number
     estimatedCostSavedUsd?: FloatWithAggregatesFilter<"Experiment"> | number
-    regressionDelta?: FloatNullableWithAggregatesFilter<"Experiment"> | number | null
-    regressionPassed?: BoolWithAggregatesFilter<"Experiment"> | boolean
-    errorMessage?: StringNullableWithAggregatesFilter<"Experiment"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Experiment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Experiment"> | Date | string
+    allowedQualityDrop?: FloatWithAggregatesFilter<"Experiment"> | number
+    errorMessage?: StringNullableWithAggregatesFilter<"Experiment"> | string | null
+    failOnRegression?: BoolWithAggregatesFilter<"Experiment"> | boolean
+    regressionDelta?: FloatNullableWithAggregatesFilter<"Experiment"> | number | null
+    regressionPassed?: BoolWithAggregatesFilter<"Experiment"> | boolean
+    useCache?: BoolWithAggregatesFilter<"Experiment"> | boolean
   }
 
   export type EvaluationResultWhereInput = {
@@ -13023,13 +13035,14 @@ export namespace Prisma {
     ttftMs?: IntNullableFilter<"EvaluationResult"> | number | null
     inputTokens?: IntNullableFilter<"EvaluationResult"> | number | null
     outputTokens?: IntNullableFilter<"EvaluationResult"> | number | null
-    totalTokens?: IntNullableFilter<"EvaluationResult"> | number | null
-    estimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
-    uncachedEstimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
     cacheHit?: BoolFilter<"EvaluationResult"> | boolean
-    cachedInputTokens?: IntFilter<"EvaluationResult"> | number
     reason?: StringNullableFilter<"EvaluationResult"> | string | null
     createdAt?: DateTimeFilter<"EvaluationResult"> | Date | string
+    cachedInputTokens?: IntFilter<"EvaluationResult"> | number
+    estimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
+    totalTokens?: IntNullableFilter<"EvaluationResult"> | number | null
+    uncachedEstimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
+    evaluatorResults?: StringNullableFilter<"EvaluationResult"> | string | null
     experiment?: XOR<ExperimentScalarRelationFilter, ExperimentWhereInput>
     testCase?: XOR<TestCaseScalarRelationFilter, TestCaseWhereInput>
   }
@@ -13045,13 +13058,14 @@ export namespace Prisma {
     ttftMs?: SortOrderInput | SortOrder
     inputTokens?: SortOrderInput | SortOrder
     outputTokens?: SortOrderInput | SortOrder
-    totalTokens?: SortOrderInput | SortOrder
-    estimatedCostUsd?: SortOrderInput | SortOrder
-    uncachedEstimatedCostUsd?: SortOrderInput | SortOrder
     cacheHit?: SortOrder
-    cachedInputTokens?: SortOrder
     reason?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    cachedInputTokens?: SortOrder
+    estimatedCostUsd?: SortOrderInput | SortOrder
+    totalTokens?: SortOrderInput | SortOrder
+    uncachedEstimatedCostUsd?: SortOrderInput | SortOrder
+    evaluatorResults?: SortOrderInput | SortOrder
     experiment?: ExperimentOrderByWithRelationInput
     testCase?: TestCaseOrderByWithRelationInput
   }
@@ -13070,13 +13084,14 @@ export namespace Prisma {
     ttftMs?: IntNullableFilter<"EvaluationResult"> | number | null
     inputTokens?: IntNullableFilter<"EvaluationResult"> | number | null
     outputTokens?: IntNullableFilter<"EvaluationResult"> | number | null
-    totalTokens?: IntNullableFilter<"EvaluationResult"> | number | null
-    estimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
-    uncachedEstimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
     cacheHit?: BoolFilter<"EvaluationResult"> | boolean
-    cachedInputTokens?: IntFilter<"EvaluationResult"> | number
     reason?: StringNullableFilter<"EvaluationResult"> | string | null
     createdAt?: DateTimeFilter<"EvaluationResult"> | Date | string
+    cachedInputTokens?: IntFilter<"EvaluationResult"> | number
+    estimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
+    totalTokens?: IntNullableFilter<"EvaluationResult"> | number | null
+    uncachedEstimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
+    evaluatorResults?: StringNullableFilter<"EvaluationResult"> | string | null
     experiment?: XOR<ExperimentScalarRelationFilter, ExperimentWhereInput>
     testCase?: XOR<TestCaseScalarRelationFilter, TestCaseWhereInput>
   }, "id">
@@ -13092,13 +13107,14 @@ export namespace Prisma {
     ttftMs?: SortOrderInput | SortOrder
     inputTokens?: SortOrderInput | SortOrder
     outputTokens?: SortOrderInput | SortOrder
-    totalTokens?: SortOrderInput | SortOrder
-    estimatedCostUsd?: SortOrderInput | SortOrder
-    uncachedEstimatedCostUsd?: SortOrderInput | SortOrder
     cacheHit?: SortOrder
-    cachedInputTokens?: SortOrder
     reason?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    cachedInputTokens?: SortOrder
+    estimatedCostUsd?: SortOrderInput | SortOrder
+    totalTokens?: SortOrderInput | SortOrder
+    uncachedEstimatedCostUsd?: SortOrderInput | SortOrder
+    evaluatorResults?: SortOrderInput | SortOrder
     _count?: EvaluationResultCountOrderByAggregateInput
     _avg?: EvaluationResultAvgOrderByAggregateInput
     _max?: EvaluationResultMaxOrderByAggregateInput
@@ -13120,13 +13136,14 @@ export namespace Prisma {
     ttftMs?: IntNullableWithAggregatesFilter<"EvaluationResult"> | number | null
     inputTokens?: IntNullableWithAggregatesFilter<"EvaluationResult"> | number | null
     outputTokens?: IntNullableWithAggregatesFilter<"EvaluationResult"> | number | null
-    totalTokens?: IntNullableWithAggregatesFilter<"EvaluationResult"> | number | null
-    estimatedCostUsd?: FloatNullableWithAggregatesFilter<"EvaluationResult"> | number | null
-    uncachedEstimatedCostUsd?: FloatNullableWithAggregatesFilter<"EvaluationResult"> | number | null
     cacheHit?: BoolWithAggregatesFilter<"EvaluationResult"> | boolean
-    cachedInputTokens?: IntWithAggregatesFilter<"EvaluationResult"> | number
     reason?: StringNullableWithAggregatesFilter<"EvaluationResult"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"EvaluationResult"> | Date | string
+    cachedInputTokens?: IntWithAggregatesFilter<"EvaluationResult"> | number
+    estimatedCostUsd?: FloatNullableWithAggregatesFilter<"EvaluationResult"> | number | null
+    totalTokens?: IntNullableWithAggregatesFilter<"EvaluationResult"> | number | null
+    uncachedEstimatedCostUsd?: FloatNullableWithAggregatesFilter<"EvaluationResult"> | number | null
+    evaluatorResults?: StringNullableWithAggregatesFilter<"EvaluationResult"> | string | null
   }
 
   export type GithubIntegrationWhereInput = {
@@ -13393,12 +13410,12 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutProjectsInput
+    baseline?: BaselineCreateNestedOneWithoutProjectInput
     datasets?: DatasetCreateNestedManyWithoutProjectInput
     evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
-    baseline?: BaselineCreateNestedOneWithoutProjectInput
+    user: UserCreateNestedOneWithoutProjectsInput
     ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
@@ -13420,11 +13437,11 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
     datasets?: DatasetUncheckedCreateNestedManyWithoutProjectInput
     evaluators?: EvaluatorUncheckedCreateNestedManyWithoutProjectInput
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
-    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
     ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
@@ -13445,12 +13462,12 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    baseline?: BaselineUpdateOneWithoutProjectNestedInput
     datasets?: DatasetUpdateManyWithoutProjectNestedInput
     evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
     ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
@@ -13472,11 +13489,11 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
     datasets?: DatasetUncheckedUpdateManyWithoutProjectNestedInput
     evaluators?: EvaluatorUncheckedUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
     ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
   }
 
@@ -13547,8 +13564,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     project: ProjectCreateNestedOneWithoutDatasetsInput
-    testCases?: TestCaseCreateNestedManyWithoutDatasetInput
     experiments?: ExperimentCreateNestedManyWithoutDatasetInput
+    testCases?: TestCaseCreateNestedManyWithoutDatasetInput
   }
 
   export type DatasetUncheckedCreateInput = {
@@ -13559,8 +13576,8 @@ export namespace Prisma {
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    testCases?: TestCaseUncheckedCreateNestedManyWithoutDatasetInput
     experiments?: ExperimentUncheckedCreateNestedManyWithoutDatasetInput
+    testCases?: TestCaseUncheckedCreateNestedManyWithoutDatasetInput
   }
 
   export type DatasetUpdateInput = {
@@ -13571,8 +13588,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     project?: ProjectUpdateOneRequiredWithoutDatasetsNestedInput
-    testCases?: TestCaseUpdateManyWithoutDatasetNestedInput
     experiments?: ExperimentUpdateManyWithoutDatasetNestedInput
+    testCases?: TestCaseUpdateManyWithoutDatasetNestedInput
   }
 
   export type DatasetUncheckedUpdateInput = {
@@ -13583,8 +13600,8 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    testCases?: TestCaseUncheckedUpdateManyWithoutDatasetNestedInput
     experiments?: ExperimentUncheckedUpdateManyWithoutDatasetNestedInput
+    testCases?: TestCaseUncheckedUpdateManyWithoutDatasetNestedInput
   }
 
   export type DatasetCreateManyInput = {
@@ -13623,8 +13640,8 @@ export namespace Prisma {
     metadata?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    dataset: DatasetCreateNestedOneWithoutTestCasesInput
     results?: EvaluationResultCreateNestedManyWithoutTestCaseInput
+    dataset: DatasetCreateNestedOneWithoutTestCasesInput
   }
 
   export type TestCaseUncheckedCreateInput = {
@@ -13645,8 +13662,8 @@ export namespace Prisma {
     metadata?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    dataset?: DatasetUpdateOneRequiredWithoutTestCasesNestedInput
     results?: EvaluationResultUpdateManyWithoutTestCaseNestedInput
+    dataset?: DatasetUpdateOneRequiredWithoutTestCasesNestedInput
   }
 
   export type TestCaseUncheckedUpdateInput = {
@@ -13763,9 +13780,6 @@ export namespace Prisma {
     name: string
     model: string
     status?: string
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: number
     qualityScore?: number | null
     passRate?: number | null
     avgLatencyMs?: number | null
@@ -13776,14 +13790,17 @@ export namespace Prisma {
     llmCallsAvoided?: number
     cachedInputTokens?: number
     estimatedCostSavedUsd?: number
-    regressionDelta?: number | null
-    regressionPassed?: boolean
-    errorMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    project: ProjectCreateNestedOneWithoutExperimentsInput
-    dataset: DatasetCreateNestedOneWithoutExperimentsInput
+    allowedQualityDrop?: number
+    errorMessage?: string | null
+    failOnRegression?: boolean
+    regressionDelta?: number | null
+    regressionPassed?: boolean
+    useCache?: boolean
     results?: EvaluationResultCreateNestedManyWithoutExperimentInput
+    dataset: DatasetCreateNestedOneWithoutExperimentsInput
+    project: ProjectCreateNestedOneWithoutExperimentsInput
   }
 
   export type ExperimentUncheckedCreateInput = {
@@ -13793,9 +13810,6 @@ export namespace Prisma {
     name: string
     model: string
     status?: string
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: number
     qualityScore?: number | null
     passRate?: number | null
     avgLatencyMs?: number | null
@@ -13806,11 +13820,14 @@ export namespace Prisma {
     llmCallsAvoided?: number
     cachedInputTokens?: number
     estimatedCostSavedUsd?: number
-    regressionDelta?: number | null
-    regressionPassed?: boolean
-    errorMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    allowedQualityDrop?: number
+    errorMessage?: string | null
+    failOnRegression?: boolean
+    regressionDelta?: number | null
+    regressionPassed?: boolean
+    useCache?: boolean
     results?: EvaluationResultUncheckedCreateNestedManyWithoutExperimentInput
   }
 
@@ -13819,9 +13836,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
     qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     passRate?: NullableFloatFieldUpdateOperationsInput | number | null
     avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -13832,14 +13846,17 @@ export namespace Prisma {
     llmCallsAvoided?: IntFieldUpdateOperationsInput | number
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    project?: ProjectUpdateOneRequiredWithoutExperimentsNestedInput
-    dataset?: DatasetUpdateOneRequiredWithoutExperimentsNestedInput
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
     results?: EvaluationResultUpdateManyWithoutExperimentNestedInput
+    dataset?: DatasetUpdateOneRequiredWithoutExperimentsNestedInput
+    project?: ProjectUpdateOneRequiredWithoutExperimentsNestedInput
   }
 
   export type ExperimentUncheckedUpdateInput = {
@@ -13849,9 +13866,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
     qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     passRate?: NullableFloatFieldUpdateOperationsInput | number | null
     avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -13862,11 +13876,14 @@ export namespace Prisma {
     llmCallsAvoided?: IntFieldUpdateOperationsInput | number
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
     results?: EvaluationResultUncheckedUpdateManyWithoutExperimentNestedInput
   }
 
@@ -13877,9 +13894,6 @@ export namespace Prisma {
     name: string
     model: string
     status?: string
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: number
     qualityScore?: number | null
     passRate?: number | null
     avgLatencyMs?: number | null
@@ -13890,11 +13904,14 @@ export namespace Prisma {
     llmCallsAvoided?: number
     cachedInputTokens?: number
     estimatedCostSavedUsd?: number
-    regressionDelta?: number | null
-    regressionPassed?: boolean
-    errorMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    allowedQualityDrop?: number
+    errorMessage?: string | null
+    failOnRegression?: boolean
+    regressionDelta?: number | null
+    regressionPassed?: boolean
+    useCache?: boolean
   }
 
   export type ExperimentUpdateManyMutationInput = {
@@ -13902,9 +13919,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
     qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     passRate?: NullableFloatFieldUpdateOperationsInput | number | null
     avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -13915,11 +13929,14 @@ export namespace Prisma {
     llmCallsAvoided?: IntFieldUpdateOperationsInput | number
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type ExperimentUncheckedUpdateManyInput = {
@@ -13929,9 +13946,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
     qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     passRate?: NullableFloatFieldUpdateOperationsInput | number | null
     avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -13942,11 +13956,14 @@ export namespace Prisma {
     llmCallsAvoided?: IntFieldUpdateOperationsInput | number
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type EvaluationResultCreateInput = {
@@ -13958,13 +13975,14 @@ export namespace Prisma {
     ttftMs?: number | null
     inputTokens?: number | null
     outputTokens?: number | null
-    totalTokens?: number | null
-    estimatedCostUsd?: number | null
-    uncachedEstimatedCostUsd?: number | null
     cacheHit?: boolean
-    cachedInputTokens?: number
     reason?: string | null
     createdAt?: Date | string
+    cachedInputTokens?: number
+    estimatedCostUsd?: number | null
+    totalTokens?: number | null
+    uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
     experiment: ExperimentCreateNestedOneWithoutResultsInput
     testCase: TestCaseCreateNestedOneWithoutResultsInput
   }
@@ -13980,13 +13998,14 @@ export namespace Prisma {
     ttftMs?: number | null
     inputTokens?: number | null
     outputTokens?: number | null
-    totalTokens?: number | null
-    estimatedCostUsd?: number | null
-    uncachedEstimatedCostUsd?: number | null
     cacheHit?: boolean
-    cachedInputTokens?: number
     reason?: string | null
     createdAt?: Date | string
+    cachedInputTokens?: number
+    estimatedCostUsd?: number | null
+    totalTokens?: number | null
+    uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
   export type EvaluationResultUpdateInput = {
@@ -13998,13 +14017,14 @@ export namespace Prisma {
     ttftMs?: NullableIntFieldUpdateOperationsInput | number | null
     inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
-    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     experiment?: ExperimentUpdateOneRequiredWithoutResultsNestedInput
     testCase?: TestCaseUpdateOneRequiredWithoutResultsNestedInput
   }
@@ -14020,13 +14040,14 @@ export namespace Prisma {
     ttftMs?: NullableIntFieldUpdateOperationsInput | number | null
     inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
-    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EvaluationResultCreateManyInput = {
@@ -14040,13 +14061,14 @@ export namespace Prisma {
     ttftMs?: number | null
     inputTokens?: number | null
     outputTokens?: number | null
-    totalTokens?: number | null
-    estimatedCostUsd?: number | null
-    uncachedEstimatedCostUsd?: number | null
     cacheHit?: boolean
-    cachedInputTokens?: number
     reason?: string | null
     createdAt?: Date | string
+    cachedInputTokens?: number
+    estimatedCostUsd?: number | null
+    totalTokens?: number | null
+    uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
   export type EvaluationResultUpdateManyMutationInput = {
@@ -14058,13 +14080,14 @@ export namespace Prisma {
     ttftMs?: NullableIntFieldUpdateOperationsInput | number | null
     inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
-    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EvaluationResultUncheckedUpdateManyInput = {
@@ -14078,13 +14101,14 @@ export namespace Prisma {
     ttftMs?: NullableIntFieldUpdateOperationsInput | number | null
     inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
-    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type GithubIntegrationCreateInput = {
@@ -14429,9 +14453,9 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
+  export type BaselineNullableScalarRelationFilter = {
+    is?: BaselineWhereInput | null
+    isNot?: BaselineWhereInput | null
   }
 
   export type DatasetListRelationFilter = {
@@ -14458,9 +14482,9 @@ export namespace Prisma {
     none?: GithubIntegrationWhereInput
   }
 
-  export type BaselineNullableScalarRelationFilter = {
-    is?: BaselineWhereInput | null
-    isNot?: BaselineWhereInput | null
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
   }
 
   export type ProjectCiTokenNullableScalarRelationFilter = {
@@ -14713,15 +14737,15 @@ export namespace Prisma {
     version?: SortOrder
   }
 
-  export type DatasetScalarRelationFilter = {
-    is?: DatasetWhereInput
-    isNot?: DatasetWhereInput
-  }
-
   export type EvaluationResultListRelationFilter = {
     every?: EvaluationResultWhereInput
     some?: EvaluationResultWhereInput
     none?: EvaluationResultWhereInput
+  }
+
+  export type DatasetScalarRelationFilter = {
+    is?: DatasetWhereInput
+    isNot?: DatasetWhereInput
   }
 
   export type EvaluationResultOrderByRelationAggregateInput = {
@@ -14795,9 +14819,6 @@ export namespace Prisma {
     name?: SortOrder
     model?: SortOrder
     status?: SortOrder
-    useCache?: SortOrder
-    failOnRegression?: SortOrder
-    allowedQualityDrop?: SortOrder
     qualityScore?: SortOrder
     passRate?: SortOrder
     avgLatencyMs?: SortOrder
@@ -14808,15 +14829,17 @@ export namespace Prisma {
     llmCallsAvoided?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostSavedUsd?: SortOrder
-    regressionDelta?: SortOrder
-    regressionPassed?: SortOrder
-    errorMessage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    allowedQualityDrop?: SortOrder
+    errorMessage?: SortOrder
+    failOnRegression?: SortOrder
+    regressionDelta?: SortOrder
+    regressionPassed?: SortOrder
+    useCache?: SortOrder
   }
 
   export type ExperimentAvgOrderByAggregateInput = {
-    allowedQualityDrop?: SortOrder
     qualityScore?: SortOrder
     passRate?: SortOrder
     avgLatencyMs?: SortOrder
@@ -14827,6 +14850,7 @@ export namespace Prisma {
     llmCallsAvoided?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostSavedUsd?: SortOrder
+    allowedQualityDrop?: SortOrder
     regressionDelta?: SortOrder
   }
 
@@ -14837,9 +14861,6 @@ export namespace Prisma {
     name?: SortOrder
     model?: SortOrder
     status?: SortOrder
-    useCache?: SortOrder
-    failOnRegression?: SortOrder
-    allowedQualityDrop?: SortOrder
     qualityScore?: SortOrder
     passRate?: SortOrder
     avgLatencyMs?: SortOrder
@@ -14850,11 +14871,14 @@ export namespace Prisma {
     llmCallsAvoided?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostSavedUsd?: SortOrder
-    regressionDelta?: SortOrder
-    regressionPassed?: SortOrder
-    errorMessage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    allowedQualityDrop?: SortOrder
+    errorMessage?: SortOrder
+    failOnRegression?: SortOrder
+    regressionDelta?: SortOrder
+    regressionPassed?: SortOrder
+    useCache?: SortOrder
   }
 
   export type ExperimentMinOrderByAggregateInput = {
@@ -14864,9 +14888,6 @@ export namespace Prisma {
     name?: SortOrder
     model?: SortOrder
     status?: SortOrder
-    useCache?: SortOrder
-    failOnRegression?: SortOrder
-    allowedQualityDrop?: SortOrder
     qualityScore?: SortOrder
     passRate?: SortOrder
     avgLatencyMs?: SortOrder
@@ -14877,15 +14898,17 @@ export namespace Prisma {
     llmCallsAvoided?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostSavedUsd?: SortOrder
-    regressionDelta?: SortOrder
-    regressionPassed?: SortOrder
-    errorMessage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    allowedQualityDrop?: SortOrder
+    errorMessage?: SortOrder
+    failOnRegression?: SortOrder
+    regressionDelta?: SortOrder
+    regressionPassed?: SortOrder
+    useCache?: SortOrder
   }
 
   export type ExperimentSumOrderByAggregateInput = {
-    allowedQualityDrop?: SortOrder
     qualityScore?: SortOrder
     passRate?: SortOrder
     avgLatencyMs?: SortOrder
@@ -14896,6 +14919,7 @@ export namespace Prisma {
     llmCallsAvoided?: SortOrder
     cachedInputTokens?: SortOrder
     estimatedCostSavedUsd?: SortOrder
+    allowedQualityDrop?: SortOrder
     regressionDelta?: SortOrder
   }
 
@@ -14920,13 +14944,14 @@ export namespace Prisma {
     ttftMs?: SortOrder
     inputTokens?: SortOrder
     outputTokens?: SortOrder
-    totalTokens?: SortOrder
-    estimatedCostUsd?: SortOrder
-    uncachedEstimatedCostUsd?: SortOrder
     cacheHit?: SortOrder
-    cachedInputTokens?: SortOrder
     reason?: SortOrder
     createdAt?: SortOrder
+    cachedInputTokens?: SortOrder
+    estimatedCostUsd?: SortOrder
+    totalTokens?: SortOrder
+    uncachedEstimatedCostUsd?: SortOrder
+    evaluatorResults?: SortOrder
   }
 
   export type EvaluationResultAvgOrderByAggregateInput = {
@@ -14935,10 +14960,10 @@ export namespace Prisma {
     ttftMs?: SortOrder
     inputTokens?: SortOrder
     outputTokens?: SortOrder
-    totalTokens?: SortOrder
-    estimatedCostUsd?: SortOrder
-    uncachedEstimatedCostUsd?: SortOrder
     cachedInputTokens?: SortOrder
+    estimatedCostUsd?: SortOrder
+    totalTokens?: SortOrder
+    uncachedEstimatedCostUsd?: SortOrder
   }
 
   export type EvaluationResultMaxOrderByAggregateInput = {
@@ -14952,13 +14977,14 @@ export namespace Prisma {
     ttftMs?: SortOrder
     inputTokens?: SortOrder
     outputTokens?: SortOrder
-    totalTokens?: SortOrder
-    estimatedCostUsd?: SortOrder
-    uncachedEstimatedCostUsd?: SortOrder
     cacheHit?: SortOrder
-    cachedInputTokens?: SortOrder
     reason?: SortOrder
     createdAt?: SortOrder
+    cachedInputTokens?: SortOrder
+    estimatedCostUsd?: SortOrder
+    totalTokens?: SortOrder
+    uncachedEstimatedCostUsd?: SortOrder
+    evaluatorResults?: SortOrder
   }
 
   export type EvaluationResultMinOrderByAggregateInput = {
@@ -14972,13 +14998,14 @@ export namespace Prisma {
     ttftMs?: SortOrder
     inputTokens?: SortOrder
     outputTokens?: SortOrder
-    totalTokens?: SortOrder
-    estimatedCostUsd?: SortOrder
-    uncachedEstimatedCostUsd?: SortOrder
     cacheHit?: SortOrder
-    cachedInputTokens?: SortOrder
     reason?: SortOrder
     createdAt?: SortOrder
+    cachedInputTokens?: SortOrder
+    estimatedCostUsd?: SortOrder
+    totalTokens?: SortOrder
+    uncachedEstimatedCostUsd?: SortOrder
+    evaluatorResults?: SortOrder
   }
 
   export type EvaluationResultSumOrderByAggregateInput = {
@@ -14987,10 +15014,10 @@ export namespace Prisma {
     ttftMs?: SortOrder
     inputTokens?: SortOrder
     outputTokens?: SortOrder
-    totalTokens?: SortOrder
-    estimatedCostUsd?: SortOrder
-    uncachedEstimatedCostUsd?: SortOrder
     cachedInputTokens?: SortOrder
+    estimatedCostUsd?: SortOrder
+    totalTokens?: SortOrder
+    uncachedEstimatedCostUsd?: SortOrder
   }
 
   export type GithubIntegrationCountOrderByAggregateInput = {
@@ -15149,10 +15176,10 @@ export namespace Prisma {
     deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutProjectsInput = {
-    create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutProjectsInput
-    connect?: UserWhereUniqueInput
+  export type BaselineCreateNestedOneWithoutProjectInput = {
+    create?: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: BaselineCreateOrConnectWithoutProjectInput
+    connect?: BaselineWhereUniqueInput
   }
 
   export type DatasetCreateNestedManyWithoutProjectInput = {
@@ -15183,16 +15210,22 @@ export namespace Prisma {
     connect?: GithubIntegrationWhereUniqueInput | GithubIntegrationWhereUniqueInput[]
   }
 
-  export type BaselineCreateNestedOneWithoutProjectInput = {
-    create?: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
-    connectOrCreate?: BaselineCreateOrConnectWithoutProjectInput
-    connect?: BaselineWhereUniqueInput
+  export type UserCreateNestedOneWithoutProjectsInput = {
+    create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProjectsInput
+    connect?: UserWhereUniqueInput
   }
 
   export type ProjectCiTokenCreateNestedOneWithoutProjectInput = {
     create?: XOR<ProjectCiTokenCreateWithoutProjectInput, ProjectCiTokenUncheckedCreateWithoutProjectInput>
     connectOrCreate?: ProjectCiTokenCreateOrConnectWithoutProjectInput
     connect?: ProjectCiTokenWhereUniqueInput
+  }
+
+  export type BaselineUncheckedCreateNestedOneWithoutProjectInput = {
+    create?: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: BaselineCreateOrConnectWithoutProjectInput
+    connect?: BaselineWhereUniqueInput
   }
 
   export type DatasetUncheckedCreateNestedManyWithoutProjectInput = {
@@ -15221,12 +15254,6 @@ export namespace Prisma {
     connectOrCreate?: GithubIntegrationCreateOrConnectWithoutProjectInput | GithubIntegrationCreateOrConnectWithoutProjectInput[]
     createMany?: GithubIntegrationCreateManyProjectInputEnvelope
     connect?: GithubIntegrationWhereUniqueInput | GithubIntegrationWhereUniqueInput[]
-  }
-
-  export type BaselineUncheckedCreateNestedOneWithoutProjectInput = {
-    create?: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
-    connectOrCreate?: BaselineCreateOrConnectWithoutProjectInput
-    connect?: BaselineWhereUniqueInput
   }
 
   export type ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput = {
@@ -15275,12 +15302,14 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type UserUpdateOneRequiredWithoutProjectsNestedInput = {
-    create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutProjectsInput
-    upsert?: UserUpsertWithoutProjectsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProjectsInput, UserUpdateWithoutProjectsInput>, UserUncheckedUpdateWithoutProjectsInput>
+  export type BaselineUpdateOneWithoutProjectNestedInput = {
+    create?: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: BaselineCreateOrConnectWithoutProjectInput
+    upsert?: BaselineUpsertWithoutProjectInput
+    disconnect?: BaselineWhereInput | boolean
+    delete?: BaselineWhereInput | boolean
+    connect?: BaselineWhereUniqueInput
+    update?: XOR<XOR<BaselineUpdateToOneWithWhereWithoutProjectInput, BaselineUpdateWithoutProjectInput>, BaselineUncheckedUpdateWithoutProjectInput>
   }
 
   export type DatasetUpdateManyWithoutProjectNestedInput = {
@@ -15339,14 +15368,12 @@ export namespace Prisma {
     deleteMany?: GithubIntegrationScalarWhereInput | GithubIntegrationScalarWhereInput[]
   }
 
-  export type BaselineUpdateOneWithoutProjectNestedInput = {
-    create?: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
-    connectOrCreate?: BaselineCreateOrConnectWithoutProjectInput
-    upsert?: BaselineUpsertWithoutProjectInput
-    disconnect?: BaselineWhereInput | boolean
-    delete?: BaselineWhereInput | boolean
-    connect?: BaselineWhereUniqueInput
-    update?: XOR<XOR<BaselineUpdateToOneWithWhereWithoutProjectInput, BaselineUpdateWithoutProjectInput>, BaselineUncheckedUpdateWithoutProjectInput>
+  export type UserUpdateOneRequiredWithoutProjectsNestedInput = {
+    create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProjectsInput
+    upsert?: UserUpsertWithoutProjectsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProjectsInput, UserUpdateWithoutProjectsInput>, UserUncheckedUpdateWithoutProjectsInput>
   }
 
   export type ProjectCiTokenUpdateOneWithoutProjectNestedInput = {
@@ -15357,6 +15384,16 @@ export namespace Prisma {
     delete?: ProjectCiTokenWhereInput | boolean
     connect?: ProjectCiTokenWhereUniqueInput
     update?: XOR<XOR<ProjectCiTokenUpdateToOneWithWhereWithoutProjectInput, ProjectCiTokenUpdateWithoutProjectInput>, ProjectCiTokenUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type BaselineUncheckedUpdateOneWithoutProjectNestedInput = {
+    create?: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
+    connectOrCreate?: BaselineCreateOrConnectWithoutProjectInput
+    upsert?: BaselineUpsertWithoutProjectInput
+    disconnect?: BaselineWhereInput | boolean
+    delete?: BaselineWhereInput | boolean
+    connect?: BaselineWhereUniqueInput
+    update?: XOR<XOR<BaselineUpdateToOneWithWhereWithoutProjectInput, BaselineUpdateWithoutProjectInput>, BaselineUncheckedUpdateWithoutProjectInput>
   }
 
   export type DatasetUncheckedUpdateManyWithoutProjectNestedInput = {
@@ -15415,16 +15452,6 @@ export namespace Prisma {
     deleteMany?: GithubIntegrationScalarWhereInput | GithubIntegrationScalarWhereInput[]
   }
 
-  export type BaselineUncheckedUpdateOneWithoutProjectNestedInput = {
-    create?: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
-    connectOrCreate?: BaselineCreateOrConnectWithoutProjectInput
-    upsert?: BaselineUpsertWithoutProjectInput
-    disconnect?: BaselineWhereInput | boolean
-    delete?: BaselineWhereInput | boolean
-    connect?: BaselineWhereUniqueInput
-    update?: XOR<XOR<BaselineUpdateToOneWithWhereWithoutProjectInput, BaselineUpdateWithoutProjectInput>, BaselineUncheckedUpdateWithoutProjectInput>
-  }
-
   export type ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput = {
     create?: XOR<ProjectCiTokenCreateWithoutProjectInput, ProjectCiTokenUncheckedCreateWithoutProjectInput>
     connectOrCreate?: ProjectCiTokenCreateOrConnectWithoutProjectInput
@@ -15441,13 +15468,6 @@ export namespace Prisma {
     connect?: ProjectWhereUniqueInput
   }
 
-  export type TestCaseCreateNestedManyWithoutDatasetInput = {
-    create?: XOR<TestCaseCreateWithoutDatasetInput, TestCaseUncheckedCreateWithoutDatasetInput> | TestCaseCreateWithoutDatasetInput[] | TestCaseUncheckedCreateWithoutDatasetInput[]
-    connectOrCreate?: TestCaseCreateOrConnectWithoutDatasetInput | TestCaseCreateOrConnectWithoutDatasetInput[]
-    createMany?: TestCaseCreateManyDatasetInputEnvelope
-    connect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
-  }
-
   export type ExperimentCreateNestedManyWithoutDatasetInput = {
     create?: XOR<ExperimentCreateWithoutDatasetInput, ExperimentUncheckedCreateWithoutDatasetInput> | ExperimentCreateWithoutDatasetInput[] | ExperimentUncheckedCreateWithoutDatasetInput[]
     connectOrCreate?: ExperimentCreateOrConnectWithoutDatasetInput | ExperimentCreateOrConnectWithoutDatasetInput[]
@@ -15455,7 +15475,7 @@ export namespace Prisma {
     connect?: ExperimentWhereUniqueInput | ExperimentWhereUniqueInput[]
   }
 
-  export type TestCaseUncheckedCreateNestedManyWithoutDatasetInput = {
+  export type TestCaseCreateNestedManyWithoutDatasetInput = {
     create?: XOR<TestCaseCreateWithoutDatasetInput, TestCaseUncheckedCreateWithoutDatasetInput> | TestCaseCreateWithoutDatasetInput[] | TestCaseUncheckedCreateWithoutDatasetInput[]
     connectOrCreate?: TestCaseCreateOrConnectWithoutDatasetInput | TestCaseCreateOrConnectWithoutDatasetInput[]
     createMany?: TestCaseCreateManyDatasetInputEnvelope
@@ -15469,26 +15489,19 @@ export namespace Prisma {
     connect?: ExperimentWhereUniqueInput | ExperimentWhereUniqueInput[]
   }
 
+  export type TestCaseUncheckedCreateNestedManyWithoutDatasetInput = {
+    create?: XOR<TestCaseCreateWithoutDatasetInput, TestCaseUncheckedCreateWithoutDatasetInput> | TestCaseCreateWithoutDatasetInput[] | TestCaseUncheckedCreateWithoutDatasetInput[]
+    connectOrCreate?: TestCaseCreateOrConnectWithoutDatasetInput | TestCaseCreateOrConnectWithoutDatasetInput[]
+    createMany?: TestCaseCreateManyDatasetInputEnvelope
+    connect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+  }
+
   export type ProjectUpdateOneRequiredWithoutDatasetsNestedInput = {
     create?: XOR<ProjectCreateWithoutDatasetsInput, ProjectUncheckedCreateWithoutDatasetsInput>
     connectOrCreate?: ProjectCreateOrConnectWithoutDatasetsInput
     upsert?: ProjectUpsertWithoutDatasetsInput
     connect?: ProjectWhereUniqueInput
     update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutDatasetsInput, ProjectUpdateWithoutDatasetsInput>, ProjectUncheckedUpdateWithoutDatasetsInput>
-  }
-
-  export type TestCaseUpdateManyWithoutDatasetNestedInput = {
-    create?: XOR<TestCaseCreateWithoutDatasetInput, TestCaseUncheckedCreateWithoutDatasetInput> | TestCaseCreateWithoutDatasetInput[] | TestCaseUncheckedCreateWithoutDatasetInput[]
-    connectOrCreate?: TestCaseCreateOrConnectWithoutDatasetInput | TestCaseCreateOrConnectWithoutDatasetInput[]
-    upsert?: TestCaseUpsertWithWhereUniqueWithoutDatasetInput | TestCaseUpsertWithWhereUniqueWithoutDatasetInput[]
-    createMany?: TestCaseCreateManyDatasetInputEnvelope
-    set?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
-    disconnect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
-    delete?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
-    connect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
-    update?: TestCaseUpdateWithWhereUniqueWithoutDatasetInput | TestCaseUpdateWithWhereUniqueWithoutDatasetInput[]
-    updateMany?: TestCaseUpdateManyWithWhereWithoutDatasetInput | TestCaseUpdateManyWithWhereWithoutDatasetInput[]
-    deleteMany?: TestCaseScalarWhereInput | TestCaseScalarWhereInput[]
   }
 
   export type ExperimentUpdateManyWithoutDatasetNestedInput = {
@@ -15505,7 +15518,7 @@ export namespace Prisma {
     deleteMany?: ExperimentScalarWhereInput | ExperimentScalarWhereInput[]
   }
 
-  export type TestCaseUncheckedUpdateManyWithoutDatasetNestedInput = {
+  export type TestCaseUpdateManyWithoutDatasetNestedInput = {
     create?: XOR<TestCaseCreateWithoutDatasetInput, TestCaseUncheckedCreateWithoutDatasetInput> | TestCaseCreateWithoutDatasetInput[] | TestCaseUncheckedCreateWithoutDatasetInput[]
     connectOrCreate?: TestCaseCreateOrConnectWithoutDatasetInput | TestCaseCreateOrConnectWithoutDatasetInput[]
     upsert?: TestCaseUpsertWithWhereUniqueWithoutDatasetInput | TestCaseUpsertWithWhereUniqueWithoutDatasetInput[]
@@ -15533,10 +15546,18 @@ export namespace Prisma {
     deleteMany?: ExperimentScalarWhereInput | ExperimentScalarWhereInput[]
   }
 
-  export type DatasetCreateNestedOneWithoutTestCasesInput = {
-    create?: XOR<DatasetCreateWithoutTestCasesInput, DatasetUncheckedCreateWithoutTestCasesInput>
-    connectOrCreate?: DatasetCreateOrConnectWithoutTestCasesInput
-    connect?: DatasetWhereUniqueInput
+  export type TestCaseUncheckedUpdateManyWithoutDatasetNestedInput = {
+    create?: XOR<TestCaseCreateWithoutDatasetInput, TestCaseUncheckedCreateWithoutDatasetInput> | TestCaseCreateWithoutDatasetInput[] | TestCaseUncheckedCreateWithoutDatasetInput[]
+    connectOrCreate?: TestCaseCreateOrConnectWithoutDatasetInput | TestCaseCreateOrConnectWithoutDatasetInput[]
+    upsert?: TestCaseUpsertWithWhereUniqueWithoutDatasetInput | TestCaseUpsertWithWhereUniqueWithoutDatasetInput[]
+    createMany?: TestCaseCreateManyDatasetInputEnvelope
+    set?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    disconnect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    delete?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    connect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    update?: TestCaseUpdateWithWhereUniqueWithoutDatasetInput | TestCaseUpdateWithWhereUniqueWithoutDatasetInput[]
+    updateMany?: TestCaseUpdateManyWithWhereWithoutDatasetInput | TestCaseUpdateManyWithWhereWithoutDatasetInput[]
+    deleteMany?: TestCaseScalarWhereInput | TestCaseScalarWhereInput[]
   }
 
   export type EvaluationResultCreateNestedManyWithoutTestCaseInput = {
@@ -15546,19 +15567,17 @@ export namespace Prisma {
     connect?: EvaluationResultWhereUniqueInput | EvaluationResultWhereUniqueInput[]
   }
 
+  export type DatasetCreateNestedOneWithoutTestCasesInput = {
+    create?: XOR<DatasetCreateWithoutTestCasesInput, DatasetUncheckedCreateWithoutTestCasesInput>
+    connectOrCreate?: DatasetCreateOrConnectWithoutTestCasesInput
+    connect?: DatasetWhereUniqueInput
+  }
+
   export type EvaluationResultUncheckedCreateNestedManyWithoutTestCaseInput = {
     create?: XOR<EvaluationResultCreateWithoutTestCaseInput, EvaluationResultUncheckedCreateWithoutTestCaseInput> | EvaluationResultCreateWithoutTestCaseInput[] | EvaluationResultUncheckedCreateWithoutTestCaseInput[]
     connectOrCreate?: EvaluationResultCreateOrConnectWithoutTestCaseInput | EvaluationResultCreateOrConnectWithoutTestCaseInput[]
     createMany?: EvaluationResultCreateManyTestCaseInputEnvelope
     connect?: EvaluationResultWhereUniqueInput | EvaluationResultWhereUniqueInput[]
-  }
-
-  export type DatasetUpdateOneRequiredWithoutTestCasesNestedInput = {
-    create?: XOR<DatasetCreateWithoutTestCasesInput, DatasetUncheckedCreateWithoutTestCasesInput>
-    connectOrCreate?: DatasetCreateOrConnectWithoutTestCasesInput
-    upsert?: DatasetUpsertWithoutTestCasesInput
-    connect?: DatasetWhereUniqueInput
-    update?: XOR<XOR<DatasetUpdateToOneWithWhereWithoutTestCasesInput, DatasetUpdateWithoutTestCasesInput>, DatasetUncheckedUpdateWithoutTestCasesInput>
   }
 
   export type EvaluationResultUpdateManyWithoutTestCaseNestedInput = {
@@ -15573,6 +15592,14 @@ export namespace Prisma {
     update?: EvaluationResultUpdateWithWhereUniqueWithoutTestCaseInput | EvaluationResultUpdateWithWhereUniqueWithoutTestCaseInput[]
     updateMany?: EvaluationResultUpdateManyWithWhereWithoutTestCaseInput | EvaluationResultUpdateManyWithWhereWithoutTestCaseInput[]
     deleteMany?: EvaluationResultScalarWhereInput | EvaluationResultScalarWhereInput[]
+  }
+
+  export type DatasetUpdateOneRequiredWithoutTestCasesNestedInput = {
+    create?: XOR<DatasetCreateWithoutTestCasesInput, DatasetUncheckedCreateWithoutTestCasesInput>
+    connectOrCreate?: DatasetCreateOrConnectWithoutTestCasesInput
+    upsert?: DatasetUpsertWithoutTestCasesInput
+    connect?: DatasetWhereUniqueInput
+    update?: XOR<XOR<DatasetUpdateToOneWithWhereWithoutTestCasesInput, DatasetUpdateWithoutTestCasesInput>, DatasetUncheckedUpdateWithoutTestCasesInput>
   }
 
   export type EvaluationResultUncheckedUpdateManyWithoutTestCaseNestedInput = {
@@ -15603,10 +15630,11 @@ export namespace Prisma {
     update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutEvaluatorsInput, ProjectUpdateWithoutEvaluatorsInput>, ProjectUncheckedUpdateWithoutEvaluatorsInput>
   }
 
-  export type ProjectCreateNestedOneWithoutExperimentsInput = {
-    create?: XOR<ProjectCreateWithoutExperimentsInput, ProjectUncheckedCreateWithoutExperimentsInput>
-    connectOrCreate?: ProjectCreateOrConnectWithoutExperimentsInput
-    connect?: ProjectWhereUniqueInput
+  export type EvaluationResultCreateNestedManyWithoutExperimentInput = {
+    create?: XOR<EvaluationResultCreateWithoutExperimentInput, EvaluationResultUncheckedCreateWithoutExperimentInput> | EvaluationResultCreateWithoutExperimentInput[] | EvaluationResultUncheckedCreateWithoutExperimentInput[]
+    connectOrCreate?: EvaluationResultCreateOrConnectWithoutExperimentInput | EvaluationResultCreateOrConnectWithoutExperimentInput[]
+    createMany?: EvaluationResultCreateManyExperimentInputEnvelope
+    connect?: EvaluationResultWhereUniqueInput | EvaluationResultWhereUniqueInput[]
   }
 
   export type DatasetCreateNestedOneWithoutExperimentsInput = {
@@ -15615,11 +15643,10 @@ export namespace Prisma {
     connect?: DatasetWhereUniqueInput
   }
 
-  export type EvaluationResultCreateNestedManyWithoutExperimentInput = {
-    create?: XOR<EvaluationResultCreateWithoutExperimentInput, EvaluationResultUncheckedCreateWithoutExperimentInput> | EvaluationResultCreateWithoutExperimentInput[] | EvaluationResultUncheckedCreateWithoutExperimentInput[]
-    connectOrCreate?: EvaluationResultCreateOrConnectWithoutExperimentInput | EvaluationResultCreateOrConnectWithoutExperimentInput[]
-    createMany?: EvaluationResultCreateManyExperimentInputEnvelope
-    connect?: EvaluationResultWhereUniqueInput | EvaluationResultWhereUniqueInput[]
+  export type ProjectCreateNestedOneWithoutExperimentsInput = {
+    create?: XOR<ProjectCreateWithoutExperimentsInput, ProjectUncheckedCreateWithoutExperimentsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutExperimentsInput
+    connect?: ProjectWhereUniqueInput
   }
 
   export type EvaluationResultUncheckedCreateNestedManyWithoutExperimentInput = {
@@ -15627,22 +15654,6 @@ export namespace Prisma {
     connectOrCreate?: EvaluationResultCreateOrConnectWithoutExperimentInput | EvaluationResultCreateOrConnectWithoutExperimentInput[]
     createMany?: EvaluationResultCreateManyExperimentInputEnvelope
     connect?: EvaluationResultWhereUniqueInput | EvaluationResultWhereUniqueInput[]
-  }
-
-  export type ProjectUpdateOneRequiredWithoutExperimentsNestedInput = {
-    create?: XOR<ProjectCreateWithoutExperimentsInput, ProjectUncheckedCreateWithoutExperimentsInput>
-    connectOrCreate?: ProjectCreateOrConnectWithoutExperimentsInput
-    upsert?: ProjectUpsertWithoutExperimentsInput
-    connect?: ProjectWhereUniqueInput
-    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutExperimentsInput, ProjectUpdateWithoutExperimentsInput>, ProjectUncheckedUpdateWithoutExperimentsInput>
-  }
-
-  export type DatasetUpdateOneRequiredWithoutExperimentsNestedInput = {
-    create?: XOR<DatasetCreateWithoutExperimentsInput, DatasetUncheckedCreateWithoutExperimentsInput>
-    connectOrCreate?: DatasetCreateOrConnectWithoutExperimentsInput
-    upsert?: DatasetUpsertWithoutExperimentsInput
-    connect?: DatasetWhereUniqueInput
-    update?: XOR<XOR<DatasetUpdateToOneWithWhereWithoutExperimentsInput, DatasetUpdateWithoutExperimentsInput>, DatasetUncheckedUpdateWithoutExperimentsInput>
   }
 
   export type EvaluationResultUpdateManyWithoutExperimentNestedInput = {
@@ -15657,6 +15668,22 @@ export namespace Prisma {
     update?: EvaluationResultUpdateWithWhereUniqueWithoutExperimentInput | EvaluationResultUpdateWithWhereUniqueWithoutExperimentInput[]
     updateMany?: EvaluationResultUpdateManyWithWhereWithoutExperimentInput | EvaluationResultUpdateManyWithWhereWithoutExperimentInput[]
     deleteMany?: EvaluationResultScalarWhereInput | EvaluationResultScalarWhereInput[]
+  }
+
+  export type DatasetUpdateOneRequiredWithoutExperimentsNestedInput = {
+    create?: XOR<DatasetCreateWithoutExperimentsInput, DatasetUncheckedCreateWithoutExperimentsInput>
+    connectOrCreate?: DatasetCreateOrConnectWithoutExperimentsInput
+    upsert?: DatasetUpsertWithoutExperimentsInput
+    connect?: DatasetWhereUniqueInput
+    update?: XOR<XOR<DatasetUpdateToOneWithWhereWithoutExperimentsInput, DatasetUpdateWithoutExperimentsInput>, DatasetUncheckedUpdateWithoutExperimentsInput>
+  }
+
+  export type ProjectUpdateOneRequiredWithoutExperimentsNestedInput = {
+    create?: XOR<ProjectCreateWithoutExperimentsInput, ProjectUncheckedCreateWithoutExperimentsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutExperimentsInput
+    upsert?: ProjectUpsertWithoutExperimentsInput
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutExperimentsInput, ProjectUpdateWithoutExperimentsInput>, ProjectUncheckedUpdateWithoutExperimentsInput>
   }
 
   export type EvaluationResultUncheckedUpdateManyWithoutExperimentNestedInput = {
@@ -15997,11 +16024,11 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    baseline?: BaselineCreateNestedOneWithoutProjectInput
     datasets?: DatasetCreateNestedManyWithoutProjectInput
     evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
-    baseline?: BaselineCreateNestedOneWithoutProjectInput
     ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
@@ -16022,11 +16049,11 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
     datasets?: DatasetUncheckedCreateNestedManyWithoutProjectInput
     evaluators?: EvaluatorUncheckedCreateNestedManyWithoutProjectInput
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
-    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
     ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
@@ -16078,27 +16105,23 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Project"> | Date | string
   }
 
-  export type UserCreateWithoutProjectsInput = {
+  export type BaselineCreateWithoutProjectInput = {
     id?: string
-    name: string
-    email: string
-    passwordHash: string
+    experimentId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type UserUncheckedCreateWithoutProjectsInput = {
+  export type BaselineUncheckedCreateWithoutProjectInput = {
     id?: string
-    name: string
-    email: string
-    passwordHash: string
+    experimentId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type UserCreateOrConnectWithoutProjectsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
+  export type BaselineCreateOrConnectWithoutProjectInput = {
+    where: BaselineWhereUniqueInput
+    create: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
   }
 
   export type DatasetCreateWithoutProjectInput = {
@@ -16108,8 +16131,8 @@ export namespace Prisma {
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    testCases?: TestCaseCreateNestedManyWithoutDatasetInput
     experiments?: ExperimentCreateNestedManyWithoutDatasetInput
+    testCases?: TestCaseCreateNestedManyWithoutDatasetInput
   }
 
   export type DatasetUncheckedCreateWithoutProjectInput = {
@@ -16119,8 +16142,8 @@ export namespace Prisma {
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    testCases?: TestCaseUncheckedCreateNestedManyWithoutDatasetInput
     experiments?: ExperimentUncheckedCreateNestedManyWithoutDatasetInput
+    testCases?: TestCaseUncheckedCreateNestedManyWithoutDatasetInput
   }
 
   export type DatasetCreateOrConnectWithoutProjectInput = {
@@ -16164,9 +16187,6 @@ export namespace Prisma {
     name: string
     model: string
     status?: string
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: number
     qualityScore?: number | null
     passRate?: number | null
     avgLatencyMs?: number | null
@@ -16177,13 +16197,16 @@ export namespace Prisma {
     llmCallsAvoided?: number
     cachedInputTokens?: number
     estimatedCostSavedUsd?: number
-    regressionDelta?: number | null
-    regressionPassed?: boolean
-    errorMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    dataset: DatasetCreateNestedOneWithoutExperimentsInput
+    allowedQualityDrop?: number
+    errorMessage?: string | null
+    failOnRegression?: boolean
+    regressionDelta?: number | null
+    regressionPassed?: boolean
+    useCache?: boolean
     results?: EvaluationResultCreateNestedManyWithoutExperimentInput
+    dataset: DatasetCreateNestedOneWithoutExperimentsInput
   }
 
   export type ExperimentUncheckedCreateWithoutProjectInput = {
@@ -16192,9 +16215,6 @@ export namespace Prisma {
     name: string
     model: string
     status?: string
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: number
     qualityScore?: number | null
     passRate?: number | null
     avgLatencyMs?: number | null
@@ -16205,11 +16225,14 @@ export namespace Prisma {
     llmCallsAvoided?: number
     cachedInputTokens?: number
     estimatedCostSavedUsd?: number
-    regressionDelta?: number | null
-    regressionPassed?: boolean
-    errorMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    allowedQualityDrop?: number
+    errorMessage?: string | null
+    failOnRegression?: boolean
+    regressionDelta?: number | null
+    regressionPassed?: boolean
+    useCache?: boolean
     results?: EvaluationResultUncheckedCreateNestedManyWithoutExperimentInput
   }
 
@@ -16249,23 +16272,27 @@ export namespace Prisma {
     data: GithubIntegrationCreateManyProjectInput | GithubIntegrationCreateManyProjectInput[]
   }
 
-  export type BaselineCreateWithoutProjectInput = {
+  export type UserCreateWithoutProjectsInput = {
     id?: string
-    experimentId: string
+    name: string
+    email: string
+    passwordHash: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type BaselineUncheckedCreateWithoutProjectInput = {
+  export type UserUncheckedCreateWithoutProjectsInput = {
     id?: string
-    experimentId: string
+    name: string
+    email: string
+    passwordHash: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
-  export type BaselineCreateOrConnectWithoutProjectInput = {
-    where: BaselineWhereUniqueInput
-    create: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
+  export type UserCreateOrConnectWithoutProjectsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
   }
 
   export type ProjectCiTokenCreateWithoutProjectInput = {
@@ -16289,31 +16316,27 @@ export namespace Prisma {
     create: XOR<ProjectCiTokenCreateWithoutProjectInput, ProjectCiTokenUncheckedCreateWithoutProjectInput>
   }
 
-  export type UserUpsertWithoutProjectsInput = {
-    update: XOR<UserUpdateWithoutProjectsInput, UserUncheckedUpdateWithoutProjectsInput>
-    create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
-    where?: UserWhereInput
+  export type BaselineUpsertWithoutProjectInput = {
+    update: XOR<BaselineUpdateWithoutProjectInput, BaselineUncheckedUpdateWithoutProjectInput>
+    create: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
+    where?: BaselineWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutProjectsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutProjectsInput, UserUncheckedUpdateWithoutProjectsInput>
+  export type BaselineUpdateToOneWithWhereWithoutProjectInput = {
+    where?: BaselineWhereInput
+    data: XOR<BaselineUpdateWithoutProjectInput, BaselineUncheckedUpdateWithoutProjectInput>
   }
 
-  export type UserUpdateWithoutProjectsInput = {
+  export type BaselineUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    experimentId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type UserUncheckedUpdateWithoutProjectsInput = {
+  export type BaselineUncheckedUpdateWithoutProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
+    experimentId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16402,9 +16425,6 @@ export namespace Prisma {
     name?: StringFilter<"Experiment"> | string
     model?: StringFilter<"Experiment"> | string
     status?: StringFilter<"Experiment"> | string
-    useCache?: BoolFilter<"Experiment"> | boolean
-    failOnRegression?: BoolFilter<"Experiment"> | boolean
-    allowedQualityDrop?: FloatFilter<"Experiment"> | number
     qualityScore?: FloatNullableFilter<"Experiment"> | number | null
     passRate?: FloatNullableFilter<"Experiment"> | number | null
     avgLatencyMs?: FloatNullableFilter<"Experiment"> | number | null
@@ -16415,11 +16435,14 @@ export namespace Prisma {
     llmCallsAvoided?: IntFilter<"Experiment"> | number
     cachedInputTokens?: IntFilter<"Experiment"> | number
     estimatedCostSavedUsd?: FloatFilter<"Experiment"> | number
-    regressionDelta?: FloatNullableFilter<"Experiment"> | number | null
-    regressionPassed?: BoolFilter<"Experiment"> | boolean
-    errorMessage?: StringNullableFilter<"Experiment"> | string | null
     createdAt?: DateTimeFilter<"Experiment"> | Date | string
     updatedAt?: DateTimeFilter<"Experiment"> | Date | string
+    allowedQualityDrop?: FloatFilter<"Experiment"> | number
+    errorMessage?: StringNullableFilter<"Experiment"> | string | null
+    failOnRegression?: BoolFilter<"Experiment"> | boolean
+    regressionDelta?: FloatNullableFilter<"Experiment"> | number | null
+    regressionPassed?: BoolFilter<"Experiment"> | boolean
+    useCache?: BoolFilter<"Experiment"> | boolean
   }
 
   export type GithubIntegrationUpsertWithWhereUniqueWithoutProjectInput = {
@@ -16451,27 +16474,31 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"GithubIntegration"> | Date | string
   }
 
-  export type BaselineUpsertWithoutProjectInput = {
-    update: XOR<BaselineUpdateWithoutProjectInput, BaselineUncheckedUpdateWithoutProjectInput>
-    create: XOR<BaselineCreateWithoutProjectInput, BaselineUncheckedCreateWithoutProjectInput>
-    where?: BaselineWhereInput
+  export type UserUpsertWithoutProjectsInput = {
+    update: XOR<UserUpdateWithoutProjectsInput, UserUncheckedUpdateWithoutProjectsInput>
+    create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
+    where?: UserWhereInput
   }
 
-  export type BaselineUpdateToOneWithWhereWithoutProjectInput = {
-    where?: BaselineWhereInput
-    data: XOR<BaselineUpdateWithoutProjectInput, BaselineUncheckedUpdateWithoutProjectInput>
+  export type UserUpdateToOneWithWhereWithoutProjectsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutProjectsInput, UserUncheckedUpdateWithoutProjectsInput>
   }
 
-  export type BaselineUpdateWithoutProjectInput = {
+  export type UserUpdateWithoutProjectsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    experimentId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type BaselineUncheckedUpdateWithoutProjectInput = {
+  export type UserUncheckedUpdateWithoutProjectsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    experimentId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16520,11 +16547,11 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutProjectsInput
+    baseline?: BaselineCreateNestedOneWithoutProjectInput
     evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
-    baseline?: BaselineCreateNestedOneWithoutProjectInput
+    user: UserCreateNestedOneWithoutProjectsInput
     ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
@@ -16546,16 +16573,79 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
     evaluators?: EvaluatorUncheckedCreateNestedManyWithoutProjectInput
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
-    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
     ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutDatasetsInput = {
     where: ProjectWhereUniqueInput
     create: XOR<ProjectCreateWithoutDatasetsInput, ProjectUncheckedCreateWithoutDatasetsInput>
+  }
+
+  export type ExperimentCreateWithoutDatasetInput = {
+    id?: string
+    name: string
+    model: string
+    status?: string
+    qualityScore?: number | null
+    passRate?: number | null
+    avgLatencyMs?: number | null
+    totalTokens?: number
+    totalCostUsd?: number
+    cacheHitRate?: number
+    cacheMissRate?: number
+    llmCallsAvoided?: number
+    cachedInputTokens?: number
+    estimatedCostSavedUsd?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    allowedQualityDrop?: number
+    errorMessage?: string | null
+    failOnRegression?: boolean
+    regressionDelta?: number | null
+    regressionPassed?: boolean
+    useCache?: boolean
+    results?: EvaluationResultCreateNestedManyWithoutExperimentInput
+    project: ProjectCreateNestedOneWithoutExperimentsInput
+  }
+
+  export type ExperimentUncheckedCreateWithoutDatasetInput = {
+    id?: string
+    projectId: string
+    name: string
+    model: string
+    status?: string
+    qualityScore?: number | null
+    passRate?: number | null
+    avgLatencyMs?: number | null
+    totalTokens?: number
+    totalCostUsd?: number
+    cacheHitRate?: number
+    cacheMissRate?: number
+    llmCallsAvoided?: number
+    cachedInputTokens?: number
+    estimatedCostSavedUsd?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    allowedQualityDrop?: number
+    errorMessage?: string | null
+    failOnRegression?: boolean
+    regressionDelta?: number | null
+    regressionPassed?: boolean
+    useCache?: boolean
+    results?: EvaluationResultUncheckedCreateNestedManyWithoutExperimentInput
+  }
+
+  export type ExperimentCreateOrConnectWithoutDatasetInput = {
+    where: ExperimentWhereUniqueInput
+    create: XOR<ExperimentCreateWithoutDatasetInput, ExperimentUncheckedCreateWithoutDatasetInput>
+  }
+
+  export type ExperimentCreateManyDatasetInputEnvelope = {
+    data: ExperimentCreateManyDatasetInput | ExperimentCreateManyDatasetInput[]
   }
 
   export type TestCaseCreateWithoutDatasetInput = {
@@ -16587,69 +16677,6 @@ export namespace Prisma {
     data: TestCaseCreateManyDatasetInput | TestCaseCreateManyDatasetInput[]
   }
 
-  export type ExperimentCreateWithoutDatasetInput = {
-    id?: string
-    name: string
-    model: string
-    status?: string
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: number
-    qualityScore?: number | null
-    passRate?: number | null
-    avgLatencyMs?: number | null
-    totalTokens?: number
-    totalCostUsd?: number
-    cacheHitRate?: number
-    cacheMissRate?: number
-    llmCallsAvoided?: number
-    cachedInputTokens?: number
-    estimatedCostSavedUsd?: number
-    regressionDelta?: number | null
-    regressionPassed?: boolean
-    errorMessage?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    project: ProjectCreateNestedOneWithoutExperimentsInput
-    results?: EvaluationResultCreateNestedManyWithoutExperimentInput
-  }
-
-  export type ExperimentUncheckedCreateWithoutDatasetInput = {
-    id?: string
-    projectId: string
-    name: string
-    model: string
-    status?: string
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: number
-    qualityScore?: number | null
-    passRate?: number | null
-    avgLatencyMs?: number | null
-    totalTokens?: number
-    totalCostUsd?: number
-    cacheHitRate?: number
-    cacheMissRate?: number
-    llmCallsAvoided?: number
-    cachedInputTokens?: number
-    estimatedCostSavedUsd?: number
-    regressionDelta?: number | null
-    regressionPassed?: boolean
-    errorMessage?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    results?: EvaluationResultUncheckedCreateNestedManyWithoutExperimentInput
-  }
-
-  export type ExperimentCreateOrConnectWithoutDatasetInput = {
-    where: ExperimentWhereUniqueInput
-    create: XOR<ExperimentCreateWithoutDatasetInput, ExperimentUncheckedCreateWithoutDatasetInput>
-  }
-
-  export type ExperimentCreateManyDatasetInputEnvelope = {
-    data: ExperimentCreateManyDatasetInput | ExperimentCreateManyDatasetInput[]
-  }
-
   export type ProjectUpsertWithoutDatasetsInput = {
     update: XOR<ProjectUpdateWithoutDatasetsInput, ProjectUncheckedUpdateWithoutDatasetsInput>
     create: XOR<ProjectCreateWithoutDatasetsInput, ProjectUncheckedCreateWithoutDatasetsInput>
@@ -16678,11 +16705,11 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    baseline?: BaselineUpdateOneWithoutProjectNestedInput
     evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
     ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
@@ -16704,11 +16731,27 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
     evaluators?: EvaluatorUncheckedUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
     ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
+  }
+
+  export type ExperimentUpsertWithWhereUniqueWithoutDatasetInput = {
+    where: ExperimentWhereUniqueInput
+    update: XOR<ExperimentUpdateWithoutDatasetInput, ExperimentUncheckedUpdateWithoutDatasetInput>
+    create: XOR<ExperimentCreateWithoutDatasetInput, ExperimentUncheckedCreateWithoutDatasetInput>
+  }
+
+  export type ExperimentUpdateWithWhereUniqueWithoutDatasetInput = {
+    where: ExperimentWhereUniqueInput
+    data: XOR<ExperimentUpdateWithoutDatasetInput, ExperimentUncheckedUpdateWithoutDatasetInput>
+  }
+
+  export type ExperimentUpdateManyWithWhereWithoutDatasetInput = {
+    where: ExperimentScalarWhereInput
+    data: XOR<ExperimentUpdateManyMutationInput, ExperimentUncheckedUpdateManyWithoutDatasetInput>
   }
 
   export type TestCaseUpsertWithWhereUniqueWithoutDatasetInput = {
@@ -16740,20 +16783,53 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"TestCase"> | Date | string
   }
 
-  export type ExperimentUpsertWithWhereUniqueWithoutDatasetInput = {
-    where: ExperimentWhereUniqueInput
-    update: XOR<ExperimentUpdateWithoutDatasetInput, ExperimentUncheckedUpdateWithoutDatasetInput>
-    create: XOR<ExperimentCreateWithoutDatasetInput, ExperimentUncheckedCreateWithoutDatasetInput>
+  export type EvaluationResultCreateWithoutTestCaseInput = {
+    id?: string
+    actualOutput: string
+    score: number
+    passed: boolean
+    latencyMs?: number | null
+    ttftMs?: number | null
+    inputTokens?: number | null
+    outputTokens?: number | null
+    cacheHit?: boolean
+    reason?: string | null
+    createdAt?: Date | string
+    cachedInputTokens?: number
+    estimatedCostUsd?: number | null
+    totalTokens?: number | null
+    uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
+    experiment: ExperimentCreateNestedOneWithoutResultsInput
   }
 
-  export type ExperimentUpdateWithWhereUniqueWithoutDatasetInput = {
-    where: ExperimentWhereUniqueInput
-    data: XOR<ExperimentUpdateWithoutDatasetInput, ExperimentUncheckedUpdateWithoutDatasetInput>
+  export type EvaluationResultUncheckedCreateWithoutTestCaseInput = {
+    id?: string
+    experimentId: string
+    actualOutput: string
+    score: number
+    passed: boolean
+    latencyMs?: number | null
+    ttftMs?: number | null
+    inputTokens?: number | null
+    outputTokens?: number | null
+    cacheHit?: boolean
+    reason?: string | null
+    createdAt?: Date | string
+    cachedInputTokens?: number
+    estimatedCostUsd?: number | null
+    totalTokens?: number | null
+    uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
-  export type ExperimentUpdateManyWithWhereWithoutDatasetInput = {
-    where: ExperimentScalarWhereInput
-    data: XOR<ExperimentUpdateManyMutationInput, ExperimentUncheckedUpdateManyWithoutDatasetInput>
+  export type EvaluationResultCreateOrConnectWithoutTestCaseInput = {
+    where: EvaluationResultWhereUniqueInput
+    create: XOR<EvaluationResultCreateWithoutTestCaseInput, EvaluationResultUncheckedCreateWithoutTestCaseInput>
+  }
+
+  export type EvaluationResultCreateManyTestCaseInputEnvelope = {
+    data: EvaluationResultCreateManyTestCaseInput | EvaluationResultCreateManyTestCaseInput[]
   }
 
   export type DatasetCreateWithoutTestCasesInput = {
@@ -16783,51 +16859,44 @@ export namespace Prisma {
     create: XOR<DatasetCreateWithoutTestCasesInput, DatasetUncheckedCreateWithoutTestCasesInput>
   }
 
-  export type EvaluationResultCreateWithoutTestCaseInput = {
-    id?: string
-    actualOutput: string
-    score: number
-    passed: boolean
-    latencyMs?: number | null
-    ttftMs?: number | null
-    inputTokens?: number | null
-    outputTokens?: number | null
-    totalTokens?: number | null
-    estimatedCostUsd?: number | null
-    uncachedEstimatedCostUsd?: number | null
-    cacheHit?: boolean
-    cachedInputTokens?: number
-    reason?: string | null
-    createdAt?: Date | string
-    experiment: ExperimentCreateNestedOneWithoutResultsInput
-  }
-
-  export type EvaluationResultUncheckedCreateWithoutTestCaseInput = {
-    id?: string
-    experimentId: string
-    actualOutput: string
-    score: number
-    passed: boolean
-    latencyMs?: number | null
-    ttftMs?: number | null
-    inputTokens?: number | null
-    outputTokens?: number | null
-    totalTokens?: number | null
-    estimatedCostUsd?: number | null
-    uncachedEstimatedCostUsd?: number | null
-    cacheHit?: boolean
-    cachedInputTokens?: number
-    reason?: string | null
-    createdAt?: Date | string
-  }
-
-  export type EvaluationResultCreateOrConnectWithoutTestCaseInput = {
+  export type EvaluationResultUpsertWithWhereUniqueWithoutTestCaseInput = {
     where: EvaluationResultWhereUniqueInput
+    update: XOR<EvaluationResultUpdateWithoutTestCaseInput, EvaluationResultUncheckedUpdateWithoutTestCaseInput>
     create: XOR<EvaluationResultCreateWithoutTestCaseInput, EvaluationResultUncheckedCreateWithoutTestCaseInput>
   }
 
-  export type EvaluationResultCreateManyTestCaseInputEnvelope = {
-    data: EvaluationResultCreateManyTestCaseInput | EvaluationResultCreateManyTestCaseInput[]
+  export type EvaluationResultUpdateWithWhereUniqueWithoutTestCaseInput = {
+    where: EvaluationResultWhereUniqueInput
+    data: XOR<EvaluationResultUpdateWithoutTestCaseInput, EvaluationResultUncheckedUpdateWithoutTestCaseInput>
+  }
+
+  export type EvaluationResultUpdateManyWithWhereWithoutTestCaseInput = {
+    where: EvaluationResultScalarWhereInput
+    data: XOR<EvaluationResultUpdateManyMutationInput, EvaluationResultUncheckedUpdateManyWithoutTestCaseInput>
+  }
+
+  export type EvaluationResultScalarWhereInput = {
+    AND?: EvaluationResultScalarWhereInput | EvaluationResultScalarWhereInput[]
+    OR?: EvaluationResultScalarWhereInput[]
+    NOT?: EvaluationResultScalarWhereInput | EvaluationResultScalarWhereInput[]
+    id?: StringFilter<"EvaluationResult"> | string
+    experimentId?: StringFilter<"EvaluationResult"> | string
+    testCaseId?: StringFilter<"EvaluationResult"> | string
+    actualOutput?: StringFilter<"EvaluationResult"> | string
+    score?: FloatFilter<"EvaluationResult"> | number
+    passed?: BoolFilter<"EvaluationResult"> | boolean
+    latencyMs?: IntNullableFilter<"EvaluationResult"> | number | null
+    ttftMs?: IntNullableFilter<"EvaluationResult"> | number | null
+    inputTokens?: IntNullableFilter<"EvaluationResult"> | number | null
+    outputTokens?: IntNullableFilter<"EvaluationResult"> | number | null
+    cacheHit?: BoolFilter<"EvaluationResult"> | boolean
+    reason?: StringNullableFilter<"EvaluationResult"> | string | null
+    createdAt?: DateTimeFilter<"EvaluationResult"> | Date | string
+    cachedInputTokens?: IntFilter<"EvaluationResult"> | number
+    estimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
+    totalTokens?: IntNullableFilter<"EvaluationResult"> | number | null
+    uncachedEstimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
+    evaluatorResults?: StringNullableFilter<"EvaluationResult"> | string | null
   }
 
   export type DatasetUpsertWithoutTestCasesInput = {
@@ -16863,45 +16932,6 @@ export namespace Prisma {
     experiments?: ExperimentUncheckedUpdateManyWithoutDatasetNestedInput
   }
 
-  export type EvaluationResultUpsertWithWhereUniqueWithoutTestCaseInput = {
-    where: EvaluationResultWhereUniqueInput
-    update: XOR<EvaluationResultUpdateWithoutTestCaseInput, EvaluationResultUncheckedUpdateWithoutTestCaseInput>
-    create: XOR<EvaluationResultCreateWithoutTestCaseInput, EvaluationResultUncheckedCreateWithoutTestCaseInput>
-  }
-
-  export type EvaluationResultUpdateWithWhereUniqueWithoutTestCaseInput = {
-    where: EvaluationResultWhereUniqueInput
-    data: XOR<EvaluationResultUpdateWithoutTestCaseInput, EvaluationResultUncheckedUpdateWithoutTestCaseInput>
-  }
-
-  export type EvaluationResultUpdateManyWithWhereWithoutTestCaseInput = {
-    where: EvaluationResultScalarWhereInput
-    data: XOR<EvaluationResultUpdateManyMutationInput, EvaluationResultUncheckedUpdateManyWithoutTestCaseInput>
-  }
-
-  export type EvaluationResultScalarWhereInput = {
-    AND?: EvaluationResultScalarWhereInput | EvaluationResultScalarWhereInput[]
-    OR?: EvaluationResultScalarWhereInput[]
-    NOT?: EvaluationResultScalarWhereInput | EvaluationResultScalarWhereInput[]
-    id?: StringFilter<"EvaluationResult"> | string
-    experimentId?: StringFilter<"EvaluationResult"> | string
-    testCaseId?: StringFilter<"EvaluationResult"> | string
-    actualOutput?: StringFilter<"EvaluationResult"> | string
-    score?: FloatFilter<"EvaluationResult"> | number
-    passed?: BoolFilter<"EvaluationResult"> | boolean
-    latencyMs?: IntNullableFilter<"EvaluationResult"> | number | null
-    ttftMs?: IntNullableFilter<"EvaluationResult"> | number | null
-    inputTokens?: IntNullableFilter<"EvaluationResult"> | number | null
-    outputTokens?: IntNullableFilter<"EvaluationResult"> | number | null
-    totalTokens?: IntNullableFilter<"EvaluationResult"> | number | null
-    estimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
-    uncachedEstimatedCostUsd?: FloatNullableFilter<"EvaluationResult"> | number | null
-    cacheHit?: BoolFilter<"EvaluationResult"> | boolean
-    cachedInputTokens?: IntFilter<"EvaluationResult"> | number
-    reason?: StringNullableFilter<"EvaluationResult"> | string | null
-    createdAt?: DateTimeFilter<"EvaluationResult"> | Date | string
-  }
-
   export type ProjectCreateWithoutEvaluatorsInput = {
     id?: string
     name: string
@@ -16919,11 +16949,11 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutProjectsInput
+    baseline?: BaselineCreateNestedOneWithoutProjectInput
     datasets?: DatasetCreateNestedManyWithoutProjectInput
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
-    baseline?: BaselineCreateNestedOneWithoutProjectInput
+    user: UserCreateNestedOneWithoutProjectsInput
     ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
@@ -16945,10 +16975,10 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
     datasets?: DatasetUncheckedCreateNestedManyWithoutProjectInput
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
-    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
     ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
@@ -16985,11 +17015,11 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    baseline?: BaselineUpdateOneWithoutProjectNestedInput
     datasets?: DatasetUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
     ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
@@ -17011,66 +17041,60 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
     datasets?: DatasetUncheckedUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
     ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
   }
 
-  export type ProjectCreateWithoutExperimentsInput = {
+  export type EvaluationResultCreateWithoutExperimentInput = {
     id?: string
-    name: string
-    description?: string | null
-    model: string
-    systemPrompt?: string | null
-    temperature?: number | null
-    topP?: number | null
-    maxTokens?: number | null
-    inputCostPerMillion?: number
-    cachedInputCostPerMillion?: number
-    outputCostPerMillion?: number
-    allowedQualityDrop?: number
-    cacheEnabled?: boolean
-    cacheTtlSeconds?: number
+    actualOutput: string
+    score: number
+    passed: boolean
+    latencyMs?: number | null
+    ttftMs?: number | null
+    inputTokens?: number | null
+    outputTokens?: number | null
+    cacheHit?: boolean
+    reason?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutProjectsInput
-    datasets?: DatasetCreateNestedManyWithoutProjectInput
-    evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
-    githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
-    baseline?: BaselineCreateNestedOneWithoutProjectInput
-    ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
+    cachedInputTokens?: number
+    estimatedCostUsd?: number | null
+    totalTokens?: number | null
+    uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
+    testCase: TestCaseCreateNestedOneWithoutResultsInput
   }
 
-  export type ProjectUncheckedCreateWithoutExperimentsInput = {
+  export type EvaluationResultUncheckedCreateWithoutExperimentInput = {
     id?: string
-    userId: string
-    name: string
-    description?: string | null
-    model: string
-    systemPrompt?: string | null
-    temperature?: number | null
-    topP?: number | null
-    maxTokens?: number | null
-    inputCostPerMillion?: number
-    cachedInputCostPerMillion?: number
-    outputCostPerMillion?: number
-    allowedQualityDrop?: number
-    cacheEnabled?: boolean
-    cacheTtlSeconds?: number
+    testCaseId: string
+    actualOutput: string
+    score: number
+    passed: boolean
+    latencyMs?: number | null
+    ttftMs?: number | null
+    inputTokens?: number | null
+    outputTokens?: number | null
+    cacheHit?: boolean
+    reason?: string | null
     createdAt?: Date | string
-    updatedAt?: Date | string
-    datasets?: DatasetUncheckedCreateNestedManyWithoutProjectInput
-    evaluators?: EvaluatorUncheckedCreateNestedManyWithoutProjectInput
-    githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
-    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
-    ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
+    cachedInputTokens?: number
+    estimatedCostUsd?: number | null
+    totalTokens?: number | null
+    uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
-  export type ProjectCreateOrConnectWithoutExperimentsInput = {
-    where: ProjectWhereUniqueInput
-    create: XOR<ProjectCreateWithoutExperimentsInput, ProjectUncheckedCreateWithoutExperimentsInput>
+  export type EvaluationResultCreateOrConnectWithoutExperimentInput = {
+    where: EvaluationResultWhereUniqueInput
+    create: XOR<EvaluationResultCreateWithoutExperimentInput, EvaluationResultUncheckedCreateWithoutExperimentInput>
+  }
+
+  export type EvaluationResultCreateManyExperimentInputEnvelope = {
+    data: EvaluationResultCreateManyExperimentInput | EvaluationResultCreateManyExperimentInput[]
   }
 
   export type DatasetCreateWithoutExperimentsInput = {
@@ -17100,112 +17124,75 @@ export namespace Prisma {
     create: XOR<DatasetCreateWithoutExperimentsInput, DatasetUncheckedCreateWithoutExperimentsInput>
   }
 
-  export type EvaluationResultCreateWithoutExperimentInput = {
+  export type ProjectCreateWithoutExperimentsInput = {
     id?: string
-    actualOutput: string
-    score: number
-    passed: boolean
-    latencyMs?: number | null
-    ttftMs?: number | null
-    inputTokens?: number | null
-    outputTokens?: number | null
-    totalTokens?: number | null
-    estimatedCostUsd?: number | null
-    uncachedEstimatedCostUsd?: number | null
-    cacheHit?: boolean
-    cachedInputTokens?: number
-    reason?: string | null
+    name: string
+    description?: string | null
+    model: string
+    systemPrompt?: string | null
+    temperature?: number | null
+    topP?: number | null
+    maxTokens?: number | null
+    inputCostPerMillion?: number
+    cachedInputCostPerMillion?: number
+    outputCostPerMillion?: number
+    allowedQualityDrop?: number
+    cacheEnabled?: boolean
+    cacheTtlSeconds?: number
     createdAt?: Date | string
-    testCase: TestCaseCreateNestedOneWithoutResultsInput
+    updatedAt?: Date | string
+    baseline?: BaselineCreateNestedOneWithoutProjectInput
+    datasets?: DatasetCreateNestedManyWithoutProjectInput
+    evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
+    githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
+    user: UserCreateNestedOneWithoutProjectsInput
+    ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
-  export type EvaluationResultUncheckedCreateWithoutExperimentInput = {
+  export type ProjectUncheckedCreateWithoutExperimentsInput = {
     id?: string
-    testCaseId: string
-    actualOutput: string
-    score: number
-    passed: boolean
-    latencyMs?: number | null
-    ttftMs?: number | null
-    inputTokens?: number | null
-    outputTokens?: number | null
-    totalTokens?: number | null
-    estimatedCostUsd?: number | null
-    uncachedEstimatedCostUsd?: number | null
-    cacheHit?: boolean
-    cachedInputTokens?: number
-    reason?: string | null
+    userId: string
+    name: string
+    description?: string | null
+    model: string
+    systemPrompt?: string | null
+    temperature?: number | null
+    topP?: number | null
+    maxTokens?: number | null
+    inputCostPerMillion?: number
+    cachedInputCostPerMillion?: number
+    outputCostPerMillion?: number
+    allowedQualityDrop?: number
+    cacheEnabled?: boolean
+    cacheTtlSeconds?: number
     createdAt?: Date | string
+    updatedAt?: Date | string
+    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
+    datasets?: DatasetUncheckedCreateNestedManyWithoutProjectInput
+    evaluators?: EvaluatorUncheckedCreateNestedManyWithoutProjectInput
+    githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
+    ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
-  export type EvaluationResultCreateOrConnectWithoutExperimentInput = {
+  export type ProjectCreateOrConnectWithoutExperimentsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutExperimentsInput, ProjectUncheckedCreateWithoutExperimentsInput>
+  }
+
+  export type EvaluationResultUpsertWithWhereUniqueWithoutExperimentInput = {
     where: EvaluationResultWhereUniqueInput
+    update: XOR<EvaluationResultUpdateWithoutExperimentInput, EvaluationResultUncheckedUpdateWithoutExperimentInput>
     create: XOR<EvaluationResultCreateWithoutExperimentInput, EvaluationResultUncheckedCreateWithoutExperimentInput>
   }
 
-  export type EvaluationResultCreateManyExperimentInputEnvelope = {
-    data: EvaluationResultCreateManyExperimentInput | EvaluationResultCreateManyExperimentInput[]
+  export type EvaluationResultUpdateWithWhereUniqueWithoutExperimentInput = {
+    where: EvaluationResultWhereUniqueInput
+    data: XOR<EvaluationResultUpdateWithoutExperimentInput, EvaluationResultUncheckedUpdateWithoutExperimentInput>
   }
 
-  export type ProjectUpsertWithoutExperimentsInput = {
-    update: XOR<ProjectUpdateWithoutExperimentsInput, ProjectUncheckedUpdateWithoutExperimentsInput>
-    create: XOR<ProjectCreateWithoutExperimentsInput, ProjectUncheckedCreateWithoutExperimentsInput>
-    where?: ProjectWhereInput
-  }
-
-  export type ProjectUpdateToOneWithWhereWithoutExperimentsInput = {
-    where?: ProjectWhereInput
-    data: XOR<ProjectUpdateWithoutExperimentsInput, ProjectUncheckedUpdateWithoutExperimentsInput>
-  }
-
-  export type ProjectUpdateWithoutExperimentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    model?: StringFieldUpdateOperationsInput | string
-    systemPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
-    topP?: NullableFloatFieldUpdateOperationsInput | number | null
-    maxTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    inputCostPerMillion?: FloatFieldUpdateOperationsInput | number
-    cachedInputCostPerMillion?: FloatFieldUpdateOperationsInput | number
-    outputCostPerMillion?: FloatFieldUpdateOperationsInput | number
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
-    cacheEnabled?: BoolFieldUpdateOperationsInput | boolean
-    cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
-    datasets?: DatasetUpdateManyWithoutProjectNestedInput
-    evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
-    githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUpdateOneWithoutProjectNestedInput
-    ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
-  }
-
-  export type ProjectUncheckedUpdateWithoutExperimentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    model?: StringFieldUpdateOperationsInput | string
-    systemPrompt?: NullableStringFieldUpdateOperationsInput | string | null
-    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
-    topP?: NullableFloatFieldUpdateOperationsInput | number | null
-    maxTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    inputCostPerMillion?: FloatFieldUpdateOperationsInput | number
-    cachedInputCostPerMillion?: FloatFieldUpdateOperationsInput | number
-    outputCostPerMillion?: FloatFieldUpdateOperationsInput | number
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
-    cacheEnabled?: BoolFieldUpdateOperationsInput | boolean
-    cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    datasets?: DatasetUncheckedUpdateManyWithoutProjectNestedInput
-    evaluators?: EvaluatorUncheckedUpdateManyWithoutProjectNestedInput
-    githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
-    ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
+  export type EvaluationResultUpdateManyWithWhereWithoutExperimentInput = {
+    where: EvaluationResultScalarWhereInput
+    data: XOR<EvaluationResultUpdateManyMutationInput, EvaluationResultUncheckedUpdateManyWithoutExperimentInput>
   }
 
   export type DatasetUpsertWithoutExperimentsInput = {
@@ -17241,20 +17228,65 @@ export namespace Prisma {
     testCases?: TestCaseUncheckedUpdateManyWithoutDatasetNestedInput
   }
 
-  export type EvaluationResultUpsertWithWhereUniqueWithoutExperimentInput = {
-    where: EvaluationResultWhereUniqueInput
-    update: XOR<EvaluationResultUpdateWithoutExperimentInput, EvaluationResultUncheckedUpdateWithoutExperimentInput>
-    create: XOR<EvaluationResultCreateWithoutExperimentInput, EvaluationResultUncheckedCreateWithoutExperimentInput>
+  export type ProjectUpsertWithoutExperimentsInput = {
+    update: XOR<ProjectUpdateWithoutExperimentsInput, ProjectUncheckedUpdateWithoutExperimentsInput>
+    create: XOR<ProjectCreateWithoutExperimentsInput, ProjectUncheckedCreateWithoutExperimentsInput>
+    where?: ProjectWhereInput
   }
 
-  export type EvaluationResultUpdateWithWhereUniqueWithoutExperimentInput = {
-    where: EvaluationResultWhereUniqueInput
-    data: XOR<EvaluationResultUpdateWithoutExperimentInput, EvaluationResultUncheckedUpdateWithoutExperimentInput>
+  export type ProjectUpdateToOneWithWhereWithoutExperimentsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutExperimentsInput, ProjectUncheckedUpdateWithoutExperimentsInput>
   }
 
-  export type EvaluationResultUpdateManyWithWhereWithoutExperimentInput = {
-    where: EvaluationResultScalarWhereInput
-    data: XOR<EvaluationResultUpdateManyMutationInput, EvaluationResultUncheckedUpdateManyWithoutExperimentInput>
+  export type ProjectUpdateWithoutExperimentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: StringFieldUpdateOperationsInput | string
+    systemPrompt?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    topP?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    inputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    cachedInputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    outputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    cacheEnabled?: BoolFieldUpdateOperationsInput | boolean
+    cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    datasets?: DatasetUpdateManyWithoutProjectNestedInput
+    evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
+    githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutExperimentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    model?: StringFieldUpdateOperationsInput | string
+    systemPrompt?: NullableStringFieldUpdateOperationsInput | string | null
+    temperature?: NullableFloatFieldUpdateOperationsInput | number | null
+    topP?: NullableFloatFieldUpdateOperationsInput | number | null
+    maxTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    inputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    cachedInputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    outputCostPerMillion?: FloatFieldUpdateOperationsInput | number
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    cacheEnabled?: BoolFieldUpdateOperationsInput | boolean
+    cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
+    datasets?: DatasetUncheckedUpdateManyWithoutProjectNestedInput
+    evaluators?: EvaluatorUncheckedUpdateManyWithoutProjectNestedInput
+    githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
+    ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type ExperimentCreateWithoutResultsInput = {
@@ -17262,9 +17294,6 @@ export namespace Prisma {
     name: string
     model: string
     status?: string
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: number
     qualityScore?: number | null
     passRate?: number | null
     avgLatencyMs?: number | null
@@ -17275,13 +17304,16 @@ export namespace Prisma {
     llmCallsAvoided?: number
     cachedInputTokens?: number
     estimatedCostSavedUsd?: number
-    regressionDelta?: number | null
-    regressionPassed?: boolean
-    errorMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    project: ProjectCreateNestedOneWithoutExperimentsInput
+    allowedQualityDrop?: number
+    errorMessage?: string | null
+    failOnRegression?: boolean
+    regressionDelta?: number | null
+    regressionPassed?: boolean
+    useCache?: boolean
     dataset: DatasetCreateNestedOneWithoutExperimentsInput
+    project: ProjectCreateNestedOneWithoutExperimentsInput
   }
 
   export type ExperimentUncheckedCreateWithoutResultsInput = {
@@ -17291,9 +17323,6 @@ export namespace Prisma {
     name: string
     model: string
     status?: string
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: number
     qualityScore?: number | null
     passRate?: number | null
     avgLatencyMs?: number | null
@@ -17304,11 +17333,14 @@ export namespace Prisma {
     llmCallsAvoided?: number
     cachedInputTokens?: number
     estimatedCostSavedUsd?: number
-    regressionDelta?: number | null
-    regressionPassed?: boolean
-    errorMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    allowedQualityDrop?: number
+    errorMessage?: string | null
+    failOnRegression?: boolean
+    regressionDelta?: number | null
+    regressionPassed?: boolean
+    useCache?: boolean
   }
 
   export type ExperimentCreateOrConnectWithoutResultsInput = {
@@ -17357,9 +17389,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
     qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     passRate?: NullableFloatFieldUpdateOperationsInput | number | null
     avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -17370,13 +17399,16 @@ export namespace Prisma {
     llmCallsAvoided?: IntFieldUpdateOperationsInput | number
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    project?: ProjectUpdateOneRequiredWithoutExperimentsNestedInput
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
     dataset?: DatasetUpdateOneRequiredWithoutExperimentsNestedInput
+    project?: ProjectUpdateOneRequiredWithoutExperimentsNestedInput
   }
 
   export type ExperimentUncheckedUpdateWithoutResultsInput = {
@@ -17386,9 +17418,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
     qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     passRate?: NullableFloatFieldUpdateOperationsInput | number | null
     avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -17399,11 +17428,14 @@ export namespace Prisma {
     llmCallsAvoided?: IntFieldUpdateOperationsInput | number
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TestCaseUpsertWithoutResultsInput = {
@@ -17454,11 +17486,11 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutProjectsInput
+    baseline?: BaselineCreateNestedOneWithoutProjectInput
     datasets?: DatasetCreateNestedManyWithoutProjectInput
     evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
-    baseline?: BaselineCreateNestedOneWithoutProjectInput
+    user: UserCreateNestedOneWithoutProjectsInput
     ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
@@ -17480,10 +17512,10 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
     datasets?: DatasetUncheckedCreateNestedManyWithoutProjectInput
     evaluators?: EvaluatorUncheckedCreateNestedManyWithoutProjectInput
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
-    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
     ciToken?: ProjectCiTokenUncheckedCreateNestedOneWithoutProjectInput
   }
 
@@ -17520,11 +17552,11 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    baseline?: BaselineUpdateOneWithoutProjectNestedInput
     datasets?: DatasetUpdateManyWithoutProjectNestedInput
     evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
     ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
@@ -17546,10 +17578,10 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
     datasets?: DatasetUncheckedUpdateManyWithoutProjectNestedInput
     evaluators?: EvaluatorUncheckedUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
     ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
   }
 
@@ -17570,11 +17602,11 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutProjectsInput
     datasets?: DatasetCreateNestedManyWithoutProjectInput
     evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
+    user: UserCreateNestedOneWithoutProjectsInput
     ciToken?: ProjectCiTokenCreateNestedOneWithoutProjectInput
   }
 
@@ -17636,11 +17668,11 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
     datasets?: DatasetUpdateManyWithoutProjectNestedInput
     evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
     ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
@@ -17686,12 +17718,12 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutProjectsInput
+    baseline?: BaselineCreateNestedOneWithoutProjectInput
     datasets?: DatasetCreateNestedManyWithoutProjectInput
     evaluators?: EvaluatorCreateNestedManyWithoutProjectInput
     experiments?: ExperimentCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationCreateNestedManyWithoutProjectInput
-    baseline?: BaselineCreateNestedOneWithoutProjectInput
+    user: UserCreateNestedOneWithoutProjectsInput
   }
 
   export type ProjectUncheckedCreateWithoutCiTokenInput = {
@@ -17712,11 +17744,11 @@ export namespace Prisma {
     cacheTtlSeconds?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
     datasets?: DatasetUncheckedCreateNestedManyWithoutProjectInput
     evaluators?: EvaluatorUncheckedCreateNestedManyWithoutProjectInput
     experiments?: ExperimentUncheckedCreateNestedManyWithoutProjectInput
     githubIntegrations?: GithubIntegrationUncheckedCreateNestedManyWithoutProjectInput
-    baseline?: BaselineUncheckedCreateNestedOneWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutCiTokenInput = {
@@ -17752,12 +17784,12 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
+    baseline?: BaselineUpdateOneWithoutProjectNestedInput
     datasets?: DatasetUpdateManyWithoutProjectNestedInput
     evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUpdateOneWithoutProjectNestedInput
+    user?: UserUpdateOneRequiredWithoutProjectsNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutCiTokenInput = {
@@ -17778,11 +17810,11 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
     datasets?: DatasetUncheckedUpdateManyWithoutProjectNestedInput
     evaluators?: EvaluatorUncheckedUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyUserInput = {
@@ -17821,11 +17853,11 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    baseline?: BaselineUpdateOneWithoutProjectNestedInput
     datasets?: DatasetUpdateManyWithoutProjectNestedInput
     evaluators?: EvaluatorUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUpdateOneWithoutProjectNestedInput
     ciToken?: ProjectCiTokenUpdateOneWithoutProjectNestedInput
   }
 
@@ -17846,11 +17878,11 @@ export namespace Prisma {
     cacheTtlSeconds?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
     datasets?: DatasetUncheckedUpdateManyWithoutProjectNestedInput
     evaluators?: EvaluatorUncheckedUpdateManyWithoutProjectNestedInput
     experiments?: ExperimentUncheckedUpdateManyWithoutProjectNestedInput
     githubIntegrations?: GithubIntegrationUncheckedUpdateManyWithoutProjectNestedInput
-    baseline?: BaselineUncheckedUpdateOneWithoutProjectNestedInput
     ciToken?: ProjectCiTokenUncheckedUpdateOneWithoutProjectNestedInput
   }
 
@@ -17897,9 +17929,6 @@ export namespace Prisma {
     name: string
     model: string
     status?: string
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: number
     qualityScore?: number | null
     passRate?: number | null
     avgLatencyMs?: number | null
@@ -17910,11 +17939,14 @@ export namespace Prisma {
     llmCallsAvoided?: number
     cachedInputTokens?: number
     estimatedCostSavedUsd?: number
-    regressionDelta?: number | null
-    regressionPassed?: boolean
-    errorMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    allowedQualityDrop?: number
+    errorMessage?: string | null
+    failOnRegression?: boolean
+    regressionDelta?: number | null
+    regressionPassed?: boolean
+    useCache?: boolean
   }
 
   export type GithubIntegrationCreateManyProjectInput = {
@@ -17933,8 +17965,8 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    testCases?: TestCaseUpdateManyWithoutDatasetNestedInput
     experiments?: ExperimentUpdateManyWithoutDatasetNestedInput
+    testCases?: TestCaseUpdateManyWithoutDatasetNestedInput
   }
 
   export type DatasetUncheckedUpdateWithoutProjectInput = {
@@ -17944,8 +17976,8 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    testCases?: TestCaseUncheckedUpdateManyWithoutDatasetNestedInput
     experiments?: ExperimentUncheckedUpdateManyWithoutDatasetNestedInput
+    testCases?: TestCaseUncheckedUpdateManyWithoutDatasetNestedInput
   }
 
   export type DatasetUncheckedUpdateManyWithoutProjectInput = {
@@ -17989,9 +18021,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
     qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     passRate?: NullableFloatFieldUpdateOperationsInput | number | null
     avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -18002,13 +18031,16 @@ export namespace Prisma {
     llmCallsAvoided?: IntFieldUpdateOperationsInput | number
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    dataset?: DatasetUpdateOneRequiredWithoutExperimentsNestedInput
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
     results?: EvaluationResultUpdateManyWithoutExperimentNestedInput
+    dataset?: DatasetUpdateOneRequiredWithoutExperimentsNestedInput
   }
 
   export type ExperimentUncheckedUpdateWithoutProjectInput = {
@@ -18017,9 +18049,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
     qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     passRate?: NullableFloatFieldUpdateOperationsInput | number | null
     avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -18030,11 +18059,14 @@ export namespace Prisma {
     llmCallsAvoided?: IntFieldUpdateOperationsInput | number
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
     results?: EvaluationResultUncheckedUpdateManyWithoutExperimentNestedInput
   }
 
@@ -18044,9 +18076,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
     qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
     passRate?: NullableFloatFieldUpdateOperationsInput | number | null
     avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -18057,11 +18086,14 @@ export namespace Prisma {
     llmCallsAvoided?: IntFieldUpdateOperationsInput | number
     cachedInputTokens?: IntFieldUpdateOperationsInput | number
     estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type GithubIntegrationUpdateWithoutProjectInput = {
@@ -18091,24 +18123,12 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TestCaseCreateManyDatasetInput = {
-    id?: string
-    input: string
-    expectedOutput?: string | null
-    metadata?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type ExperimentCreateManyDatasetInput = {
     id?: string
     projectId: string
     name: string
     model: string
     status?: string
-    useCache?: boolean
-    failOnRegression?: boolean
-    allowedQualityDrop?: number
     qualityScore?: number | null
     passRate?: number | null
     avgLatencyMs?: number | null
@@ -18119,11 +18139,103 @@ export namespace Prisma {
     llmCallsAvoided?: number
     cachedInputTokens?: number
     estimatedCostSavedUsd?: number
-    regressionDelta?: number | null
-    regressionPassed?: boolean
-    errorMessage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    allowedQualityDrop?: number
+    errorMessage?: string | null
+    failOnRegression?: boolean
+    regressionDelta?: number | null
+    regressionPassed?: boolean
+    useCache?: boolean
+  }
+
+  export type TestCaseCreateManyDatasetInput = {
+    id?: string
+    input: string
+    expectedOutput?: string | null
+    metadata?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ExperimentUpdateWithoutDatasetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    passRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: IntFieldUpdateOperationsInput | number
+    totalCostUsd?: FloatFieldUpdateOperationsInput | number
+    cacheHitRate?: FloatFieldUpdateOperationsInput | number
+    cacheMissRate?: FloatFieldUpdateOperationsInput | number
+    llmCallsAvoided?: IntFieldUpdateOperationsInput | number
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
+    results?: EvaluationResultUpdateManyWithoutExperimentNestedInput
+    project?: ProjectUpdateOneRequiredWithoutExperimentsNestedInput
+  }
+
+  export type ExperimentUncheckedUpdateWithoutDatasetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    passRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: IntFieldUpdateOperationsInput | number
+    totalCostUsd?: FloatFieldUpdateOperationsInput | number
+    cacheHitRate?: FloatFieldUpdateOperationsInput | number
+    cacheMissRate?: FloatFieldUpdateOperationsInput | number
+    llmCallsAvoided?: IntFieldUpdateOperationsInput | number
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
+    results?: EvaluationResultUncheckedUpdateManyWithoutExperimentNestedInput
+  }
+
+  export type ExperimentUncheckedUpdateManyWithoutDatasetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    projectId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    passRate?: NullableFloatFieldUpdateOperationsInput | number | null
+    avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: IntFieldUpdateOperationsInput | number
+    totalCostUsd?: FloatFieldUpdateOperationsInput | number
+    cacheHitRate?: FloatFieldUpdateOperationsInput | number
+    cacheMissRate?: FloatFieldUpdateOperationsInput | number
+    llmCallsAvoided?: IntFieldUpdateOperationsInput | number
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
+    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
+    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
+    useCache?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type TestCaseUpdateWithoutDatasetInput = {
@@ -18155,86 +18267,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ExperimentUpdateWithoutDatasetInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    model?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
-    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    passRate?: NullableFloatFieldUpdateOperationsInput | number | null
-    avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
-    totalTokens?: IntFieldUpdateOperationsInput | number
-    totalCostUsd?: FloatFieldUpdateOperationsInput | number
-    cacheHitRate?: FloatFieldUpdateOperationsInput | number
-    cacheMissRate?: FloatFieldUpdateOperationsInput | number
-    llmCallsAvoided?: IntFieldUpdateOperationsInput | number
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
-    estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    project?: ProjectUpdateOneRequiredWithoutExperimentsNestedInput
-    results?: EvaluationResultUpdateManyWithoutExperimentNestedInput
-  }
-
-  export type ExperimentUncheckedUpdateWithoutDatasetInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    model?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
-    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    passRate?: NullableFloatFieldUpdateOperationsInput | number | null
-    avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
-    totalTokens?: IntFieldUpdateOperationsInput | number
-    totalCostUsd?: FloatFieldUpdateOperationsInput | number
-    cacheHitRate?: FloatFieldUpdateOperationsInput | number
-    cacheMissRate?: FloatFieldUpdateOperationsInput | number
-    llmCallsAvoided?: IntFieldUpdateOperationsInput | number
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
-    estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    results?: EvaluationResultUncheckedUpdateManyWithoutExperimentNestedInput
-  }
-
-  export type ExperimentUncheckedUpdateManyWithoutDatasetInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    model?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    useCache?: BoolFieldUpdateOperationsInput | boolean
-    failOnRegression?: BoolFieldUpdateOperationsInput | boolean
-    allowedQualityDrop?: FloatFieldUpdateOperationsInput | number
-    qualityScore?: NullableFloatFieldUpdateOperationsInput | number | null
-    passRate?: NullableFloatFieldUpdateOperationsInput | number | null
-    avgLatencyMs?: NullableFloatFieldUpdateOperationsInput | number | null
-    totalTokens?: IntFieldUpdateOperationsInput | number
-    totalCostUsd?: FloatFieldUpdateOperationsInput | number
-    cacheHitRate?: FloatFieldUpdateOperationsInput | number
-    cacheMissRate?: FloatFieldUpdateOperationsInput | number
-    llmCallsAvoided?: IntFieldUpdateOperationsInput | number
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
-    estimatedCostSavedUsd?: FloatFieldUpdateOperationsInput | number
-    regressionDelta?: NullableFloatFieldUpdateOperationsInput | number | null
-    regressionPassed?: BoolFieldUpdateOperationsInput | boolean
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type EvaluationResultCreateManyTestCaseInput = {
     id?: string
     experimentId: string
@@ -18245,13 +18277,14 @@ export namespace Prisma {
     ttftMs?: number | null
     inputTokens?: number | null
     outputTokens?: number | null
-    totalTokens?: number | null
-    estimatedCostUsd?: number | null
-    uncachedEstimatedCostUsd?: number | null
     cacheHit?: boolean
-    cachedInputTokens?: number
     reason?: string | null
     createdAt?: Date | string
+    cachedInputTokens?: number
+    estimatedCostUsd?: number | null
+    totalTokens?: number | null
+    uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
   export type EvaluationResultUpdateWithoutTestCaseInput = {
@@ -18263,13 +18296,14 @@ export namespace Prisma {
     ttftMs?: NullableIntFieldUpdateOperationsInput | number | null
     inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
-    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     experiment?: ExperimentUpdateOneRequiredWithoutResultsNestedInput
   }
 
@@ -18283,13 +18317,14 @@ export namespace Prisma {
     ttftMs?: NullableIntFieldUpdateOperationsInput | number | null
     inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
-    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EvaluationResultUncheckedUpdateManyWithoutTestCaseInput = {
@@ -18302,13 +18337,14 @@ export namespace Prisma {
     ttftMs?: NullableIntFieldUpdateOperationsInput | number | null
     inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
-    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EvaluationResultCreateManyExperimentInput = {
@@ -18321,13 +18357,14 @@ export namespace Prisma {
     ttftMs?: number | null
     inputTokens?: number | null
     outputTokens?: number | null
-    totalTokens?: number | null
-    estimatedCostUsd?: number | null
-    uncachedEstimatedCostUsd?: number | null
     cacheHit?: boolean
-    cachedInputTokens?: number
     reason?: string | null
     createdAt?: Date | string
+    cachedInputTokens?: number
+    estimatedCostUsd?: number | null
+    totalTokens?: number | null
+    uncachedEstimatedCostUsd?: number | null
+    evaluatorResults?: string | null
   }
 
   export type EvaluationResultUpdateWithoutExperimentInput = {
@@ -18339,13 +18376,14 @@ export namespace Prisma {
     ttftMs?: NullableIntFieldUpdateOperationsInput | number | null
     inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
-    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
     testCase?: TestCaseUpdateOneRequiredWithoutResultsNestedInput
   }
 
@@ -18359,13 +18397,14 @@ export namespace Prisma {
     ttftMs?: NullableIntFieldUpdateOperationsInput | number | null
     inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
-    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EvaluationResultUncheckedUpdateManyWithoutExperimentInput = {
@@ -18378,13 +18417,14 @@ export namespace Prisma {
     ttftMs?: NullableIntFieldUpdateOperationsInput | number | null
     inputTokens?: NullableIntFieldUpdateOperationsInput | number | null
     outputTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
-    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
     cacheHit?: BoolFieldUpdateOperationsInput | boolean
-    cachedInputTokens?: IntFieldUpdateOperationsInput | number
     reason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cachedInputTokens?: IntFieldUpdateOperationsInput | number
+    estimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    totalTokens?: NullableIntFieldUpdateOperationsInput | number | null
+    uncachedEstimatedCostUsd?: NullableFloatFieldUpdateOperationsInput | number | null
+    evaluatorResults?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

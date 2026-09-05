@@ -1,6 +1,15 @@
 import { z } from "zod";
 
-export const evaluatorTypeSchema = z.enum(["RULE", "SEMANTIC", "LLM_JUDGE", "JSON_SCHEMA"]);
+export const evaluatorTypeSchema = z.enum([
+  "RULE",
+  "SEMANTIC",
+  "LLM_JUDGE",
+  "JSON_SCHEMA",
+  "RAG_CORRECTNESS",
+  "RAG_GROUNDEDNESS",
+  "RAG_CITATION",
+  "RAG_HALLUCINATION"
+]);
 export type EvaluatorType = z.infer<typeof evaluatorTypeSchema>;
 
 export const chatMessageSchema = z.object({

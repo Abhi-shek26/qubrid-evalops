@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../../../packages/db/generated"
+  provider      = "prisma-client-js"
+  output        = "../../../packages/db/generated"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -129,6 +130,7 @@ model EvaluationResult {
   estimatedCostUsd         Float?
   totalTokens              Int?
   uncachedEstimatedCostUsd Float?
+  evaluatorResults         String?    @db.NVarChar(Max)
   experiment               Experiment @relation(fields: [experimentId], references: [id], onUpdate: NoAction)
   testCase                 TestCase   @relation(fields: [testCaseId], references: [id], onUpdate: NoAction)
 }

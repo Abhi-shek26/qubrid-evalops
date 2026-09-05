@@ -187,9 +187,6 @@ exports.Prisma.ExperimentScalarFieldEnum = {
   name: 'name',
   model: 'model',
   status: 'status',
-  useCache: 'useCache',
-  failOnRegression: 'failOnRegression',
-  allowedQualityDrop: 'allowedQualityDrop',
   qualityScore: 'qualityScore',
   passRate: 'passRate',
   avgLatencyMs: 'avgLatencyMs',
@@ -200,11 +197,14 @@ exports.Prisma.ExperimentScalarFieldEnum = {
   llmCallsAvoided: 'llmCallsAvoided',
   cachedInputTokens: 'cachedInputTokens',
   estimatedCostSavedUsd: 'estimatedCostSavedUsd',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  allowedQualityDrop: 'allowedQualityDrop',
+  errorMessage: 'errorMessage',
+  failOnRegression: 'failOnRegression',
   regressionDelta: 'regressionDelta',
   regressionPassed: 'regressionPassed',
-  errorMessage: 'errorMessage',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  useCache: 'useCache'
 };
 
 exports.Prisma.EvaluationResultScalarFieldEnum = {
@@ -218,13 +218,14 @@ exports.Prisma.EvaluationResultScalarFieldEnum = {
   ttftMs: 'ttftMs',
   inputTokens: 'inputTokens',
   outputTokens: 'outputTokens',
-  totalTokens: 'totalTokens',
-  estimatedCostUsd: 'estimatedCostUsd',
-  uncachedEstimatedCostUsd: 'uncachedEstimatedCostUsd',
   cacheHit: 'cacheHit',
-  cachedInputTokens: 'cachedInputTokens',
   reason: 'reason',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  cachedInputTokens: 'cachedInputTokens',
+  estimatedCostUsd: 'estimatedCostUsd',
+  totalTokens: 'totalTokens',
+  uncachedEstimatedCostUsd: 'uncachedEstimatedCostUsd',
+  evaluatorResults: 'evaluatorResults'
 };
 
 exports.Prisma.GithubIntegrationScalarFieldEnum = {

@@ -19,8 +19,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run EvalOps Regression
-        uses: ./apps/github-action
+        uses: ./github-action
         with:
           api-url: ${{ secrets.EVALOPS_API_URL }}
           project-id: ${{ secrets.EVALOPS_PROJECT_ID }}
+          dataset-id: cmtrm710l0003t8cwlfm09y4s
           ci-token: ${{ secrets.EVALOPS_CI_TOKEN }}

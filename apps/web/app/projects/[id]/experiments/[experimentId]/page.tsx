@@ -3,7 +3,17 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { API_URL, authHeaders } from "../../../../../lib-api";
+import {
+  API_URL,
+  authHeaders,
+} from "../../../../../lib-api";
+
+type EvaluatorResult = {
+  type: string;
+  score: number;
+  passed: boolean;
+  reason: string;
+};
 
 type TestResult = {
   id: string;
@@ -11,22 +21,30 @@ type TestResult = {
   actualOutput: string;
   score: number;
   passed: boolean;
+
   latencyMs?: number | null;
   ttftMs?: number | null;
+
   inputTokens?: number | null;
   outputTokens?: number | null;
   totalTokens?: number | null;
+
   estimatedCostUsd?: number | null;
   uncachedEstimatedCostUsd?: number | null;
+
   cacheHit: boolean;
   cachedInputTokens?: number | null;
+
   reason?: string | null;
+
+  evaluatorResults?: string | null;
 };
 
 type Experiment = {
   id: string;
   name: string;
   model: string;
+  datasetId?: string;
   status: string;
 
   qualityScore?: number | null;
@@ -62,13 +80,24 @@ export default function ExperimentDetail() {
   }>();
 
   const projectId = params.id;
-  const experimentId = params.experimentId;
+  const experimentId =
+    params.experimentId;
 
   const [experiment, setExperiment] =
     useState<Experiment | null>(null);
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
+
+  const [datasetInfo, setDatasetInfo] = useState<{
+    id: string;
+    name: string;
+    version: number;
+    testCaseCount: number;
+  } | null>(null);
 
   const [expandedResult, setExpandedResult] =
     useState<string | null>(null);
@@ -86,10 +115,12 @@ export default function ExperimentDetail() {
         `${API_URL}/api/v1/projects/${projectId}/experiments/${experimentId}`,
         {
           headers: authHeaders(),
+          cache: "no-store",
         }
       );
 
-      const data = await response.json();
+      const data =
+        await response.json();
 
       if (!response.ok) {
         throw new Error(
@@ -104,6 +135,44 @@ export default function ExperimentDetail() {
       );
 
       setExperiment(data.data);
+
+      /*
+       * Load the exact dataset snapshot used by this
+       * experiment so the detail page clearly identifies
+       * the immutable version being evaluated.
+       */
+      if (data.data?.datasetId) {
+        try {
+          const datasetResponse = await fetch(
+            `${API_URL}/api/v1/projects/${projectId}/datasets/${data.data.datasetId}`,
+            {
+              headers: authHeaders(),
+              cache: "no-store",
+            }
+          );
+
+          const datasetData =
+            await datasetResponse.json();
+
+          if (datasetResponse.ok && datasetData.data) {
+            setDatasetInfo({
+              id: datasetData.data.id,
+              name: datasetData.data.name,
+              version: data.data?.datasetId
+                ? datasetData.data.version ?? 1
+                : 1,
+              testCaseCount:
+                datasetData.data?.testCases?.length ?? 0,
+            });
+          } else {
+            setDatasetInfo(null);
+          }
+        } catch {
+          setDatasetInfo(null);
+        }
+      } else {
+        setDatasetInfo(null);
+      }
     } catch (err: any) {
       console.error(
         "[EXPERIMENT DETAIL] Error:",
@@ -120,10 +189,16 @@ export default function ExperimentDetail() {
   }
 
   useEffect(() => {
-    if (projectId && experimentId) {
+    if (
+      projectId &&
+      experimentId
+    ) {
       loadExperiment();
     }
-  }, [projectId, experimentId]);
+  }, [
+    projectId,
+    experimentId,
+  ]);
 
   /*
    * Automatically refresh a running experiment.
@@ -131,21 +206,32 @@ export default function ExperimentDetail() {
   useEffect(() => {
     if (
       !experiment ||
-      (experiment.status !== "QUEUED" &&
-        experiment.status !== "RUNNING")
+      (experiment.status !==
+        "QUEUED" &&
+        experiment.status !==
+          "RUNNING")
     ) {
       return;
     }
 
-    const interval = setInterval(() => {
-      loadExperiment();
-    }, 2000);
+    const interval =
+      setInterval(() => {
+        loadExperiment();
+      }, 2000);
 
-    return () => clearInterval(interval);
-  }, [experiment?.status, experimentId]);
+    return () =>
+      clearInterval(interval);
+  }, [
+    experiment?.status,
+    experimentId,
+  ]);
 
-  function statusBadge(status: string) {
-    if (status === "COMPLETED") {
+  function statusBadge(
+    status: string
+  ) {
+    if (
+      status === "COMPLETED"
+    ) {
       return (
         <span className="badge success">
           ✓ COMPLETED
@@ -153,7 +239,9 @@ export default function ExperimentDetail() {
       );
     }
 
-    if (status === "RUNNING") {
+    if (
+      status === "RUNNING"
+    ) {
       return (
         <span className="badge running">
           ● RUNNING
@@ -161,7 +249,9 @@ export default function ExperimentDetail() {
       );
     }
 
-    if (status === "QUEUED") {
+    if (
+      status === "QUEUED"
+    ) {
       return (
         <span className="badge queued">
           ◌ QUEUED
@@ -169,7 +259,9 @@ export default function ExperimentDetail() {
       );
     }
 
-    if (status === "FAILED") {
+    if (
+      status === "FAILED"
+    ) {
       return (
         <span className="badge failed">
           ✕ FAILED
@@ -184,7 +276,9 @@ export default function ExperimentDetail() {
     );
   }
 
-  function cacheBadge(cacheHit: boolean) {
+  function cacheBadge(
+    cacheHit: boolean
+  ) {
     if (cacheHit) {
       return (
         <span className="cache-badge hit">
@@ -200,13 +294,132 @@ export default function ExperimentDetail() {
     );
   }
 
+  function regressionStatus() {
+    if (
+      experiment?.regressionPassed ===
+        null ||
+      experiment?.regressionPassed ===
+        undefined
+    ) {
+      return {
+        title: "Not Compared",
+        text:
+          "No baseline comparison was performed.",
+        symbol: "—",
+        className:
+          "neutral",
+      };
+    }
+
+    if (
+      experiment.regressionPassed
+    ) {
+      return {
+        title:
+          "Regression Passed",
+        text:
+          "Quality stayed within the allowed regression limit.",
+        symbol: "✓",
+        className:
+          "success",
+      };
+    }
+
+    return {
+      title:
+        "Regression Failed",
+      text:
+        "Quality dropped beyond the allowed regression limit.",
+      symbol: "✕",
+      className:
+        "failed",
+    };
+  }
+
+  /*
+   * Parse evaluator breakdown stored by the worker.
+   *
+   * Older experiments may not have this field,
+   * so we safely return an empty array.
+   */
+  function parseEvaluatorResults(
+    value?: string | null
+  ): EvaluatorResult[] {
+    if (!value) {
+      return [];
+    }
+
+    try {
+      const parsed =
+        JSON.parse(value);
+
+      if (
+        !Array.isArray(parsed)
+      ) {
+        return [];
+      }
+
+      return parsed.filter(
+        (item) =>
+          item &&
+          typeof item.type ===
+            "string" &&
+          typeof item.score ===
+            "number" &&
+          typeof item.passed ===
+            "boolean" &&
+          typeof item.reason ===
+            "string"
+      );
+    } catch {
+      return [];
+    }
+  }
+
+  function evaluatorDisplayName(
+    type: string
+  ) {
+    switch (type) {
+      case "LLM_JUDGE":
+        return "LLM Judge";
+
+      case "RULE":
+        return "RULE";
+
+      case "JSON_SCHEMA":
+        return "JSON Schema";
+
+      case "SEMANTIC":
+        return "Semantic";
+
+      case "RAG_CORRECTNESS":
+        return "RAG Correctness";
+
+      case "RAG_GROUNDEDNESS":
+        return "RAG Groundedness";
+
+      case "RAG_CITATION":
+        return "RAG Citation";
+
+      case "RAG_HALLUCINATION":
+        return "RAG Hallucination";
+
+      default:
+        return type;
+    }
+  }
+
   if (loading) {
     return (
       <main>
         <div className="card">
-          <h1>Loading experiment...</h1>
+          <h1>
+            Loading experiment...
+          </h1>
+
           <p>
-            Loading evaluation results from EvalOps.
+            Loading evaluation results
+            from EvalOps.
           </p>
         </div>
       </main>
@@ -217,12 +430,15 @@ export default function ExperimentDetail() {
     return (
       <main>
         <div className="card">
-          <h1>Unable to load experiment</h1>
+          <h1>
+            Unable to load experiment
+          </h1>
 
           <p
             style={{
               color: "#ff8080",
-              marginTop: "12px",
+              marginTop:
+                "12px",
             }}
           >
             {error}
@@ -231,7 +447,12 @@ export default function ExperimentDetail() {
           <Link
             href={`/projects/${projectId}/experiments`}
           >
-            <button style={{ marginTop: "20px" }}>
+            <button
+              style={{
+                marginTop:
+                  "20px",
+              }}
+            >
               ← Back to Experiments
             </button>
           </Link>
@@ -244,12 +465,19 @@ export default function ExperimentDetail() {
     return (
       <main>
         <div className="card">
-          <h1>Experiment not found</h1>
+          <h1>
+            Experiment not found
+          </h1>
 
           <Link
             href={`/projects/${projectId}/experiments`}
           >
-            <button style={{ marginTop: "20px" }}>
+            <button
+              style={{
+                marginTop:
+                  "20px",
+              }}
+            >
               ← Back to Experiments
             </button>
           </Link>
@@ -258,15 +486,24 @@ export default function ExperimentDetail() {
     );
   }
 
+  const regression =
+    regressionStatus();
+
   return (
     <main>
       {/* BACK */}
 
-      <div style={{ marginBottom: "20px" }}>
+      <div
+        style={{
+          marginBottom:
+            "20px",
+        }}
+      >
         <Link
           href={`/projects/${projectId}/experiments`}
           style={{
-            textDecoration: "none",
+            textDecoration:
+              "none",
             opacity: 0.8,
           }}
         >
@@ -280,36 +517,63 @@ export default function ExperimentDetail() {
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
+            justifyContent:
+              "space-between",
+            alignItems:
+              "flex-start",
             gap: "20px",
-            flexWrap: "wrap",
+            flexWrap:
+              "wrap",
           }}
         >
           <div>
             <p
               style={{
-                fontSize: "13px",
+                fontSize:
+                  "13px",
                 opacity: 0.6,
-                marginBottom: "8px",
+                marginBottom:
+                  "8px",
               }}
             >
               EXPERIMENT
             </p>
 
-            <h1>{experiment.name}</h1>
+            <h1>
+              {experiment.name}
+            </h1>
 
             <p
               style={{
-                marginTop: "10px",
+                marginTop:
+                  "10px",
               }}
             >
-              Model: <strong>{experiment.model}</strong>
+              Model:{" "}
+              <strong>
+                {experiment.model}
+              </strong>
             </p>
+
+            {datasetInfo && (
+              <p
+                style={{
+                  marginTop: "8px",
+                  fontSize: "13px",
+                  opacity: 0.7,
+                }}
+              >
+                Dataset:{" "}
+                <strong>
+                  {datasetInfo.name} · v{datasetInfo.version}
+                </strong>
+              </p>
+            )}
 
             <p
               style={{
-                fontSize: "13px",
+                fontSize:
+                  "13px",
                 opacity: 0.6,
               }}
             >
@@ -321,69 +585,354 @@ export default function ExperimentDetail() {
           </div>
 
           <div>
-            {statusBadge(experiment.status)}
+            {statusBadge(
+              experiment.status
+            )}
           </div>
         </div>
       </div>
 
       {/* RUNNING MESSAGE */}
 
-      {(experiment.status === "QUEUED" ||
-        experiment.status === "RUNNING") && (
+      {(experiment.status ===
+        "QUEUED" ||
+        experiment.status ===
+          "RUNNING") && (
         <div className="card">
           <h2>
-            {experiment.status === "QUEUED"
+            {experiment.status ===
+            "QUEUED"
               ? "Evaluation queued"
               : "Evaluation running"}
           </h2>
 
           <p>
-            EvalOps is processing this experiment.
-            This page automatically refreshes.
+            EvalOps is processing this
+            experiment. This page
+            automatically refreshes.
           </p>
         </div>
       )}
 
       {/* ERROR */}
 
-      {experiment.status === "FAILED" &&
+      {experiment.status ===
+        "FAILED" &&
         experiment.errorMessage && (
           <div className="card">
-            <h2>Evaluation Failed</h2>
+            <h2>
+              Evaluation Failed
+            </h2>
 
             <div
               style={{
-                marginTop: "15px",
-                padding: "15px",
-                borderRadius: "8px",
+                marginTop:
+                  "15px",
+                padding:
+                  "15px",
+                borderRadius:
+                  "8px",
                 background:
                   "rgba(255, 80, 80, 0.1)",
                 border:
                   "1px solid rgba(255, 80, 80, 0.3)",
-                color: "#ff8080",
+                color:
+                  "#ff8080",
               }}
             >
-              {experiment.errorMessage}
+              {
+                experiment.errorMessage
+              }
             </div>
           </div>
         )}
 
+      {/* REGRESSION SUMMARY */}
+
+      <div className="card">
+        <h2>
+          Regression Summary
+        </h2>
+
+        <div
+          style={{
+            marginTop:
+              "20px",
+            padding:
+              "22px",
+            borderRadius:
+              "12px",
+            border:
+              regression.className ===
+              "success"
+                ? "1px solid rgba(70, 200, 130, 0.35)"
+                : regression.className ===
+                    "failed"
+                ? "1px solid rgba(255, 80, 80, 0.35)"
+                : "1px solid #29334d",
+            background:
+              regression.className ===
+              "success"
+                ? "rgba(70, 200, 130, 0.08)"
+                : regression.className ===
+                    "failed"
+                ? "rgba(255, 80, 80, 0.08)"
+                : "rgba(255, 255, 255, 0.02)",
+          }}
+        >
+          <div
+            style={{
+              display:
+                "flex",
+              alignItems:
+                "center",
+              gap: "15px",
+              flexWrap:
+                "wrap",
+            }}
+          >
+            <div
+              style={{
+                width:
+                  "52px",
+                height:
+                  "52px",
+                borderRadius:
+                  "50%",
+                display:
+                  "flex",
+                alignItems:
+                  "center",
+                justifyContent:
+                  "center",
+                fontSize:
+                  "24px",
+                fontWeight:
+                  700,
+                background:
+                  regression.className ===
+                  "success"
+                    ? "rgba(70, 200, 130, 0.15)"
+                    : regression.className ===
+                        "failed"
+                    ? "rgba(255, 80, 80, 0.15)"
+                    : "rgba(255, 255, 255, 0.08)",
+              }}
+            >
+              {regression.symbol}
+            </div>
+
+            <div>
+              <h3
+                style={{
+                  margin:
+                    0,
+                }}
+              >
+                {
+                  regression.title
+                }
+              </h3>
+
+              <p
+                style={{
+                  marginTop:
+                    "5px",
+                  opacity:
+                    0.7,
+                }}
+              >
+                {
+                  regression.text
+                }
+              </p>
+            </div>
+          </div>
+
+          <div
+            style={{
+              display:
+                "grid",
+              gridTemplateColumns:
+                "repeat(auto-fit, minmax(180px, 1fr))",
+              gap:
+                "15px",
+              marginTop:
+                "20px",
+            }}
+          >
+            <div
+              style={{
+                padding:
+                  "16px",
+                border:
+                  "1px solid #29334d",
+                borderRadius:
+                  "10px",
+              }}
+            >
+              <small>
+                Current Quality
+              </small>
+
+              <h3
+                style={{
+                  marginTop:
+                    "6px",
+                }}
+              >
+                {experiment.qualityScore !=
+                null
+                  ? `${experiment.qualityScore.toFixed(
+                      1
+                    )}%`
+                  : "—"}
+              </h3>
+            </div>
+
+            <div
+              style={{
+                padding:
+                  "16px",
+                border:
+                  "1px solid #29334d",
+                borderRadius:
+                  "10px",
+              }}
+            >
+              <small>
+                Quality Delta
+              </small>
+
+              <h3
+                style={{
+                  marginTop:
+                    "6px",
+                }}
+              >
+                {experiment.regressionDelta !=
+                null
+                  ? `${
+                      experiment.regressionDelta >=
+                      0
+                        ? "+"
+                        : ""
+                    }${experiment.regressionDelta.toFixed(
+                      2
+                    )} pp`
+                  : "—"}
+              </h3>
+            </div>
+
+            <div
+              style={{
+                padding:
+                  "16px",
+                border:
+                  "1px solid #29334d",
+                borderRadius:
+                  "10px",
+              }}
+            >
+              <small>
+                Allowed Drop
+              </small>
+
+              <h3
+                style={{
+                  marginTop:
+                    "6px",
+                }}
+              >
+                {experiment.allowedQualityDrop ??
+                  2}{" "}
+                pp
+              </h3>
+            </div>
+
+            <div
+              style={{
+                padding:
+                  "16px",
+                border:
+                  "1px solid #29334d",
+                borderRadius:
+                  "10px",
+              }}
+            >
+              <small>
+                Baseline Check
+              </small>
+
+              <h3
+                style={{
+                  marginTop:
+                    "6px",
+                }}
+              >
+                {experiment.regressionPassed ===
+                    null ||
+                  experiment.regressionPassed ===
+                    undefined
+                  ? "Not compared"
+                  : experiment.regressionPassed
+                  ? "PASS"
+                  : "FAIL"}
+              </h3>
+            </div>
+          </div>
+
+          {experiment.regressionDelta !=
+            null && (
+            <div
+              style={{
+                marginTop:
+                  "18px",
+                padding:
+                  "12px 14px",
+                borderRadius:
+                  "8px",
+                fontSize:
+                  "14px",
+                opacity:
+                  0.8,
+              }}
+            >
+              {experiment.regressionDelta >=
+              0
+                ? "Quality improved compared with the baseline."
+                : `Quality decreased by ${Math.abs(
+                    experiment.regressionDelta
+                  ).toFixed(
+                    2
+                  )} percentage points compared with the baseline.`}
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* METRICS */}
 
       <div className="card">
-        <h2>Evaluation Metrics</h2>
+        <h2>
+          Evaluation Metrics
+        </h2>
 
         <div
           className="grid"
           style={{
-            marginTop: "20px",
+            marginTop:
+              "20px",
           }}
         >
           <div>
-            <small>Quality</small>
+            <small>
+              Quality
+            </small>
 
             <h3>
-              {experiment.qualityScore != null
+              {experiment.qualityScore !=
+              null
                 ? `${experiment.qualityScore.toFixed(
                     1
                   )}%`
@@ -392,10 +941,13 @@ export default function ExperimentDetail() {
           </div>
 
           <div>
-            <small>Pass Rate</small>
+            <small>
+              Pass Rate
+            </small>
 
             <h3>
-              {experiment.passRate != null
+              {experiment.passRate !=
+              null
                 ? `${experiment.passRate.toFixed(
                     1
                   )}%`
@@ -404,10 +956,13 @@ export default function ExperimentDetail() {
           </div>
 
           <div>
-            <small>Avg Latency</small>
+            <small>
+              Avg Latency
+            </small>
 
             <h3>
-              {experiment.avgLatencyMs != null
+              {experiment.avgLatencyMs !=
+              null
                 ? `${experiment.avgLatencyMs.toFixed(
                     0
                   )} ms`
@@ -416,29 +971,38 @@ export default function ExperimentDetail() {
           </div>
 
           <div>
-            <small>Total Tokens</small>
+            <small>
+              Total Tokens
+            </small>
 
             <h3>
-              {experiment.totalTokens ?? "-"}
+              {experiment.totalTokens ??
+                "-"}
             </h3>
           </div>
 
           <div>
-            <small>Total Cost</small>
+            <small>
+              Total Cost
+            </small>
 
             <h3>
               $
               {Number(
-                experiment.totalCostUsd ?? 0
+                experiment.totalCostUsd ??
+                  0
               ).toFixed(6)}
             </h3>
           </div>
 
           <div>
-            <small>Cache Hit Rate</small>
+            <small>
+              Cache Hit Rate
+            </small>
 
             <h3>
-              {experiment.cacheHitRate != null
+              {experiment.cacheHitRate !=
+              null
                 ? `${experiment.cacheHitRate.toFixed(
                     1
                   )}%`
@@ -447,10 +1011,13 @@ export default function ExperimentDetail() {
           </div>
 
           <div>
-            <small>Cache Miss Rate</small>
+            <small>
+              Cache Miss Rate
+            </small>
 
             <h3>
-              {experiment.cacheMissRate != null
+              {experiment.cacheMissRate !=
+              null
                 ? `${experiment.cacheMissRate.toFixed(
                     1
                   )}%`
@@ -459,23 +1026,31 @@ export default function ExperimentDetail() {
           </div>
 
           <div>
-            <small>LLM Calls Avoided</small>
+            <small>
+              LLM Calls Avoided
+            </small>
 
             <h3>
-              {experiment.llmCallsAvoided ?? 0}
+              {experiment.llmCallsAvoided ??
+                0}
             </h3>
           </div>
 
           <div>
-            <small>Cached Input Tokens</small>
+            <small>
+              Cached Input Tokens
+            </small>
 
             <h3>
-              {experiment.cachedInputTokens ?? 0}
+              {experiment.cachedInputTokens ??
+                0}
             </h3>
           </div>
 
           <div>
-            <small>Estimated Savings</small>
+            <small>
+              Estimated Savings
+            </small>
 
             <h3>
               $
@@ -488,123 +1063,85 @@ export default function ExperimentDetail() {
         </div>
       </div>
 
-      {/* REGRESSION */}
-
-      <div className="card">
-        <h2>Regression Check</h2>
-
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "20px",
-            border: "1px solid #29334d",
-            borderRadius: "10px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              gap: "30px",
-              flexWrap: "wrap",
-            }}
-          >
-            <div>
-              <small>Status</small>
-
-              <h3>
-                {experiment.regressionPassed ===
-                null ||
-                experiment.regressionPassed ===
-                  undefined
-                  ? "Not compared"
-                  : experiment.regressionPassed
-                  ? "✓ PASS"
-                  : "✕ FAIL"}
-              </h3>
-            </div>
-
-            <div>
-              <small>Quality Delta</small>
-
-              <h3>
-                {experiment.regressionDelta !=
-                null
-                  ? `${
-                      experiment.regressionDelta >= 0
-                        ? "+"
-                        : ""
-                    }${experiment.regressionDelta.toFixed(
-                      2
-                    )} pp`
-                  : "—"}
-              </h3>
-            </div>
-
-            <div>
-              <small>Allowed Drop</small>
-
-              <h3>
-                {experiment.allowedQualityDrop ??
-                  2}{" "}
-                pp
-              </h3>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* TEST RESULTS */}
 
       <div className="card">
-        <h2>Test Case Results</h2>
+        <h2>
+          Test Case Results
+        </h2>
 
         <p>
-          Individual evaluation results for this
-          experiment.
+          Individual evaluation results
+          for this experiment.
         </p>
 
         {!experiment.results ||
-        experiment.results.length === 0 ? (
+        experiment.results.length ===
+          0 ? (
           <div
             style={{
-              marginTop: "20px",
-              padding: "25px",
-              border: "1px dashed #29334d",
-              borderRadius: "10px",
-              textAlign: "center",
+              marginTop:
+                "20px",
+              padding:
+                "25px",
+              border:
+                "1px dashed #29334d",
+              borderRadius:
+                "10px",
+              textAlign:
+                "center",
             }}
           >
             <p>
-              No test results available yet.
+              No test results available
+              yet.
             </p>
           </div>
         ) : (
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "12px",
-              marginTop: "20px",
+              display:
+                "flex",
+              flexDirection:
+                "column",
+              gap:
+                "12px",
+              marginTop:
+                "20px",
             }}
           >
             {experiment.results.map(
-              (result, index) => {
+              (
+                result,
+                index
+              ) => {
                 const expanded =
-                  expandedResult === result.id;
+                  expandedResult ===
+                  result.id;
+
+                const evaluatorResults =
+                  parseEvaluatorResults(
+                    result.evaluatorResults
+                  );
 
                 return (
                   <div
-                    key={result.id}
+                    key={
+                      result.id
+                    }
                     style={{
                       border:
                         "1px solid #29334d",
-                      borderRadius: "10px",
-                      overflow: "hidden",
+                      borderRadius:
+                        "10px",
+                      overflow:
+                        "hidden",
                     }}
                   >
                     {/* RESULT HEADER */}
 
                     <button
+                      type="button"
                       onClick={() =>
                         setExpandedResult(
                           expanded
@@ -613,51 +1150,74 @@ export default function ExperimentDetail() {
                         )
                       }
                       style={{
-                        width: "100%",
-                        padding: "18px",
+                        width:
+                          "100%",
+                        padding:
+                          "18px",
                         background:
                           "transparent",
-                        border: "none",
-                        color: "inherit",
-                        textAlign: "left",
-                        cursor: "pointer",
+                        border:
+                          "none",
+                        color:
+                          "inherit",
+                        textAlign:
+                          "left",
+                        cursor:
+                          "pointer",
                       }}
                     >
                       <div
                         style={{
-                          display: "flex",
+                          display:
+                            "flex",
                           justifyContent:
                             "space-between",
-                          alignItems: "center",
-                          gap: "15px",
+                          alignItems:
+                            "center",
+                          gap:
+                            "15px",
+                          flexWrap:
+                            "wrap",
                         }}
                       >
                         <div>
                           <strong>
-                            Test Case {index + 1}
+                            Test Case{" "}
+                            {index +
+                              1}
                           </strong>
 
                           <div
                             style={{
-                              marginTop: "6px",
-                              opacity: 0.65,
-                              fontSize: "13px",
+                              marginTop:
+                                "6px",
+                              opacity:
+                                0.65,
+                              fontSize:
+                                "13px",
                             }}
                           >
                             Score:{" "}
                             {(
-                              result.score * 100
-                            ).toFixed(1)}
+                              result.score *
+                              100
+                            ).toFixed(
+                              1
+                            )}
                             %
                           </div>
                         </div>
 
                         <div
                           style={{
-                            display: "flex",
+                            display:
+                              "flex",
                             alignItems:
                               "center",
-                            gap: "10px",
+                            gap:
+                              "10px",
+                            flexWrap:
+                              "wrap",
                           }}
                         >
                           {cacheBadge(
@@ -673,6 +1233,19 @@ export default function ExperimentDetail() {
                               ✕ FAIL
                             </span>
                           )}
+
+                          <span
+                            style={{
+                              opacity:
+                                0.6,
+                              fontSize:
+                                "14px",
+                            }}
+                          >
+                            {expanded
+                              ? "▲"
+                              : "▼"}
+                          </span>
                         </div>
                       </div>
                     </button>
@@ -682,14 +1255,15 @@ export default function ExperimentDetail() {
                     {expanded && (
                       <div
                         style={{
-                          padding: "20px",
+                          padding:
+                            "20px",
                           borderTop:
                             "1px solid #29334d",
                         }}
                       >
-                        <div
-                          className="grid"
-                        >
+                        {/* STANDARD METRICS */}
+
+                        <div className="grid">
                           <div>
                             <small>
                               Latency
@@ -697,6 +1271,18 @@ export default function ExperimentDetail() {
 
                             <h3>
                               {result.latencyMs ??
+                                "-"}{" "}
+                              ms
+                            </h3>
+                          </div>
+
+                          <div>
+                            <small>
+                              TTFT
+                            </small>
+
+                            <h3>
+                              {result.ttftMs ??
                                 "-"}{" "}
                               ms
                             </h3>
@@ -745,14 +1331,19 @@ export default function ExperimentDetail() {
                               {Number(
                                 result.estimatedCostUsd ??
                                   0
-                              ).toFixed(6)}
+                              ).toFixed(
+                                6
+                              )}
                             </h3>
                           </div>
                         </div>
 
+                        {/* ACTUAL OUTPUT */}
+
                         <div
                           style={{
-                            marginTop: "25px",
+                            marginTop:
+                              "25px",
                           }}
                         >
                           <small>
@@ -761,12 +1352,16 @@ export default function ExperimentDetail() {
 
                           <div
                             style={{
-                              marginTop: "8px",
-                              padding: "15px",
+                              marginTop:
+                                "8px",
+                              padding:
+                                "15px",
                               border:
                                 "1px solid #29334d",
-                              borderRadius: "8px",
-                              lineHeight: "1.6",
+                              borderRadius:
+                                "8px",
+                              lineHeight:
+                                "1.6",
                               whiteSpace:
                                 "pre-wrap",
                             }}
@@ -777,27 +1372,267 @@ export default function ExperimentDetail() {
                           </div>
                         </div>
 
+                        {/* EVALUATOR BREAKDOWN */}
+
+                        <div
+                          style={{
+                            marginTop:
+                              "28px",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display:
+                                "flex",
+                              justifyContent:
+                                "space-between",
+                              alignItems:
+                                "center",
+                              gap:
+                                "10px",
+                              flexWrap:
+                                "wrap",
+                            }}
+                          >
+                            <div>
+                              <h3
+                                style={{
+                                  margin:
+                                    0,
+                                }}
+                              >
+                                Evaluator Breakdown
+                              </h3>
+
+                              <p
+                                style={{
+                                  marginTop:
+                                    "5px",
+                                  fontSize:
+                                    "13px",
+                                  opacity:
+                                    0.6,
+                                }}
+                              >
+                                Individual scores from
+                                each configured evaluator.
+                              </p>
+                            </div>
+
+                            <div
+                              style={{
+                                padding:
+                                  "7px 10px",
+                                border:
+                                  "1px solid #29334d",
+                                borderRadius:
+                                  "7px",
+                                fontSize:
+                                  "12px",
+                                opacity:
+                                  0.7,
+                              }}
+                            >
+                              Overall:{" "}
+                              {(
+                                result.score *
+                                100
+                              ).toFixed(
+                                1
+                              )}
+                              %
+                            </div>
+                          </div>
+
+                          {evaluatorResults.length >
+                          0 ? (
+                            <div
+                              style={{
+                                display:
+                                  "flex",
+                                flexDirection:
+                                  "column",
+                                gap:
+                                  "10px",
+                                marginTop:
+                                  "12px",
+                              }}
+                            >
+                              {evaluatorResults.map(
+                                (
+                                  evaluator,
+                                  evaluatorIndex
+                                ) => (
+                                  <div
+                                    key={`${result.id}-${evaluatorIndex}`}
+                                    style={{
+                                      padding:
+                                        "16px",
+                                      border:
+                                        "1px solid #29334d",
+                                      borderRadius:
+                                        "9px",
+                                      background:
+                                        "rgba(255,255,255,0.02)",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        display:
+                                          "flex",
+                                        justifyContent:
+                                          "space-between",
+                                        alignItems:
+                                          "center",
+                                        gap:
+                                          "10px",
+                                        flexWrap:
+                                          "wrap",
+                                      }}
+                                    >
+                                      <div>
+                                        <strong>
+                                          {evaluatorDisplayName(
+                                            evaluator.type
+                                          )}
+                                        </strong>
+
+                                        <div
+                                          style={{
+                                            marginTop:
+                                              "4px",
+                                            fontSize:
+                                              "12px",
+                                            opacity:
+                                              0.5,
+                                          }}
+                                        >
+                                          Evaluator{" "}
+                                          {evaluatorIndex +
+                                            1}
+                                        </div>
+                                      </div>
+
+                                      <div
+                                        style={{
+                                          display:
+                                            "flex",
+                                          alignItems:
+                                            "center",
+                                          gap:
+                                            "10px",
+                                        }}
+                                      >
+                                        <strong
+                                          style={{
+                                            fontSize:
+                                              "16px",
+                                          }}
+                                        >
+                                          {(
+                                            evaluator.score *
+                                            100
+                                          ).toFixed(
+                                            1
+                                          )}
+                                          %
+                                        </strong>
+
+                                        {evaluator.passed ? (
+                                          <span className="badge success">
+                                            ✓ PASS
+                                          </span>
+                                        ) : (
+                                          <span className="badge failed">
+                                            ✕ FAIL
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    <div
+                                      style={{
+                                        marginTop:
+                                          "12px",
+                                        padding:
+                                          "12px",
+                                        border:
+                                          "1px solid #29334d",
+                                        borderRadius:
+                                          "7px",
+                                        fontSize:
+                                          "13px",
+                                        lineHeight:
+                                          "1.5",
+                                      }}
+                                    >
+                                      {
+                                        evaluator.reason
+                                      }
+                                    </div>
+                                  </div>
+                                )
+                              )}
+                            </div>
+                          ) : (
+                            <div
+                              style={{
+                                marginTop:
+                                  "12px",
+                                padding:
+                                  "15px",
+                                border:
+                                  "1px dashed #29334d",
+                                borderRadius:
+                                  "8px",
+                                fontSize:
+                                  "13px",
+                                opacity:
+                                  0.65,
+                              }}
+                            >
+                              No individual evaluator
+                              breakdown is available
+                              for this result.
+                              <br />
+                              This usually means the
+                              result was created before
+                              evaluator breakdown
+                              storage was enabled.
+                            </div>
+                          )}
+                        </div>
+
+                        {/* COMBINED RESULT */}
+
                         {result.reason && (
                           <div
                             style={{
-                              marginTop: "20px",
+                              marginTop:
+                                "22px",
                             }}
                           >
                             <small>
-                              Evaluator Result
+                              Combined Evaluator Result
                             </small>
 
                             <div
                               style={{
-                                marginTop: "8px",
-                                padding: "15px",
+                                marginTop:
+                                  "8px",
+                                padding:
+                                  "15px",
                                 border:
                                   "1px solid #29334d",
                                 borderRadius:
                                   "8px",
+                                lineHeight:
+                                  "1.5",
                               }}
                             >
-                              {result.reason}
+                              {
+                                result.reason
+                              }
                             </div>
                           </div>
                         )}
