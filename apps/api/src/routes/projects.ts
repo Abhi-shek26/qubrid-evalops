@@ -476,6 +476,125 @@ router.post(
 );
 
 router.post(
+  "/:id/datasets/:datasetId/test-cases/bulk",
+  async (req: AuthRequest, res) => {
+    const projectId = String(req.params.id);
+    const datasetId = String(req.params.datasetId);
+
+    const dataset =
+      await prisma.dataset.findFirst({
+        where: {
+          id: datasetId,
+          project: {
+            id: projectId,
+            userId: req.userId!
+          }
+        }
+      });
+
+    if (!dataset) {
+      return res.status(404).json({
+        success: false,
+        message: "Dataset not found"
+      });
+    }
+
+    const rawTestCases =
+      Array.isArray(req.body)
+        ? req.body
+        : req.body?.testCases;
+
+    if (!Array.isArray(rawTestCases)) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Expected an array of test cases or { testCases: [...] }"
+      });
+    }
+
+    if (rawTestCases.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No test cases provided"
+      });
+    }
+
+    /*
+     * Prevent accidentally sending an extremely
+     * large request.
+     */
+    if (rawTestCases.length > 5000) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Maximum 5000 test cases can be imported at once"
+      });
+    }
+
+    const parsedTestCases = [];
+
+    for (let i = 0; i < rawTestCases.length; i++) {
+      const parsed =
+        createTestCaseSchema.safeParse(
+          rawTestCases[i]
+        );
+
+      if (!parsed.success) {
+        return res.status(400).json({
+          success: false,
+          message: `Invalid test case at row ${
+            i + 1
+          }`,
+          errors:
+            parsed.error.flatten()
+        });
+      }
+
+      parsedTestCases.push(parsed.data);
+    }
+
+    try {
+      const result =
+        await prisma.testCase.createMany({
+          data: parsedTestCases.map(
+            (testCase) => ({
+              datasetId: dataset.id,
+              input: testCase.input,
+              expectedOutput:
+                testCase.expectedOutput ??
+                null,
+              metadata: testCase.metadata
+                ? JSON.stringify(
+                    testCase.metadata
+                  )
+                : null
+            })
+          )
+        });
+
+      return res.status(201).json({
+        success: true,
+        data: {
+          imported: result.count
+        },
+        message: `${result.count} test cases imported successfully`
+      });
+    } catch (error) {
+      console.error(
+        "Bulk test case import error:",
+        error
+      );
+
+      return res.status(500).json({
+        success: false,
+        message:
+          "Failed to import test cases"
+      });
+    }
+  }
+);
+
+router.post(
   "/:id/baseline/:experimentId",
   async (req: AuthRequest, res) => {
     const projectId = String(req.params.id);

@@ -125,6 +125,7 @@ model EvaluationResult {
   outputTokens             Int?
   cacheHit                 Boolean    @default(false)
   reason                   String?
+  evaluatorResults         String?
   createdAt                DateTime   @default(now())
   cachedInputTokens        Int        @default(0)
   estimatedCostUsd         Float?

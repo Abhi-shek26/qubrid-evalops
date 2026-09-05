@@ -30,7 +30,9 @@ const q = new QubridClient({
 
 const cache = new LLMCache(
   redis,
-  Number(process.env.CACHE_TTL_SECONDS ?? 3600)
+  Number(
+    process.env.CACHE_TTL_SECONDS ?? 3600
+  )
 );
 
 function parseJson(
@@ -39,7 +41,10 @@ function parseJson(
   if (!value) return {};
 
   try {
-    return JSON.parse(value) as Record<string, unknown>;
+    return JSON.parse(value) as Record<
+      string,
+      unknown
+    >;
   } catch {
     return {};
   }
@@ -100,25 +105,35 @@ async function infer(args: {
    */
 
   if (args.useCache) {
-    const hit = await cache.get(keyInput);
+    const hit =
+      await cache.get(keyInput);
 
     if (hit) {
       console.log(
-        `[CACHE HIT] "${args.input.substring(0, 60)}..."`
+        `[CACHE HIT] "${args.input.substring(
+          0,
+          60
+        )}..."`
       );
 
       return {
         text: hit.text,
         model: hit.model,
 
-        promptTokens: hit.promptTokens,
-        completionTokens: hit.completionTokens,
-        totalTokens: hit.totalTokens,
+        promptTokens:
+          hit.promptTokens,
+
+        completionTokens:
+          hit.completionTokens,
+
+        totalTokens:
+          hit.totalTokens,
 
         cachedInputTokens:
           hit.cachedInputTokens ?? 0,
 
         latencyMs: 1,
+
         originalLatencyMs:
           hit.originalLatencyMs,
 
@@ -141,7 +156,10 @@ async function infer(args: {
     }
 
     console.log(
-      `[CACHE MISS] "${args.input.substring(0, 60)}..."`
+      `[CACHE MISS] "${args.input.substring(
+        0,
+        60
+      )}..."`
     );
   }
 
@@ -238,7 +256,10 @@ async function infer(args: {
     });
 
     console.log(
-      `[CACHE STORE] "${args.input.substring(0, 60)}..."`
+      `[CACHE STORE] "${args.input.substring(
+        0,
+        60
+      )}..."`
     );
   }
 
@@ -256,7 +277,8 @@ async function infer(args: {
       response.usage.totalTokens,
 
     cachedInputTokens:
-      response.usage.cachedInputTokens ?? 0,
+      response.usage.cachedInputTokens ??
+      0,
 
     latencyMs:
       response.latencyMs,
@@ -431,61 +453,60 @@ async function run(job: Job) {
       let reason =
         "No evaluators configured.";
 
+      const checks: Array<{
+        type: string;
+        score: number;
+        passed: boolean;
+        reason: string;
+      }> = [];
+
       if (evaluatorDefs.length) {
-        const checks = [];
+for (const def of evaluatorDefs) {
+  const evaluator = buildEvaluator(
+    def.type,
+    def.config,
+    {
+      qubridClient: q
+    }
+  );
 
-        for (
-          const def
-          of evaluatorDefs
-        ) {
-          if (
-            def.type ===
-            "LLM_JUDGE"
-          ) {
-            checks.push({
-              score: 0,
-              passed: false,
-              reason:
-                "LLM_JUDGE is reserved for the next engine module."
-            });
+  const result =
+    await evaluator.evaluate({
+      input: testCase.input,
 
-            continue;
-          }
+      expectedOutput:
+        testCase.expectedOutput ??
+        undefined,
 
-          const evaluator =
-            buildEvaluator(
-              def.type,
-              def.config
-            );
+      actualOutput:
+        response.text,
 
-          const result =
-            await evaluator.evaluate({
-              input:
-                testCase.input,
+      metadata:
+        parseJson(
+          testCase.metadata
+        )
+    });
 
-              expectedOutput:
-                testCase.expectedOutput ??
-                undefined,
+  checks.push({
+    type: def.type,
+    score: result.score,
+    passed: result.passed,
+    reason: result.reason
+  });
+}
 
-              actualOutput:
-                response.text,
-
-              metadata:
-                parseJson(
-                  testCase.metadata
-                )
-            });
-
-          checks.push(result);
-        }
-
+        /*
+         * Multiple evaluators:
+         *
+         * Final score = average score
+         * Final pass = every evaluator passes
+         */
         score =
           checks.reduce(
             (sum, x) =>
               sum + x.score,
             0
-          ) /
-          checks.length;
+          ) / checks.length;
 
         passed =
           checks.every(
@@ -511,42 +532,44 @@ async function run(job: Job) {
        */
 
       const row = {
-        testCaseId:
-          testCase.id,
+  testCaseId: testCase.id,
 
-        actualOutput:
-          response.text,
+  actualOutput:
+    response.text,
 
-        score,
+  score,
 
-        passed,
+  passed,
 
-        reason,
+  reason,
 
-        latencyMs:
-          response.latencyMs,
+  evaluatorResults:
+    JSON.stringify(checks),
 
-        inputTokens:
-          response.promptTokens,
+  latencyMs:
+    response.latencyMs,
 
-        outputTokens:
-          response.completionTokens,
+  inputTokens:
+    response.promptTokens,
 
-        totalTokens:
-          response.totalTokens,
+  outputTokens:
+    response.completionTokens,
 
-        estimatedCostUsd:
-          response.costUsd,
+  totalTokens:
+    response.totalTokens,
 
-        uncachedEstimatedCostUsd:
-          response.uncachedCostUsd,
+  estimatedCostUsd:
+    response.costUsd,
 
-        cacheHit:
-          response.cacheHit,
+  uncachedEstimatedCostUsd:
+    response.uncachedCostUsd,
 
-        cachedInputTokens:
-          response.cachedInputTokens
-      };
+  cacheHit:
+    response.cacheHit,
+
+  cachedInputTokens:
+    response.cachedInputTokens
+};
 
       results.push(row);
 
@@ -576,19 +599,27 @@ async function run(job: Job) {
     );
 
     console.log(
-      `Quality: ${m.qualityScore.toFixed(2)}%`
+      `Quality: ${m.qualityScore.toFixed(
+        2
+      )}%`
     );
 
     console.log(
-      `Pass rate: ${m.passRate.toFixed(2)}%`
+      `Pass rate: ${m.passRate.toFixed(
+        2
+      )}%`
     );
 
     console.log(
-      `Cache hit rate: ${m.cacheHitRate.toFixed(2)}%`
+      `Cache hit rate: ${m.cacheHitRate.toFixed(
+        2
+      )}%`
     );
 
     console.log(
-      `Cache miss rate: ${m.cacheMissRate.toFixed(2)}%`
+      `Cache miss rate: ${m.cacheMissRate.toFixed(
+        2
+      )}%`
     );
 
     console.log(
@@ -596,7 +627,9 @@ async function run(job: Job) {
     );
 
     console.log(
-      `Estimated savings: $${m.estimatedCostSavedUsd.toFixed(6)}`
+      `Estimated savings: $${m.estimatedCostSavedUsd.toFixed(
+        6
+      )}`
     );
 
     /*
@@ -623,7 +656,8 @@ async function run(job: Job) {
         await prisma.experiment.findUnique(
           {
             where: {
-              id: baseline.experimentId
+              id:
+                baseline.experimentId
             }
           }
         );

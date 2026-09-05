@@ -220,6 +220,7 @@ exports.Prisma.EvaluationResultScalarFieldEnum = {
   outputTokens: 'outputTokens',
   cacheHit: 'cacheHit',
   reason: 'reason',
+  evaluatorResults: 'evaluatorResults',
   createdAt: 'createdAt',
   cachedInputTokens: 'cachedInputTokens',
   estimatedCostUsd: 'estimatedCostUsd',
