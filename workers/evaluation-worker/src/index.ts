@@ -526,12 +526,22 @@ async function run(job: Job) {
               result.usage.cachedInputTokens;
           }
 
-          checks.push({
-            type: def.type,
-            score: result.score,
-            passed: result.passed,
-            reason: result.reason
-          });
+          const isApplicable =
+            !("applicable" in result) ||
+            result.applicable !== false;
+
+          if (isApplicable) {
+            checks.push({
+              type: def.type,
+              score: result.score,
+              passed: result.passed,
+              reason: result.reason
+            });
+          } else {
+            console.log(
+              `[EVALUATOR SKIPPED] ${def.type}: ${result.reason}`
+            );
+          }
         }
 
         /*

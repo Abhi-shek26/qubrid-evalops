@@ -22,6 +22,7 @@ export type EvaluationResult = {
   score: number;
   passed: boolean;
   reason: string;
+  applicable?: boolean;
   usage?: EvaluationUsage;
 };
 
@@ -667,9 +668,10 @@ class RAGEvaluator
     if (!context.length) {
       return {
         score: 0,
-        passed: false,
+        passed: true,
+        applicable: false,
         reason:
-          "No retrieved RAG context was provided in test case metadata.",
+          "Skipped: no retrieved RAG context was provided in test case metadata.",
       };
     }
 
